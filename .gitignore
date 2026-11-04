@@ -1,0 +1,58 @@
+# Player-supplied inputs. Never commit ROM, BIOS or recording data.
+*.bs
+*.sfc
+*.smc
+*.bin
+*.zip
+*.divx
+*.avi
+*.mp3
+*.wav
+*.pcm
+
+# Anything derived from those inputs
+/inputs/
+/audio/
+/script/
+/images/
+/src/gen/
+/recomp/*/funcs.h
+*.srm
+*.state
+
+# Local reference captures (traces, savestates, frame dumps)
+/local/
+
+# Build output and tooling
+/build/
+/.cache/
+__pycache__/
+*.pyc
+
+# Scaffold-generated and per-machine state
+/recomp/funcs.h
+/build-*/
+/dist/
+/saves/
+/rom_probe.json
+/rom.cfg
+/keybinds.ini
+/config.ini
+/input.ini
+.DS_Store
+
+# Agent and AI working files stay local
+/CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md
+.claude/
+.cursor/
+.codex/
+.aider*
+/docs/PLAN.md
+/docs/HANDOFF-*.md
+
+# Copyrighted promotional art
+*.avif
+/launcher_assets/img/boxart.*

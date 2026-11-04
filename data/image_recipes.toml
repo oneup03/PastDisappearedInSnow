@@ -1,0 +1,112 @@
+# How each verified pack becomes the image the recompiler and runner use.
+# Numbers only: every patch states the bytes it expects, so a wrong ROM fails
+# loudly instead of producing a subtly broken image.
+#
+# Why a rewrite is needed at all: a Satellaview pack keeps its header at
+# $FFB0-$FFDF in BS format, which standard parsers misread as LoROM. These
+# values describe the same mapping (HiROM + FastROM) in the standard layout.
+[header]
+map_mode = 0x31    # $FFD5: HiROM, FastROM (same value the BS header holds at $FFD8)
+cart_type = 0x02   # $FFD6: ROM + RAM + battery
+rom_size = 0x0A    # $FFD7: 1 MB
+ram_size = 0x05    # $FFD8: 32 KB, the size of BS-X cart SRAM
+region = 0x00      # $FFD9: Japan
+developer = 0x33   # $FFDA: extended-header marker, as in the BS header
+
+# The save block is tagged with $FFC0-$FFCB, and the game wipes the block when
+# the tag differs ($C0:F08F). Zenpen and Chuuhen here are reruns tagged
+# "再BS探偵倶楽", Kouhen is the premiere tagged "BS探偵倶楽部". Without this
+# patch the score would be lost between Chuuhen and Kouhen.
+[[episode]]
+key = "kou"
+[[episode.patch]]
+offset = 0xFFC0
+expect = "42 53 92 54 92 E3 8B E4 8A 79 95 94 8C E3 95 D2"  # BS探偵倶楽部後編
+write = "8D C4 42 53 92 54 92 E3 8B E4 8A 79 95 94 8C E3"   # 再BS探偵倶楽部後
+why = "share the save-block tag with the rerun Zenpen and Chuuhen"
+
+# Save block pointers: `PEA $0011 / PEA $5400` builds $11:5400 in BS-X cart SRAM.
+# Point them at standard HiROM SRAM. The routines step the bank by +3 to reach a
+# mirrored second copy, which lands at $33:6400, so both copies stay separate in
+# 32 KB of SRAM.
+[[episode.patch]]
+offset = 0x91EB
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x91FF
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x9266
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x92FC
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x9686
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+
+[[episode]]
+key = "zen"
+[[episode.patch]]
+offset = 0x9162
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x9176
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x91DD
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x9273
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x95FD
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+
+[[episode]]
+key = "chu"
+[[episode.patch]]
+offset = 0x9038
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x904C
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x90B3
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x9149
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
+[[episode.patch]]
+offset = 0x94D3
+expect = "F4 11 00 F4 00 54"
+write = "F4 30 00 F4 00 64"
+why = "save block"
