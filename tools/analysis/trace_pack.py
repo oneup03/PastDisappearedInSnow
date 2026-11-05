@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """List what an episode pack touches outside itself, by tracing its code.
 
-usage: tools/trace_pack.py <zen|chu|kou> [--dir FOLDER]
+usage: tools/analysis/trace_pack.py <zen|chu|kou> [--dir FOLDER]
 
 Traces reachable code from the vectors and every `PHP/PHD/TSC/TCD` prologue,
 tracking m/x widths. Only long-addressed operands count: the engine runs with
-data bank $7E, so absolute `$5xxx` accesses are WRAM, not the BS-X MCC. That is
-what makes the byte-pattern scan in bsx_scan.py report thousands of false hits.
+data bank $7E, so absolute `$5xxx` accesses are WRAM, not the BS-X MCC.
 
 Dispatch through RTS and indirect pointers is not followed, so treat the result
 as a floor and confirm with a runtime trace.
@@ -16,9 +15,9 @@ import collections
 import pathlib
 import sys
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from pvs.dis65816 import decode  # noqa: E402
-from pvs.roms import load_pack  # noqa: E402
+from pvs.roms import INPUTS, load_pack  # noqa: E402
 
 PROLOGUE = b"\x08\x0B\x3B\x5B"
 ROM_BANKS = range(0xC0, 0xD0)
@@ -90,7 +89,7 @@ def trace(data):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("episode", choices=("zen", "chu", "kou"))
-    ap.add_argument("--dir", default=".", help="folder holding the packs")
+    ap.add_argument("--dir", default=INPUTS, help="folder holding the packs")
     args = ap.parse_args()
     data = load_pack(args.episode, args.dir)
     covered, far_calls, far_data = trace(data)

@@ -1,0 +1,43 @@
+# Labels drawn into the game's graphics when a part loads, from the language's font, so
+# that no art needs shipping. A line is: kind, parts, where in the pack, text.
+# "icon" is a command in the side panel. "item" is an item's sprite in the panel's list.
+icon zen,chu,kou 0x90960 People
+icon zen,chu,kou 0x909E0 Phone
+icon zen,chu,kou 0x90A60 Deduce
+icon zen,chu,kou 0x910E0 Call
+icon zen,chu,kou 0x91160 Move
+icon zen,chu,kou 0x911E0 Review
+icon zen,chu,kou 0x91260 Go out
+item zen,chu,kou 0x46FF3 Sketch
+item zen,chu 0x46BB5 Hat
+item chu,kou 0x47431 Charm
+
+# The People chart, all in one tile sheet. "name" is: sheet, first tile, width and height in
+# tiles, then rows going down the box, at most two letters each if they fit. "heading" is: sheet, first tile, width in tiles,
+# the box to write in as left top right bottom in pixels, then its rows. Capitals only.
+# Yoshie's reading is a guess: 良江 is only on this chart, and the text just calls her Gozo's wife.
+name zen,chu,kou 0x93B9E 00 2 4 Sh/in/no/su/ke
+name zen,chu,kou 0x93B9E 08 2 3 To/sh/ie
+name zen,chu,kou 0x93B9E 0E 2 3 Kun/ihi/ro
+name zen,chu,kou 0x93B9E 14 2 4 Sh/in/ta/ro
+name zen,chu,kou 0x93B9E 1C 2 3 No/ri/ko
+name zen,chu,kou 0x93B9E 22 3 3 Ko/ic/hi
+name zen,chu,kou 0x93B9E 2B 2 3 Sa/ch/i
+name zen,chu,kou 0x93B9E 31 3 4 Ay/um/i
+name zen,chu,kou 0x93B9E 3D 2 3 Yo/sh/ie
+name zen,chu,kou 0x93B9E 43 2 3 Go/zo
+name zen,chu,kou 0x93B9E 49 2 3 Na/ok/o
+name zen,chu,kou 0x93B9E 4F 2 3 Ka/zu/o
+name zen,chu,kou 0x93B9E 55 2 3 Ji/ro
+name zen,chu,kou 0x93B9E 5B 2 3 Ma/sa/ru
+name zen,chu,kou 0x93B9E 61 2 3 Mas/aka/zu
+name zen,chu,kou 0x93B9E 67 2 3 Sa/chi/ko
+name zen,chu,kou 0x93B9E 6D 3 3 Re/ik/o
+name zen,chu,kou 0x93B9E 76 2 3 Im/ad/a
+name zen,chu,kou 0x93B9E 7C 2 3 Yo/ne/da
+name zen,chu,kou 0x93B9E 82 2 4 Sa/ku/ma
+heading zen,chu,kou 0x93B9E 8C 5 1 4 33 14 Imada/Clinic
+heading zen,chu,kou 0x93B9E 96 7 8 2 49 14 Kiriyama/Police
+heading zen,chu,kou 0x93B9E A4 3 3 1 21 11 Tachi/bana
+heading zen,chu,kou 0x93B9E AA 4 3 1 29 12 Nomura
+heading zen,chu,kou 0x93B9E B2 4 2 1 26 12 Kusano

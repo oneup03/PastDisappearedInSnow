@@ -15,7 +15,7 @@ import tomllib
 
 TOOLS = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
-from pvs.roms import EPISODES, load_pack  # noqa: E402
+from pvs.roms import EPISODES, INPUTS, load_pack  # noqa: E402
 
 RECIPES = TOOLS.parent / "data" / "image_recipes.toml"
 HEADER_BASE = 0xFFC0
@@ -114,7 +114,7 @@ def load_recipes(path=RECIPES):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("episodes", nargs="*", default=[e.key for e in EPISODES])
-    ap.add_argument("--dir", default=".", help="folder holding the packs")
+    ap.add_argument("--dir", default=INPUTS, help="folder holding the packs")
     ap.add_argument("--out", default="images", help="output folder")
     ap.add_argument("--dev-bios-font", metavar="FILE",
                     help="embed the font from a BS-X BIOS dump (development only)")

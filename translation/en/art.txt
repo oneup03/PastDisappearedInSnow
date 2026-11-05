@@ -1,0 +1,14 @@
+# English over Japanese in the game's pictures. See src/art.c. A line is:
+# art <parts> <layer> <x> <y> <w> <h> <hash> <style> <text>
+# The hash is of the rectangle as the game draws it. PVS_TRACE_ART prints it. "|" starts a new row.
+# Styles: tiny is the small capitals, big is the text font at double size, plain is the text font.
+art zen,chu,kou 0 26 33 44 12 54d0666c tiny RECEPTION
+art zen,chu,kou 0 155 33 17 12 0bed0a5d tiny TRAF
+art zen,chu,kou 0 81 134 28 8 23926e6c tiny KEEP OUT
+art kou 0 8 60 50 122 9e3f8ed2 plain From|March 2
+art kou 0 62 40 56 136 8a0f64af plain Ihatovo|Story
+art kou 1 34 38 84 90 4fc07233 plain Taito-ku, Tokyo|Asakusabashi|5-21-4|St.GIGA|BS Tantei Club
+art kou 1 130 24 84 104 50f50701 plain Best Score %|Password|Address, Name|Age, Phone|Job, Comments
+art zen,chu,kou 0 79 76 33 9 56827ff6 tiny OCHIDANI
+art zen,chu,kou 0 79 76 33 9 445b209a tiny OCHIDANI
+art kou 1 45 131 158 12 820b529a plain Or fax: 03-3863-1744

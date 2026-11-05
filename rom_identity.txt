@@ -14,11 +14,11 @@ rom_file        = images/zen.sfc
 # Every digest of the bare image (copier header stripped), so the Retro
 # catalog can take a submission's identity from this file rather than ask
 # the submitter to hash the ROM again. The build verifies on crc32/sha256.
-expected_crc32  = 814c161f
-expected_md5    = b92aef58f912ed3b3228f3894b6c9c4e
-expected_sha1   = be21f64bcad63c8198c63d95faf6eef765bf9df8
-expected_sha256 = 4eec43448416ba58c1572c1d890f8b0fe4126a96e5f11537d0add157d68bb236
-rom_size        = 2097152
+expected_crc32  = 0c1fdf07
+expected_md5    = 09c06f998ef064a812dc6a95715d0480
+expected_sha1   = 89958be01f144b4a081447fccbea60f9265f3e1b
+expected_sha256 = 8efbfaa2e70adf2ab90ad4737422d5fcc7b97dc62d688afcfc66aaa9ab3e5f0a
+rom_size        = 1048576
 mapping         = hirom
 region          = JPN
 # What a mod package's [[target]] game_id must name to apply to this title

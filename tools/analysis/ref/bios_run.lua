@@ -10,6 +10,7 @@ local launch_frame = tonumber(os.getenv("PVS_LAUNCH_FRAME") or "240")
 local shot_every = tonumber(os.getenv("PVS_SHOT_EVERY") or "600")
 local stop_frame = tonumber(os.getenv("PVS_STOP_FRAME") or "0")
 local shot_at = os.getenv("PVS_SHOT_AT")
+local press_start_at = tonumber(os.getenv("PVS_PRESS_START_AT") or "0")
 
 local logf = assert(io.open(dir .. "/log.txt", "w"))
 local function log(s) logf:write(s, "\n"); logf:flush() end
@@ -161,4 +162,16 @@ emu.addEventCallback(function()
     emu.stop(0)
   end
 end, emu.eventType.endFrame)
+-- PVS_PRESS_START_AT=<frames after launch>: hold Start for a moment, to leave the
+-- final status screen, which waits for it.
+if press_start_at > 0 then
+  emu.addEventCallback(function()
+    if launched_at then
+      local t = frame - launched_at
+      if t >= press_start_at and t < press_start_at + 10 then
+        emu.setInput({ start = true }, 0)
+      end
+    end
+  end, emu.eventType.inputPolled)
+end
 log("script loaded")

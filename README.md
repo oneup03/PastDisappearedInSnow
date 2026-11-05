@@ -1,14 +1,91 @@
 # BS Tantei Club: Yuki ni Kieta Kako, native port
 
-An early work-in-progress native port of Nintendo's 1997 Satellaview game
-*BS Detective Club: The Past That Disappeared in the Snow*, aiming for all three
-parts in one program, in English, with its radio audio restored.
+A native port of Nintendo's 1997 Satellaview game *BS Detective Club: The Past That
+Disappeared in the Snow*: all three parts in one program, in English or Japanese, with
+the broadcast's radio audio restored. It needs neither the BS-X BIOS nor the BS-X town.
 
-**Not playable yet.** Part 1 boots natively, but only in Japanese, with no audio, and it still needs a development build.
+**Work in progress.** You can build it on Linux and play it from start to finish, but few
+people have tried it, and rough edges are likely. Windows comes later.
 
-No game data is included. You need your own copies of the three No-Intro episode
-packs. The radio-audio recordings are optional, and the BS-X BIOS is not needed.
+No game data is included. You supply your own copies of the game, and the recordings if
+you want the audio.
 
-Our code is MIT. It builds on [snesrecomp](https://github.com/RetroPortingToolKit/snesrecomp),
-which is PolyForm Noncommercial, so builds are for noncommercial use only. This
-is an unofficial fan project, not affiliated with or endorsed by Nintendo.
+## What works
+
+- All three parts run one after another in one program, with no restart.
+- English and Japanese text, with the original's timing kept so lines still match the voices.
+- Save states that work across parts, rewind, and resuming where you left off.
+- Two ways to play: **Real Time**, as it aired, or **Unlimited Time**, which stops the clock
+  before each timed event until SELECT moves on.
+- The broadcast's voices and music from a recording, in sync with the game's clock, or just
+  the game's own sounds.
+- Parts run on as acts of one story: the cast list that closed each broadcast only runs at
+  the very end, which credits everyone, and the announcement from the reruns is gone.
+- Stretched or integer scaling, and a scanline shader.
+- Mouse or gamepad. The hand follows the mouse; left click is A, right click is B, and middle
+  click is SELECT.
+
+## What's missing
+
+- Removing the original player's sound effects from the recordings is only partly done. It
+  works where the music repeats, and elsewhere they remain. Playback pieces together a clean
+  pass of each track from every recording that has it, so have all three if you can.
+- The English is a machine translation with no human review, so expect some mistakes.
+  It's plain text in [translation/en](translation/en), and fixes are welcome.
+
+## What you need
+
+The three episode packs, matching these [No-Intro](https://no-intro.org) entries:
+
+| Part | No-Intro entry | CRC32 |
+|---|---|---|
+| Zenpen | `BS Tantei Club - Yuki ni Kieta Kako - Zenpen (Japan) (1998-12-29) (SoundLink)` | `DC3354E8` |
+| Chuuhen | `BS Tantei Club - Yuki ni Kieta Kako - Chuuhen (Japan) (1998-6-20) (SoundLink)` | `67568B74` |
+| Kouhen | `BS Tantei Club - Yuki ni Kieta Kako - Kouhen (Japan) (Premiere) (1997-2-24) (SoundLink)` | `834055A7` |
+
+The radio audio was never dumped, so the only source is three Stage6 captures of the
+broadcast. They're optional. They're known by size, because the names of two are swapped:
+
+| File | Size in bytes | Really holds |
+|---|---|---|
+| `1011014_-_BS_Tantei_Club_-_Yuki_ni_Kieta_Kako_-_Zenpen.divx` | 544397818 | Zenpen |
+| `1011305_-_BS_Tantei_Club_-_Yuki_ni_Kieta_Kako_-_Kouhen.divx` | 973857624 | Chuuhen |
+| `1017211_-_BS_Tantei_Club_-_Yuki_ni_Kieta_Kako_-_Chuuhen.divx` | 664082876 | Kouhen |
+
+Put them in `inputs/`. At launch the audio is copied out of them
+as it is, with no re-encoding, and they can be deleted after that. A background task then
+renders a cleaned copy of each looping track into `audio/loops/`, once, in a few minutes,
+using a few hundred MB. Playback uses each one as soon as it's ready.
+
+## Building on Linux
+
+You need Python 3, Rust, CMake, Ninja and a C compiler.
+
+```sh
+# in a clone of this repository
+mkdir inputs                # then put the three packs here
+python3 tools/setup.py
+build/BsTanteiClubSNESRecomp --rom images/zen.sfc
+```
+
+Setup checks the packs, builds their images and generates the code from them. All of that
+stays on your machine, and none of it may be shared. The launcher's Mods page has the game's
+options: pacing, scaling, where to start, language and sound.
+
+## Translating
+
+A language is a folder under [translation](translation), with no code changes needed.
+`python3 tools/script.py dump` writes the Japanese to `text-dump/ja/` from your own packs, and
+`worksheet` and `merge` turn that into a side-by-side sheet for editing and back. `status`
+and `lint` report what's left and what doesn't fit.
+
+## Credits and license
+
+Our own code is MIT. It builds on [snesrecomp](https://github.com/RetroPortingToolKit/snesrecomp)
+and [recomp-ui](https://github.com/mstan/recomp-ui), so see [LICENSE](LICENSE) for which files
+that covers: snesrecomp is PolyForm Noncommercial, which means builds are for noncommercial
+use only. MP3 decoding is [minimp3](https://github.com/lieff/minimp3) (CC0), and Japanese text
+uses the public-domain Shinonome font, fetched at setup.
+
+This is an unofficial fan project, not affiliated with or endorsed by Nintendo. The game, its
+ROMs and its audio belong to their rights holders and are not part of this project.

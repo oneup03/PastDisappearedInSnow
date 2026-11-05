@@ -5,7 +5,7 @@
 # built with -DSNESRECOMP_SETUP_HOST=ON, i.e. without recompiled code), the
 # recompiler and this source tree. On first run the player picks their own
 # ROM and the launcher recompiles and rebuilds locally. No ROM, no src/gen,
-# no recomp/funcs.h ever leaves this tree in a zip -- the framework's packager
+# no recomp/*/funcs.h ever leaves this tree in a zip -- the framework's packager
 # enforces that mechanically.
 #
 # Usage:

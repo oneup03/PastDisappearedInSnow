@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerate src/gen/*.c for BS Tantei Club from a verified ROM.
+# Regenerate src/gen/zen/*.c for BS Tantei Club from a verified ROM.
 #
 # Generated C is derived from copyrighted ROM data and is never committed;
 # every developer regenerates from their own copy. The ROM digests come from
@@ -14,7 +14,7 @@
 #                 habit, and SNESRECOMP_ROM sets it once for a shell.
 #   --no-verify   skip the ROM digest check (for a revision this project has
 #                 not been pinned to yet — expect the generated C to differ)
-#   --cfg-roots   seed analysis from every func declaration in recomp/*.cfg
+#   --cfg-roots   seed analysis from every func declaration in recomp/zen/*.cfg
 #   -h|--help     this message
 set -euo pipefail
 
@@ -85,12 +85,12 @@ else
   echo "== Skipping ROM verification (--no-verify) =="
 fi
 
-GEN_ARGS=(--rom "$ROM" --cfg-dir recomp --out-dir src/gen
-          --funcs-h recomp/funcs.h --project-root "$ROOT")
+GEN_ARGS=(--rom "$ROM" --cfg-dir recomp/zen --out-dir src/gen/zen
+          --funcs-h recomp/zen/funcs.h --project-root "$ROOT")
 if [ "$CFG_ROOTS" -eq 1 ]; then GEN_ARGS+=(--cfg-roots); fi
 if [ "$VERIFY" -eq 1 ]; then GEN_ARGS+=("${VERIFY_ARGS[@]}"); fi
 
-echo "== Generating src/gen =="
+echo "== Generating src/gen/zen =="
 "$PYTHON" "$CLI" generate "${GEN_ARGS[@]}"
 
 echo

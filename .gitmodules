@@ -5,3 +5,6 @@
 	path = recomp-ui
 	url = https://github.com/mstan/recomp-ui.git
 	branch = master
+[submodule "minimp3"]
+	path = minimp3
+	url = https://github.com/lieff/minimp3.git

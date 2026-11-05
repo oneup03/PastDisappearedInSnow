@@ -39,6 +39,7 @@ KNOWN_UNSUPPORTED = {
 
 EPISODE_BY_KEY = {e.key: e for e in EPISODES}
 EPISODE_BY_SHA1 = {e.sha1: e for e in EPISODES}
+INPUTS = pathlib.Path(__file__).resolve().parent.parent.parent / "inputs"
 PACK_SIZE = 0x100000
 
 
@@ -54,11 +55,11 @@ def _candidates(path):
         yield path.name, path.read_bytes()
 
 
-def find_packs(search_dir="."):
+def find_packs(search_dir=INPUTS):
     """Return ({key: bytes}, [messages]) for packs found in search_dir."""
     found, notes = {}, []
     root = pathlib.Path(search_dir)
-    for path in sorted(root.iterdir()):
+    for path in sorted(root.iterdir()) if root.is_dir() else ():
         if path.suffix.lower() not in (".zip", ".bs", ".sfc"):
             continue
         for label, data in _candidates(path):
@@ -74,7 +75,7 @@ def find_packs(search_dir="."):
     return found, notes
 
 
-def load_pack(key, search_dir="."):
+def load_pack(key, search_dir=INPUTS):
     """Return one verified pack, or raise with a message that says what's wrong."""
     found, notes = find_packs(search_dir)
     if key in found:

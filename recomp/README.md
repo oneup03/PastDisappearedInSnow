@@ -1,13 +1,15 @@
 # recomp/
 
-Analysis input for BS Tantei Club. `tools/regen.sh` reads this directory and
-writes `src/gen/`.
+Analysis input for BS Tantei Club, a folder per part: `zen/`, `chu/` and `kou/`.
+`tools/regen.sh` reads `zen/` and writes `src/gen/zen/`, the stock module.
+`tools/regen_parts.sh` reads `chu/` and `kou/` and writes `src/gen/chu/` and
+`src/gen/kou/`.
 
 | File | Owner | Notes |
 |---|---|---|
 | `bank*.cfg` | you, plus generated blocks | Per-bank analysis directives |
 | `symbols.toml` | you | Progressive name map; the source of truth |
-| `funcs.h` | generated | Re-synced by `tools/regen.sh` — do not hand-edit |
+| `funcs.h` | generated | Re-synced by regeneration — do not hand-edit |
 
 The block between `>>> BEGIN symbols.toml` and `<<< END symbols.toml` in
 each bank cfg is rewritten from `symbols.toml` on every regen. Edit
@@ -30,6 +32,6 @@ directives on the next regen.
   `entry_x` select the initial register-width flags (0 or 1, both default to 1).
 
 An unchanged cfg file is not by itself evidence of failed code generation:
-`src/gen/bank*_v2.c` contains code discovered from the ROM, while `bank*.cfg`
+`src/gen/zen/bank*_v2.c` contains code discovered from the ROM, while `bank*.cfg`
 contains analysis inputs. Discovery does not copy every reached function back
 into the configs.

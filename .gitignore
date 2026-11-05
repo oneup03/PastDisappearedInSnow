@@ -13,7 +13,7 @@
 # Anything derived from those inputs
 /inputs/
 /audio/
-/script/
+/text-dump/
 /images/
 /src/gen/
 /recomp/*/funcs.h
@@ -30,7 +30,6 @@ __pycache__/
 *.pyc
 
 # Scaffold-generated and per-machine state
-/recomp/funcs.h
 /build-*/
 /dist/
 /saves/
@@ -53,6 +52,5 @@ GEMINI.md
 /docs/PLAN.md
 /docs/HANDOFF-*.md
 
-# Copyrighted promotional art
-*.avif
-/launcher_assets/img/boxart.*
+# Fetched by tools/fetch_font.py
+/assets/fonts/*.bdf

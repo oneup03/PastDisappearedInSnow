@@ -42,7 +42,21 @@ add_executable(BsTanteiClubSNESRecomp
     src/host_contract.c
     src/game_rtl.c
     src/gen_stubs.c
+    src/audio.c
+    src/audio_reader.c
+    src/audio_import.c
     src/bsx_hle.c
+    src/font.c
+    src/loop_render.c
+    src/art.c
+    src/mouse.c
+    src/options.c
+    src/pacing.c
+    src/script.c
+    src/session.c
+    src/endings.c
+    src/text.c
+    src/title.c
 )
 
 # ROM identity. rom_identity.txt is the one place the digests live: the build
@@ -59,7 +73,10 @@ snesrecomp_rom_identity(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/rom_identity.
 # That is what release zips contain; the player's machine produces the
 # playable binary from their own ROM. Without the option an empty src/gen/ is
 # still a hard error (the framework owns the message).
-snesrecomp_target_generated_code(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen)
+snesrecomp_target_generated_code(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/zen)
+# The later parts: tools/regen_parts.sh generates them, each with its own prefix.
+snesrecomp_target_program_module(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/chu)
+snesrecomp_target_program_module(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/kou)
 
 # The mod catalog. This names WHERE the packages are; the framework owns the
 # layout they are staged into beside the executable, and stages them on every
@@ -80,11 +97,12 @@ snesrecomp_target_mod_catalog(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/mods/pr
 
 target_include_directories(BsTanteiClubSNESRecomp PRIVATE
     ${SNESRECOMP_RUNNER_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/minimp3
     # common_rtl.c includes "config.h": the desktop key-map / Config contract
     # the framework host supplies (snesrecomp_target_desktop_host below).
     ${SNESRECOMP_ROOT}/runner/src/desktop
     ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/recomp
+    ${CMAKE_SOURCE_DIR}/recomp/zen
 )
 target_link_libraries(BsTanteiClubSNESRecomp PRIVATE ${SNESRECOMP_RUNNER_LIBRARIES})
 target_compile_definitions(BsTanteiClubSNESRecomp PRIVATE
@@ -100,6 +118,20 @@ snesrecomp_target_sdl(BsTanteiClubSNESRecomp)
 # hooks; the host is the framework's and improves on a submodule pull.
 # Add TIER2 once this port reads the interpreter-gap manifest after each run.
 snesrecomp_target_desktop_host(BsTanteiClubSNESRecomp)
+# Shader presets: the framework's catalog, plus our scanlines.
+snesrecomp_target_glsl_shader(BsTanteiClubSNESRecomp)
+snesrecomp_target_shader_presets(BsTanteiClubSNESRecomp)
+file(GLOB_RECURSE _pvs_shaders CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/assets/shaders/*")
+set_property(TARGET BsTanteiClubSNESRecomp APPEND PROPERTY LINK_DEPENDS ${_pvs_shaders})
+add_custom_command(TARGET BsTanteiClubSNESRecomp POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets/shaders" "$<TARGET_FILE_DIR:BsTanteiClubSNESRecomp>/assets/shaders"
+    COMMENT "Staging our shader presets" VERBATIM)
+snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/assets/fonts assets/fonts)
+# Box art in each language, which the game swaps in for the launcher (src/options.c).
+snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/assets/img assets/img)
+snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/translation translation)
+snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/data/cues data/cues)
 # rom.cfg (the ROM the wizard set this project up from; git-ignored) is
 # staged beside the executable when none is there yet, so the first launch
 # opens on that dump rather than asking for one.
@@ -116,11 +148,11 @@ if(NOT EXISTS "${RECOMP_UI_ROOT}/recomp_ui.cmake")
         "Run: git submodule update --init --recursive recomp-ui")
 endif()
 include(${RECOMP_UI_ROOT}/recomp_ui.cmake)
-# BOXART stages launcher_assets/img/boxart.tga beside the exe; the launcher
-# shows assets/img/boxart.tga by default. EXISTS-guarded in recomp_ui.cmake,
+# BOXART stages assets/img/boxart.tga beside the exe, which is where the launcher
+# looks for it. EXISTS-guarded in recomp_ui.cmake,
 # so this configures cleanly before any art is fetched.
 recomp_target_launcher_ui(BsTanteiClubSNESRecomp CONSOLE snes
-    BOXART "${CMAKE_SOURCE_DIR}/launcher_assets/img/boxart.tga")
+    BOXART "${CMAKE_SOURCE_DIR}/assets/img/boxart.tga")
 
 # Generate & rebuild from inside the launcher: pick ROM -> recompile locally
 # -> cmake --build -> relaunch. The implementation is the framework's; this

@@ -1,0 +1,1288 @@
+key	status	text	hash	note
+zen:02006E	draft	Ayumi: 	8372	
+zen:02007D	draft	Dr. Imada: 	598a	
+zen:02008A	draft	Kazuo: 	3937	
+zen:020097	draft	Koichi: 	0835	
+zen:0200A4	draft	Villager: 	d146	
+zen:0200B1	draft	Villager: 	d146	
+zen:0200BE	draft	Naoko: 	0dd4	
+zen:0200CB	draft	Noriko: 	accb	
+zen:0200D8	draft	Reiko: 	cf89	
+zen:0200E5	draft	Sakuma: 	a2fe	
+zen:0200F4	draft	Sachi: 	3fee	
+zen:020101	draft	Shinnosuke: 	87d2	
+zen:020110	draft	Shintaro: 	c91f	
+zen:02011F	draft	Toshie: 	e276	
+zen:02012C	draft	Utsugi: 	115f	
+zen:020139	draft	Yoneda: 	9906	
+zen:020185	draft	[BS Detective Club: Part 1]{n}The next entry time is 6 min 42 sec.{n}Please wait until then.	4a8e	
+zen:0201F3	draft	[BS Detective Club: Part 1]{n}The next entry time is 11 min 49 sec.{n}Please wait until then.	3442	
+zen:020263	draft	[BS Detective Club: Part 1]{n}The next entry time is 12 min 50 sec.{n}Please wait until then.	0a34	
+zen:0202D3	draft	[BS Detective Club: Part 1]{n}The next entry time is 14 min 57 sec.{n}Please wait until then.	1138	
+zen:020343	draft	[BS Detective Club: Part 1]{n}The next entry time is 24 min 18 sec.{n}Please wait until then.	e96a	
+zen:0203B3	draft	[BS Detective Club: Part 1]{n}The next entry time is 30 min 10 sec.{n}Please wait until then.	6746	
+zen:020423	draft	[BS Detective Club: Part 1]{n}The next entry time is 37 min 45 sec.{n}Please wait until then.	dc03	
+zen:020493	draft	[BS Detective Club: Part 1]{n}The next entry time is 43 min 57 sec.{n}Please wait until then.	a654	
+zen:020503	draft	[BS Detective Club: Part 1]{n}The next entry time is 46 min 49 sec.{n}Please wait until then.	832e	
+zen:020573	draft	[BS Detective Club: Part 1]{n}The next entry time is 55 min 27 sec.{n}Please wait until then.	d453	
+zen:0205DD	draft	[BS Detective Club: Part 1]{n}The last entry time has passed.{n}Please join us another time.	9fb4	
+zen:02064A	draft	What do you want to do?	efb6	
+zen:020671	draft	Skip Scenes	c1df	
+zen:020684	draft	Hear Sounds	74c4	
+zen:0206A2	draft	Which scene do you want to start from?	ce53	
+zen:0206D5	draft	Scene 1	864b	
+zen:0206E8	draft	Scene 2	d7f1	
+zen:0206FB	draft	Scene 3	e767	
+zen:02070E	draft	[Further On]	11df	
+zen:02072F	draft	Which scene do you want to start from?	ce53	
+zen:020762	draft	Scene 4	72c4	
+zen:020775	draft	Scene 5	4252	
+zen:020788	draft	Scene 6	13e8	
+zen:02079B	draft	[Further Still]	7b03	
+zen:0207BC	draft	Which scene do you want to start from?	ce53	
+zen:0207EF	draft	Scene 7	237e	
+zen:020802	draft	Scene 8	3eef	
+zen:020815	draft	Scene 9	0e79	
+zen:020828	draft	[Much Further]	16c9	
+zen:020849	draft	Which scene do you want to start from?	ce53	
+zen:02087C	draft	Scene 10	951c	
+zen:02088F	draft	Scene 11	a58a	
+zen:0208A2	draft	Scene 12	f430	
+zen:0208B5	draft	[A Bit Further]	469b	
+zen:0208D6	draft	Which scene do you want to start from?	ce53	
+zen:020909	draft	Scene 14	5105	
+zen:02091C	draft	[From the Start]	2174	
+zen:020939	draft	Which sound do you want to hear?	4a36	
+zen:02096A	draft	Click	e9b0	
+zen:02097D	draft	Cancel	3c3f	
+zen:020990	draft	Sub-click	7407	
+zen:0209A3	draft	[Others]	10a3	
+zen:0209D0	draft	Which sound do you want to hear?	4a36	
+zen:020A01	draft	Fade In	1a2a	
+zen:020A14	draft	Fade Out	d879	
+zen:020A27	draft	Flashback Start	98b5	
+zen:020A3A	draft	[Others]	10a3	
+zen:020A67	draft	Which sound do you want to hear?	4a36	
+zen:020A98	draft	Flashback End	990d	
+zen:020AAB	draft	Interrupt	dfea	
+zen:020ABE	draft	Item Get	bac4	
+zen:020AD1	draft	[Others]	10a3	
+zen:020AFE	draft	Which sound do you want to hear?	4a36	
+zen:020B2F	draft	Cell Phone Ring	6e65	
+zen:020B42	draft	Phone Ringing	e999	
+zen:020B55	draft	Phone Connect	c892	
+zen:020B68	draft	[Others]	10a3	
+zen:020B95	draft	Which sound do you want to hear?	4a36	
+zen:020BC6	draft	Phone Hang-up	c3b3	
+zen:020BD9	draft	Answering Beep	fc0a	
+zen:020BEC	draft	Intercom	198c	
+zen:020BFF	draft	[Others]	10a3	
+zen:020C2C	draft	Which sound do you want to hear?	4a36	
+zen:020C5D	draft	Hint Small	69ef	
+zen:020C70	draft	Hint Medium	c834	
+zen:020C83	draft	Hint Large	1640	
+zen:020C96	draft	[Others]	10a3	
+zen:020CC3	draft	Which sound do you want to hear?	4a36	
+zen:020CF4	draft	Hint Tiny	7dd4	
+zen:020D07	draft	Impact 1	a02e	
+zen:020D1A	draft	Impact 2	f194	
+zen:020D2D	draft	[Others]	10a3	
+zen:020D5A	draft	Which sound do you want to hear?	4a36	
+zen:020D8B	draft	Tajima Hint S	0337	
+zen:020D9E	draft	Tajima Hint M	a2ec	
+zen:020DB1	draft	Tajima Hint L	7c98	
+zen:020DC4	draft	[Others]	10a3	
+zen:020DF1	draft	Which sound do you want to hear?	4a36	
+zen:020E22	draft	Warriors Short	03d1	
+zen:020E35	draft	Warriors Loop	0b2a	
+zen:020E48	draft	Huh?!	20a4	
+zen:020E5B	draft	[Others]	10a3	
+zen:020E88	draft	Which sound do you want to hear?	4a36	
+zen:020EB9	draft	Light Hint 1	691f	
+zen:020ECC	draft	Light Hint 2	38a5	
+zen:020EDF	draft	Ayumi	ddc8	
+zen:020EF2	draft	[Others]	10a3	
+zen:020F33	draft	Which sound do you want to hear?	4a36	
+zen:020F64	draft	Reiko	0ccb	
+zen:020F77	draft	Toshie	ea0f	
+zen:020F8A	draft	Sachi	8312	
+zen:020F9D	draft	[Others]	10a3	
+zen:021006	draft	Which sound do you want to hear?	4a36	
+zen:021037	draft	Noriko	3458	
+zen:02104A	draft	Naoko	06fe	
+zen:02105D	draft	Villager 1	7b7e	
+zen:021070	draft	[Others]	10a3	
+zen:0210D9	draft	Which sound do you want to hear?	4a36	
+zen:02110A	draft	Villager 2	2ac4	
+zen:02111D	draft	Shinnosuke	088b	
+zen:021130	draft	Koichi	573b	
+zen:021143	draft	[Others]	10a3	
+zen:0211AC	draft	Which sound do you want to hear?	4a36	
+zen:0211DD	draft	Kazuo	f975	
+zen:0211F0	draft	Dr. Imada	adda	
+zen:021203	draft	Yoneda/Shintaro	a660	
+zen:021216	draft	[Others]	10a3	
+zen:02127F	draft	Which sound do you want to hear?	4a36	
+zen:0212B0	draft	Masaru	dce0	
+zen:0212C3	draft	Chief Sakuma	00b6	
+zen:0212D6	draft	Utsugi	9b5e	
+zen:0212E9	draft	[Others]	10a3	
+zen:021352	draft	Which sound do you want to hear?	4a36	
+zen:021383	draft	Noise	7038	
+zen:021396	draft	Typewriter	8070	
+zen:0213A9	draft	[Others]	10a3	
+zen:02148E	draft	Ayumi Tachibana came home for the long weekend to see her mother, Toshie, who was recovering from illness.{w}	bfc1	
+zen:0214E6	draft	Reunited with her mother at last, and joined by her old friend Reiko, she settled in to relax.{w}	e844	
+zen:02155B	draft	But the next morning,{w:30} her mother had been taken to the police:{w:18} that was the news Reiko woke her with.{w}	2a6f	
+zen:0215DE	draft	She went to the police to see her mother, but was refused: Toshie was being questioned as a witness in a murder case.{w}	4906	
+zen:02163E	draft	While she waited for her mother, Officer Yoneda explained the case to her.{w}	a1c7	
+zen:0216A3	draft	Gozo Kusano, former head of Ochidani Village, had been found dead in the annex of his home, stabbed in the chest by an unknown person.{w}	329d	
+zen:0216F7	draft	The one who found the body was Toshie Tachibana, and the only footprints around the scene were hers,{w:18} he said.{w}	0123	
+zen:021758	draft	Told the questioning would take a while, Ayumi decided to go home for now and wait for her mother there.{w}	e5cd	
+zen:0217D0	draft	Ayumi went home and heard the whole story from her family.{w}	8bea	
+zen:021809	draft	The murdered Gozo Kusano had been on very bad terms with the Tachibanas, especially Ayumi's grandfather, Shinnosuke Tachibana.{w}	4776	
+zen:02188F	draft	Curious about the Kusanos, Ayumi rushed out on impulse, but with so sudden a visit she learned nothing.{w}	3559	
+zen:02191F	draft	But Reiko came after her, and from her Ayumi was able to hear about the Kusanos.{w}	63c3	
+zen:021975	draft	"Gozo Kusano was village head for many years, but retired 5 years ago and made his eldest son, Kazuo, his successor."{w}	c8a9	
+zen:0219D0	draft	"His second son, Jiro, left the village and lives alone in Tokyo. To Gozo and the others, he seems to be a black sheep."{w}	b0e6	
+zen:021A5D	draft	On the way home, she asked around the village a little.{w}	5e9e	
+zen:021AA0	draft	"Gozo Kusano and Shinnosuke Tachibana are oil and water." "Plenty disliked Gozo Kusano for forcing through the village's development."{w}	5d4d	
+zen:021B29	draft	"It's a curse! The ghosts of the fallen warriors!" "You'd best leave the village, and soon."{w}	16d4	
+zen:021B84	draft	To learn what the villagers' strange words meant, she went to see Dr. Imada, Toshie's physician.{w}	a8fa	
+zen:021BF8	draft	As she heard how Ochidani Village began as a hidden village of fallen warriors, word came that Toshie had returned.{w}	954b	
+zen:021C85	draft	But Toshie said she was tired, told her little, and went to sleep.{w}	c700	
+zen:021CF2	draft	Ayumi Tachibana came home for the long weekend to see her mother, Toshie, who was recovering from illness.{w}	17c1	
+zen:021D4E	draft	Reunited with her mother at last, and joined by her old friend Reiko, she settled in to relax.{w}	e844	
+zen:021DC3	draft	But the next morning,{w:30} her mother had been taken to the police:{w:18} that was the news Reiko woke her with.{w}	2a6f	
+zen:021E20	draft	Continue the review?	6de8	
+zen:021E4B	draft	Keep Going	0fa9	
+zen:021E5E	draft	Stop Review	f574	
+zen:021EA2	draft	She went to the police to see her mother, but was refused: Toshie was being questioned as a witness in a murder case.{w}	4906	
+zen:021F02	draft	While she waited for her mother, Officer Yoneda explained the case to her.{w}	a1c7	
+zen:021F67	draft	Gozo Kusano, former head of Ochidani Village, had been found dead in the annex of his home, stabbed in the chest by an unknown person.{w}	329d	
+zen:021FBB	draft	The one who found the body was Toshie Tachibana, and the only footprints around the scene were hers,{w:18} he said.{w}	0123	
+zen:02201C	draft	Told the questioning would take a while, Ayumi decided to go home for now and wait for her mother there.{w}	e5cd	
+zen:022075	draft	Continue the review?	6de8	
+zen:0220A0	draft	Keep Going	0fa9	
+zen:0220B3	draft	Stop Review	f574	
+zen:0220F0	draft	Ayumi went home and heard the whole story from her family.{w}	8bea	
+zen:022129	draft	The murdered Gozo Kusano had been on very bad terms with the Tachibanas, especially Ayumi's grandfather, Shinnosuke Tachibana.{w}	4776	
+zen:0221AF	draft	Curious about the Kusanos, Ayumi rushed out on impulse, but with so sudden a visit she learned nothing.{w}	3559	
+zen:02223F	draft	But Reiko came after her, and from her Ayumi was able to hear about the Kusanos.{w}	fe36	
+zen:02228A	draft	"Gozo Kusano was village head for many years, but retired 5 years ago and made his eldest son, Kazuo, his successor."{w}	c8a9	
+zen:0222E5	draft	"His second son, Jiro, left the village and lives alone in Tokyo. To Gozo and the others, he seems to be a black sheep."{w}	b0e6	
+zen:022353	draft	Continue the review?	6de8	
+zen:02237E	draft	Keep Going	0fa9	
+zen:022391	draft	Stop Review	f574	
+zen:0223CE	draft	On the way home, she asked around the village a little.{w}	5e9e	
+zen:022411	draft	"Gozo Kusano and Shinnosuke Tachibana are oil and water." "Plenty disliked Gozo Kusano for forcing through the village's development."{w}	5d4d	
+zen:02249A	draft	"It's a curse! The ghosts of the fallen warriors!" "You'd best leave the village, and soon."{w}	16d4	
+zen:0224E8	draft	Continue the review?	6de8	
+zen:022513	draft	Keep Going	0fa9	
+zen:022526	draft	Stop Review	f574	
+zen:02254F	draft	To learn what the villagers' strange words meant, she went to see Dr. Imada, Toshie's physician.{w}	a8fa	
+zen:0225C3	draft	As she heard how Ochidani Village began as a hidden village of fallen warriors, word came that Toshie had returned.{w}	954b	
+zen:022650	draft	But Toshie said she was tired, told her little, and went to sleep.{w}	c700	
+zen:0226C8	draft	What do you want to deduce?	8d74	
+zen:0226F9	draft	Murder Motive	201e	
+zen:02270C	draft	Scene Footprints	4da8	
+zen:02271F	draft	Gozo's Killer	db2a	
+zen:022732	draft	Stop Deducing	9545	
+zen:02274C	draft	From the state of the scene, this doesn't look like a spur-of-the-moment crime.{w}	d496	
+zen:022782	draft	The use of a blade points the same way. It makes sense to call it premeditated.	399c	
+zen:0227D6	draft	If it was premeditated...{w:30} there must be a real motive. The possible motives are...{w}	0ab6	
+zen:022841	draft	At the time of the crime, snow lay all around the scene.{w}	9ac5	
+zen:022874	draft	But the only footprints there were Mom's.	830a	
+zen:0228AE	draft	Wait a minute. Then Mom would be...{w:90}{w}	9b70	
+zen:0228E8	draft	Let me go over the situation once more.{w}	1502	
+zen:02293C	draft	Last night the snow began in the evening and stopped shortly after 1 a.m.{w}	9849	
+zen:02297E	draft	The estimated time of death is between 2 and 3 a.m. last night. He was found shortly before 6 this morning.{w}	9dea	
+zen:0229F9	draft	...Which means the crime took place after the snow stopped.{w}	47b8	
+zen:022A3F	draft	Then there should be footprints both coming and going...	d403	
+zen:022A92	draft	The possible motives are...	a7c9	
+zen:022AC1	draft	Work Grudge	20e4	
+zen:022AD4	draft	Personal Grudge	4004	
+zen:022AE7	draft	Other	9c7e	
+zen:022AFA	draft	Stop Deducing	9545	
+zen:022B14	draft	A grudge over work... Hard to imagine, when he retired a full 5 years ago.	7bc9	
+zen:022B66	draft	No, that's not it...	8fc8	
+zen:022B83	draft	It has to be a personal grudge. But if it is...{w}	d60e	
+zen:022C00	draft	The man who hated the village head most might well be Shinnosuke Tachibana.{w}	1182	
+zen:022C5B	draft	Grandpa...{w:30} has the strongest motive?{w}	0206	
+zen:022C99	draft	But Grandpa would never do such a thing.	cef0	
+zen:022CD8	draft	Besides Grandpa, who could have a personal grudge...{w}	1298	
+zen:022D3B	draft	This village is rich in nature, so many people were against the development.{w}	aa81	
+zen:022D7D	draft	But the village head paid no mind. He pushed the development through, and hard.{w}	e08e	
+zen:022DE7	draft	It's quite possible that all sorts of people held a grudge against Gozo Kusano.	140f	
+zen:022E3E	draft	It's quite possible that all sorts of people held a grudge against Gozo Kusano.	140f	
+zen:022E93	draft	For instance, an affair with a lover gone wrong...{w}	db57	
+zen:022EC2	draft	No, now I'm really overthinking it.	95f8	
+zen:022EED	draft	And the way he slept alone in the annex...{w}	7734	
+zen:022F1C	draft	Maybe things weren't going well with his family?	3613	
+zen:022F5E	draft	An inheritance dispute, maybe...{w}	6f45	
+zen:022F81	draft	But murder for an inheritance...? This isn't some TV drama...	4e17	
+zen:022FCD	draft	Oh,{w:18} now that I think of it...{w}	47b0	
+zen:02301B	draft	Jiro helped with his father's work too, when he was young.{w}	5001	
+zen:023050	draft	But it didn't suit him, it seems, and he left for Tokyo.{w}	dea7	
+zen:023090	draft	He does seem to be a bit of a black sheep among the Kusanos, but...{w}	5aa9	
+zen:0230F6	draft	But they say Jiro isn't in the village...	37f0	
+zen:02312D	draft	An inheritance, family trouble... It could be, but then again, maybe not.	1f40	
+zen:02316D	draft	Still, the footprints outside the annex are a big mystery too.{w}	66de	
+zen:0231B2	draft	The killer left no footprints because...	934e	
+zen:0231E5	draft	Some Trick...	3fa5	
+zen:0231F8	draft	Time of Death...	9f9f	
+zen:02320B	draft	Mom...	2495	
+zen:02321E	draft	Stop Deducing	9545	
+zen:023238	draft	Some kind of trick...{w:60} A wild, far-fetched trick, like in a mystery novel...{w}	72ea	
+zen:0232C0	draft	We found no particular sign of anyone rigging something up to escape.{w}	a8e8	
+zen:023322	draft	A wild, far-fetched trick... There's no way, is there?	b5b4	
+zen:02335C	draft	A bizarre trick does seem hard to pull off, after all.	219e	
+zen:023398	draft	The estimated time of death...{w:60} What if it's wrong?{w}	ccdc	
+zen:0233D0	draft	Then the footprints wouldn't matter.	48ea	
+zen:0233FB	draft	Disguising the estimated time of death is a common ploy in mystery novels.{w}	3099	
+zen:02344F	draft	But could anyone actually do that?	630a	
+zen:023487	draft	Could the estimated time of death be disguised?	9ef4	
+zen:0234B8	draft	Mom...{w:60} No. I won't let myself think that.{w}	3563	
+zen:02350C	draft	The most suspicious person is...	5175	
+zen:023539	draft	Mom	55c5	
+zen:02354C	draft	A Kusano	8a10	
+zen:02355F	draft	A Tachibana	4658	
+zen:023572	draft	Other	9c7e	
+zen:023585	draft	Stop Deducing	9545	
+zen:023599	draft	Looked at objectively,{w:30} it has to be...{w:60}{w}	095b	
+zen:0235D0	draft	No! What's wrong with me, thinking like this?	1aa2	
+zen:023617	draft	It may be awful of me...{w:30} but for me, it's better than thinking it's one of the Tachibanas...	7edf	
+zen:023677	draft	If it's one of the Kusanos...{w}	d20c	
+zen:0236C4	draft	Jiro helped with his father's work too, when he was young.{w}	5001	
+zen:0236F9	draft	But it didn't suit him, it seems, and he left for Tokyo.{w}	dea7	
+zen:023739	draft	He does seem to be a bit of a black sheep among the Kusanos, but...{w}	5aa9	
+zen:02379F	draft	Of the ones I know about, the one who might have a motive is Jiro, but...	d666	
+zen:0237E4	draft	Of the ones I know about, the one who might have a motive is Jiro, but...	d666	
+zen:02382F	draft	I don't want{w:30} to think about it, but...{w}	a336	
+zen:02385D	draft	What if Grandpa...{w:30} Wait, if that's so...{w}	9edd	
+zen:0238CA	draft	I wonder if Toshie isn't covering for someone.{w}	e5f5	
+zen:023923	draft	It would make everything add up, but...	8610	
+zen:023948	draft	If Mom is covering for Grandpa...{w:30} No, impossible...{w}	c69f	
+zen:02399D	draft	Besides, even if Grandpa really were the killer,{w}	b9d5	
+zen:0239DD	draft	would he ever let someone cover for him?{w:24} I can't see it...	6cdf	
+zen:023A2F	draft	The room wasn't ransacked or anything, so it can't have been a robber or the like.	b993	
+zen:023A7F	draft	There's too little information at this point. It's too early to deduce who the killer is.	fecb	
+zen:023ACF	draft	I can't tell without investigating more.	c421	
+zen:023B6C	draft	Age 17. High school junior. Works as an assistant at the Utsugi Detective Agency.{w}	5a21	
+zen:023BC1	draft	Details unknown.	5fe6	
+zen:023BF6	draft	Graduated high school 3 years ago. Now works in Tokyo. As close to Ayumi as a sister.{w}	3363	
+zen:023C6F	draft	Graduated high school 3 years ago. Now works in Tokyo. As close to Ayumi as a sister.{w}	3363	
+zen:023CC5	draft	Back home to visit a grave. Has been staying with the Tachibanas for the past 2 or 3 days.{w}	0eae	
+zen:023D3E	draft	Ayumi's mother. Age 40. Currently recovering from illness at her family home.{w}	fb32	
+zen:023D98	draft	Ayumi's mother. Age 40. Currently recovering from illness at her family home.{w}	fb32	
+zen:023DCF	draft	Found Gozo Kusano's body on the morning of February 9. Parts of her statement are vague, so police are questioning her.{w}	ad0f	
+zen:023E57	draft	Ayumi's mother. Age 40. Currently recovering from illness at her family home.{w}	fb32	
+zen:023E8E	draft	Found Gozo Kusano's body on the morning of February 9. Parts of her statement were vague, so police questioned her.{w}	953e	
+zen:023F08	draft	Ayumi's mother. Age 40. Currently recovering from illness at her family home.	f902	
+zen:023F54	draft	Age 65. Ayumi's grandfather.{w}	2925	
+zen:023F95	draft	Age 65. Ayumi's grandfather. Apparently on bad terms with the murdered Gozo Kusano.{w}	18da	
+zen:024002	draft	Age 65. Ayumi's grandfather. Runs Tachibana Lumber in Ochidani Village.{w}	caae	
+zen:024041	draft	Apparently on bad terms with the murdered Gozo Kusano.{w}	1fbc	
+zen:024097	draft	Age 65. Ayumi's grandfather. Runs Tachibana Lumber in Ochidani Village.{w}	caae	
+zen:0240D6	draft	Apparently on quite bad terms with Gozo Kusano, who forced through the village's development.{w}	2c2c	
+zen:02414A	draft	Age 62. Ayumi's grandmother.{w}	3db6	
+zen:024196	draft	Age 42. Ayumi's aunt. Wife of Shintaro Tachibana.{w}	c92f	
+zen:0241E5	draft	Age 42. Ayumi's aunt. Wife of Shintaro Tachibana. Doesn't expect much of her husband.{w}	7615	
+zen:024263	draft	Age 42. Ayumi's uncle. Toshie Tachibana's older brother.{w}	1f59	
+zen:0242B9	draft	Age 42. Ayumi's uncle. Toshie Tachibana's older brother. Mild-mannered; dislikes conflict.{w}	e3ce	
+zen:02433B	draft	Age 15. Ninth grader. Ayumi's cousin. Only son of Shintaro Tachibana and his wife.{w}	731c	
+zen:0243A2	draft	Age 15. Ninth grader. Ayumi's cousin. Only son of Shintaro Tachibana and his wife. Lively and dependable.{w}	6099	
+zen:024427	draft	Former head of Ochidani Village. Found dead in the annex of his home on the morning of February 9.	42cb	
+zen:024472	draft	Former head of Ochidani Village, retired 5 years ago. Found dead in the annex of his home on the morning of February 9.	c5ee	
+zen:0244CB	draft	Former head of Ochidani Village, retired 5 years ago. Found dead in the annex of his home on the morning of February 9.{w}	23af	
+zen:024521	draft	As village head he could be high-handed, and some disliked him for it.	aa16	
+zen:024561	draft	Former head of Ochidani Village, retired 5 years ago. Found dead in the annex of his home on the morning of February 9.{w}	23af	
+zen:0245B7	draft	As village head he forced through the village's development, and some resented him for it.	f13e	
+zen:02461B	draft	Age 47. Wife of Kazuo Kusano. Somewhat sharp-tempered.{w}	d92d	
+zen:02467A	draft	Age 49. Gozo Kusano's eldest son. Current head of Ochidani Village.{w}	febe	
+zen:0246D4	draft	Age 49. Gozo Kusano's eldest son. A former village councilman, elected village head 5 years ago as his father's successor.{w}	19e7	
+zen:024753	draft	Age 40. Gozo Kusano's second son.	11bd	
+zen:024776	draft	Age 40. Gozo Kusano's second son. Now lives alone in Tokyo. An outsider among the Kusanos?	726e	
+zen:0247D8	draft	Age 20. Gozo Kusano's grandson. Attends design school in Tokyo. Was close to Reiko Nomura.	552d	
+zen:024838	draft	Gozo Kusano's wife. Died several years ago.	d791	
+zen:02486A	draft	Ayumi's father. She was told he died of illness when she was a baby.	f92b	
+zen:0248A6	draft	Ayumi's father. People who have already died are shown in this color.	a55e	
+zen:0248ED	draft	Lived in and worked at Tachibana Lumber, Toshie Tachibana's family home. Died of illness 3 years ago.	6d96	
+zen:024945	draft	Apparently died of illness when Reiko was small.	9282	
+zen:024987	draft	Age 63. The only doctor in Ochidani Village. Oversees Toshie Tachibana's recovery.{w}	421a	
+zen:0249FE	draft	Age 26. Officer with Kiriyama Police.{w}	858d	
+zen:024A4C	draft	Age 58. Chief of Kiriyama Police.{w}	7049	
+zen:024A8A	draft	An old and prominent family of Ochidani Village. Gozo and Kazuo have served as village head, two generations running.	fb1b	
+zen:024ADF	draft	Toshie Tachibana's family home. They run Tachibana Lumber in Ochidani Village.	0ca0	
+zen:024B26	draft	Reiko's parents have both died. She has no close relatives, but the Tachibanas still treat her as family.	de8e	
+zen:024B9C	draft	The only clinic in Ochidani Village.	b27b	
+zen:024BC8	draft	The police station in Kiriyama, the town next to Ochidani Village. It is one train stop from the village.	fd8b	
+zen:024C20	draft	The Kusanos' main house. Everyone but Gozo sleeps here.	455e	
+zen:024C5B	draft	The Kusanos' annex. Gozo slept here. There was no sign it had been ransacked.	fd38	
+zen:024CC0	draft	Where Gozo Kusano was found murdered. He was stabbed once in the chest.	57d2	
+zen:024D0A	draft	The front door of the main house. Toshie Tachibana came here to report finding the body.	2075	
+zen:024D59	draft	Cars had driven over the road, so no footprints remained.	4ce2	
+zen:024D9F	draft	Snow lay on top of the wall, with no trace of anyone climbing over.	459a	
+zen:024DE9	draft	The gate wasn't locked, so anyone could enter.	b4bd	
+zen:024E31	draft	A big tree.	fc3b	
+zen:024E48	draft	The footprints lead from the gate to the annex.	4b3e	
+zen:024E77	draft	The footprints leaving the annex first head toward the gate, then toward the front door.	8295	
+zen:024ED4	draft	A sketch map of Gozo Kusano's home, the scene of the crime.	58e8	
+zen:024F48	draft	This story is fiction. The names of people, places and organizations in it have no connection to any real ones.{w:300}	f7e4	
+zen:024FCE	draft	Until it's time to begin, let's practice the controls.{w:90}	c31c	
+zen:025007	draft	You'll investigate as this story's heroine, "Ayumi."{w:90}	0c82	
+zen:025057	draft	Move the finger cursor and press the A Button anywhere you like. You can examine that spot.{w:90}	dc01	
+zen:0250D0	draft	To use the cell phone, press this icon.	c1d3	
+zen:02510B	draft	A cell phone.	7287	
+zen:025136	draft	A patch of grass.{w}	47e7	
+zen:02514A	draft	Important evidence or hints may be hidden in places like this, so look around all you can.	bdf7	
+zen:0251B6	draft	Oh, someone seems to be over there.	b831	
+zen:0251DE	draft	Let's try calling them.{w}	59f2	
+zen:025200	draft	Press the "Call" icon that just appeared at the upper right.	f267	
+zen:025244	draft	A patch of grass.	f5a0	
+zen:02525F	draft	This road is where the famous "BS Detective Club" was filmed.{w}	1fee	
+zen:0252A9	draft	Important evidence or hints may be hidden in places like this, so look around all you can.	bdf7	
+zen:025315	draft	Oh, someone seems to be over there.	b831	
+zen:02533D	draft	Let's try calling them.{w}	59f2	
+zen:02535F	draft	Press the "Call" icon that just appeared at the upper right.	f267	
+zen:0253A3	draft	A road.	b9b7	
+zen:0253BA	draft	A forest.{w}	519b	
+zen:0253CA	draft	Important evidence or hints may be hidden in places like this, so look around all you can.	bdf7	
+zen:025436	draft	Oh, someone seems to be over there.	b831	
+zen:02545E	draft	Let's try calling them.{w}	59f2	
+zen:025480	draft	Press the "Call" icon that just appeared at the upper right.	f267	
+zen:0254C4	draft	A forest.	1958	
+zen:0254D5	draft	Snow-covered mountains.	4ea5	
+zen:0254F0	draft	A cloudy sky.	ba0c	
+zen:025508	draft	Who do you want to call?	400e	
+zen:025532	draft	Ayumi	ddc8	
+zen:025545	draft	Villager	5880	
+zen:025559	draft	Ayumi is you, so you can't call her.	4d69	
+zen:025597	draft	You want something from me?{w}	9ad2	
+zen:0255AF	draft	To talk to someone, put the finger cursor on them and press the A Button.	032f	
+zen:025615	draft	I said, you want something from me?{w}	7a09	
+zen:025635	draft	What people say keeps changing, so try talking to them again and again.	dc06	
+zen:025675	draft	What is it you want to ask me?{w}	80ee	
+zen:025698	draft	What do you want to ask about?	a2a5	
+zen:0256C6	draft	Commands	988d	
+zen:0256D9	draft	Items	02c8	
+zen:0256EC	draft	Time	83f0	
+zen:0256FF	draft	Stop Asking	7f2e	
+zen:025719	draft	To do anything but examine and talk, put the finger cursor on an icon at the upper right and press A.{w}	6254	
+zen:025779	draft	Just do as you did before, when you used "Call" to call me.{w}	2c08	
+zen:0257B5	draft	You can look at "People" any time,{w}	826e	
+zen:0257E7	draft	so check everyone's details at turning points in the case, or when you've got time to spare.	502a	
+zen:025841	draft	To use an item, put the finger cursor on the item box at the lower right and press A.{w}	564b	
+zen:02588D	draft	You've got no items now, so nothing's showing and you can't use any.	7982	
+zen:0258DB	draft	What you've got to watch is the time.{w}	c3e1	
+zen:025901	draft	After a set time, there's a beep-beep, and the scene moves on whether you're ready or not.{w}	9118	
+zen:025944	draft	Do your best to gather information in the time you have.	93ee	
+zen:025977	draft	When there's nothing left to choose, the B Button returns you to the finger cursor, to examine other things.{w}	0ed9	
+zen:0259D2	draft	You can go back with the B Button from the People chart, too.	6883	
+zen:025A49	draft	You don't seem to need the practice, but I'll tell you this much.{w:90}	359a	
+zen:025A89	draft	Come to think of it, I forgot to mention the Investigation Score.{w:90}	dccb	
+zen:025AC6	draft	The "Investigation Score" is a measure of how perfectly you investigated.{w:108}	27eb	
+zen:025B08	draft	The one shown at the end of each part is your score up to that point. A perfect score is always 100%.{w:108}	9380	
+zen:025B67	draft	Even at 100% at the end of Part 1, your score will drop unless you work hard in Parts 2 and 3. Watch out.	89df	
+zen:025C51	draft	Reiko,{w:60} how are you?{w:60}	5bc7	
+zen:025C8A	draft	By now,{w:60} it feels like so long ago,{w:90} but really,{w:42} it was just{w:30} the other day, wasn't it?{w:96}	4e9e	
+zen:025D1E	draft	After so long apart, we were together again.{w:102} Who'd have thought{w:60} it would come to that?{w:48} I never imagined it.{w:90}	41ca	
+zen:025DA1	draft	Just now,{w:60} a light snow has begun to fall.{w:144} Come to think of it,{w:36} it was snowing that time, too.{w:30}	548f	
+zen:025E20	draft	That time, too...{s:3}{w:114}	6529	
+zen:025EF4	draft	February 8,{w:48} Saturday.{w:96} Ayumi Tachibana{w:54} had come home to her mother,{w:36} Toshie, who was recovering from illness,{w:60}	12c8	
+zen:025F60	draft	for the long weekend.{w:90}	b571	
+zen:025F8A	draft	Reunited with her mother at last,{w:30} and joined by her old friend Reiko,{w:30} she settled in to relax.{w:132}	090d	
+zen:026011	draft	I haven't had this much fun in a long, long time.{w:90}	5179	
+zen:026048	draft	If only it could always be this lively.{w:90}	df3b	
+zen:026080	draft	Listen to you, Mom, talking like an old lady.{w:90}	a2d3	
+zen:0260B7	draft	Do you think so? Like an old lady?{w:90}	4c6a	
+zen:0260F5	draft	I'm just so happy to have Reiko relaxing here with us like this.{w:90}	40aa	
+zen:026141	draft	(Is the long recovery wearing on her after all? She's not her usual self.){w:90}	c094	
+zen:02619D	draft	That's what I mean. That's how old ladies talk, Mom.{w:90}	7867	
+zen:0261D5	draft	She's right, Aunt Toshie. I'm never going to cut ties with you all, as long as I live.{w:90}	5be2	
+zen:02622D	draft	You're right.{w:90}	c365	
+zen:026246	draft	And we've no plans to let you cut ties with us, either. So be warned.{w:90}	4eb6	
+zen:026297	draft	That's right. Even after you get married, Reiko, I'll still be following you around.{w:90}	04f0	
+zen:0262D6	draft	Too bad for you. I'll get married after you, Ayumi, so I'm safe.{w:90}	d77d	
+zen:026330	draft	No, I'll be after you.{w:90}	3b9d	
+zen:02634E	draft	Either one of you can go last, but don't you both end up left on the shelf.{w:90}	f348	
+zen:02638D	draft	Both: 	c5bc	
+zen:0263A2	draft	Yes, ma'am!{w:90}	c45b	
+zen:0263B6	draft	Reiko: 	cf89	
+zen:0263CE	draft	A cell phone on loan from Detective Utsugi, for keeping in touch. There's no reason to make a call right now.	09da	
+zen:02642F	draft	She has good color and hardly seems sick at all. She seems in a good mood, too.{w}	5e4f	
+zen:02646D	draft	(She sounded so downhearted before, not like Mom at all...){w}	d08b	
+zen:0264B6	draft	(I guess being sick hit her hard, since she's usually so full of energy.){w}	3cb1	
+zen:0264F5	draft	(But she seems fine now. She'll be her old lively self again soon.){w}	9553	
+zen:026544	draft	What are you staring at my face for?{w}	a872	
+zen:02656A	draft	Nothing. I'm just glad you look so well.{w}	da21	
+zen:026598	draft	I was so surprised to hear you were sick, Aunt Toshie. It's a relief to see you looking well.{w}	8a89	
+zen:0265F2	draft	Really.{w:18} It's hard to believe. All that worrying for nothing.{w}	706c	
+zen:026635	draft	You shouldn't talk like that. Isn't it good that she's well?{w}	092d	
+zen:026678	draft	It's all right, Reiko.{w:18} But I really have been feeling well lately.{w}	0b3d	
+zen:0266BB	draft	That's right, it's all right.{w}	bb80	
+zen:0266DC	draft	Ayumi!{w:18} That's not for you to say!{w}	0d46	
+zen:026714	draft	Sor-ry!{x:fa7ac000}	fcc3	
+zen:026736	draft	(She seems to feel well, and she really is in a good mood today.)	78eb	
+zen:026788	draft	(She must be happy to see her darling daughter after so long.)	99c7	
+zen:0267CF	draft	(And it's been a long time since she saw Reiko, too. Two happy things at once.)	d0dd	
+zen:026822	draft	Mom, how are you actually feeling?{w}	0bfe	
+zen:026857	draft	Oh, I've been doing just fine lately.{w:18} Even Dr. Imada says, "You can go home now."	8ece	
+zen:0268C5	draft	Reiko Nomura, 21. Her mother, Sachiko Nomura, lived in and worked at Tachibana Lumber, the home of Ayumi's mother's family.{w}	8778	
+zen:02691B	draft	So the Tachibana family doted on her.	4c73	
+zen:02695F	draft	She always played with Ayumi whenever Ayumi came home, and the two are as close as sisters.	3064	
+zen:0269CB	draft	She graduated high school 3 years ago, and now works in Tokyo.{w}	42e0	
+zen:026A03	draft	Just after she moved to Tokyo, Sachiko Nomura died of illness.	9969	
+zen:026A59	draft	Even now, when she comes back, she often stays with the Tachibanas.{w}	913a	
+zen:026A97	draft	She too had come back for the long weekend, to visit her mother's grave.{w:18} She is staying with the Tachibanas this time too.	a982	
+zen:026B12	draft	Her childhood friend Ayumi was home, so she had come by the room to see her, and to check on Toshie as well.	032d	
+zen:026B87	draft	(It's been 3 whole years since she moved to Tokyo...)	582c	
+zen:026BC3	draft	(Reiko's gotten so polished somehow, and so much prettier.)	ba84	
+zen:026C13	draft	Reiko, have you found a cute boyfriend in Tokyo?{w}	1c7a	
+zen:026C45	draft	As if I could.{w:18} I'm hopeless.{w}	58f2	
+zen:026C73	draft	No way! A beauty like you can't be short on admirers.{w}	f8a2	
+zen:026CB7	draft	Actually, it's not like that.{w:18} The ones I like won't look at me, and the ones I don't...{w}	33e4	
+zen:026D1C	draft	In other words, you're being picky.{w}	f149	
+zen:026D4B	draft	I'm telling you, I'm not.{w:18} Come on, Aunt Toshie, say something.{w}	34e8	
+zen:026D9A	draft	How I envy you. I wish I were young again.{w}	1b32	
+zen:026DCF	draft	Oh, not you too, Aunt Toshie!{w}	904c	
+zen:026DEB	draft	(It's been ages since Mom joked around this much.{w:30} She's like a different person.){w}	c421	
+zen:026E46	draft	(And Reiko's talking more than usual, too...{w:18} I feel left out...){w}	21bd	
+zen:026EA5	draft	Ayumi, why so quiet?{w:18} What about you? Any boyfriend yet?{w}	6e80	
+zen:026EEB	draft	Huh, me?{w:30} Oh, um,{w:30} no, but...{w:30} Anyway, I'm still in high school...{w}	de7e	
+zen:026F50	draft	Sounds suspicious somehow.{w:30} But then,{x:fa7ac002} you're a high schooler now, aren't you?{x:fa7ac000}{w}	d343	
+zen:026F9E	draft	Don't make feeble excuses like "still in high school." You're "already" in high school, so...{w}	cb41	
+zen:026FEC	draft	Yes, yes, I get it. Just spare me the stories of how popular you were, Mom.{w}	6a33	
+zen:02703C	draft	(Honestly, I worried for nothing. Mom's so mean!)	49f8	
+zen:02707A	draft	(But Reiko really is beautiful. I'm so jealous.)	a92b	
+zen:0270B5	draft	(I wish I could be like her.)	32be	
+zen:0270EC	draft	The only source of heat in this room.	f0cf	
+zen:027113	draft	The room Ayumi and Toshie stay in when they come home.	fb0e	
+zen:027157	draft	The room Ayumi and Toshie stay in when they come home.	fb0e	
+zen:02719D	draft	The storm shutters are closed.	21db	
+zen:0271BC	draft	Outside, the snow that began in the evening is still falling.	1bc9	
+zen:027204	draft	A closet.	4e07	
+zen:027219	draft	It holds futons.	0438	
+zen:027240	draft	Mandarin oranges.	49c1	
+zen:027255	draft	A kotatsu calls for mandarins. A classic sight of winter.	be6c	
+zen:0272B6	draft	Oh, look at the time.{w:30} I'm sorry.{w:18} I've stayed too long.{w:54} I'd better get back to my room.{w:48}	1233	
+zen:027325	draft	What?{w:24} It's still early.{w:12} Tomorrow's a day off too.{w:60}	6fda	
+zen:02736B	draft	But{w:18} Aunt Toshie must be tired.{w:72}{w:84}	7767	
+zen:0273A9	draft	I see.{w:60} Well then,{w:42} see you tomorrow.{w:54}	c9a8	
+zen:0273DD	draft	Well then,{w:18} good night.{w:24}	f846	
+zen:02740A	draft	Good night, Reiko.{w:24}	cc17	
+zen:027430	draft	Good night.{w:30}	290f	
+zen:027486	draft	Ayumi,{w:36} Ayumi...{w:48} Wake up!{w:18} Come on, Ayumi...	22b7	
+zen:0274F1	draft	Reiko...{w:30}	2a44	
+zen:02750C	draft	Ayumi, it's terrible!{w:30}	66e4	
+zen:027531	draft	What is it, so early in the morning, Reiko?{w:90}	4110	
+zen:02755A	draft	It's terrible!{w:30}{s:5} Aunt Toshie's{w:24}{s:8} with the police!{w:36}	eea4	
+zen:0275A3	draft	Aunt Toshie? You mean Mom?{w:66} Mom's{w:18} right there...{w:24}{s:3}	bf15	
+zen:02761E	draft	Mom's gone!{w:24}	6e09	
+zen:02763C	draft	I told you,{w:30}{s:4} she's at the police station!{s:3}{w:60}	188e	
+zen:027680	draft	What do you mean, the police?{w:42} Why Mom?{w:60}	5026	
+zen:0276C0	draft	Well, it's...{w:60} She's a witness in some case, it seems, but...{w:60}	51e5	
+zen:027709	draft	No...{w:30} It can't be, not Mom...{w:54}	1e66	
+zen:02773F	draft	I'm sure there's been some mistake, too, but...{w:60}	3433	
+zen:027774	draft	Anyway, she's at the police station now, apparently.{w:66}	7e3a	
+zen:0277A3	draft	Why...{w:24}{s:4} What on earth is Mom supposed to have done...{s:3}{w:102}	ed3b	
+zen:0277FE	draft	All right.{w:30} Whatever it is, I'm going to the police!{w:90}	2814	
+zen:02788D	draft	The police station{w:18}{s:6} is in neighboring Kiriyama.{w:78}	0180	
+zen:0278C6	draft	Ayumi boarded a train{w:60} and somehow{s:6} made it to the police station.	0c2c	
+zen:027929	draft	Can I{w:12} help you?{w:30}	f8f6	
+zen:02794C	draft	My mom,{w:18} I mean,{w:24} please let me see Toshie Tachibana!{w:6}	5b56	
+zen:027991	draft	Uh,{w:24} wh-{w:18}who are you?	5773	
+zen:0279BD	draft	She's supposed to be here.{w:24} Please let me see her!{w:36}	9e2f	
+zen:027A03	draft	No,{w:24} uh,{w:24} who are you...	c8ea	
+zen:027A33	draft	(Come on,{w:18} just let me see Mom already!){w:48}	3d02	
+zen:027A7B	draft	What's all this noise?{w:24} What's going on?{s:3}{w:12}	6b5c	
+zen:027ABD	draft	Oh, Chief.{w:24} Well,{w:18}{s:4} this girl wants{s:5} to see someone...{w:6}	6074	
+zen:027B17	draft	So please, let me see my mother, quickly!{w:30}	c956	
+zen:027B4A	draft	Hold on,{w:18} calm down.{w:48} Tell me what this is about, one thing at a time.{w:90}	b5b4	
+zen:027BA8	draft	(Oh,{w:24} right.{w:30} I got worked up and wasn't making sense.{w:48} Calm down,{w:24} I have to calm down and talk.){w:60}	5e9e	
+zen:027C2E	draft	I'm sorry.{w:36} I'm{w:18}{s:4} Ayumi Tachibana.{w:66} My mother,{w:18} Toshie Tachibana,{w:48} is a witness in some case,{w:24}	4145	
+zen:027CB2	draft	and I heard she's here.{w:30} Could I please see her?{s:4}{w:72}	3d1d	
+zen:027D0A	draft	I see.{w:36}{s:6} You're Ms. Tachibana's daughter.{s:4}{w:120}	2574	
+zen:027D52	draft	I'm sorry, but{w:30}{s:6} your mother is{w:24} right in the middle{s:7} of questioning.{w:78}	da17	
+zen:027DBF	draft	Right now,{w:6}{s:4} well,{w:12} I can't let you see her.{w:60}	55da	
+zen:027E1F	draft	I'm sorry, but{w:18} could you wait a little while?{w:78}	b6f7	
+zen:027E61	draft	...All right.{w:60}	2075	
+zen:027E81	draft	...By the way,{w:12} what case is my mother here for?{w:96}	2046	
+zen:027EC4	draft	So you don't know.{w:84}	6b8d	
+zen:027EE4	draft	I see.{w:72} Yoneda,{w:60} fill the young lady{w:12} in on the situation.{w:48}	16ef	
+zen:027F4A	draft	Oh,{w:6} and{w:30}{s:4} have the young lady{w:18} tell you what she knows.{s:3}{w:42}	7bf7	
+zen:027FB5	draft	Yes,{w:18} understood.{w:30}	8a6c	
+zen:027FDC	draft	Well then,{w:18} I'll leave it to you.{w:12}	aa70	
+zen:02800E	draft	Yes,{w:18} Chief.{w:60}	7c3b	
+zen:02803B	draft	All right,{w:6} Ms. Tachibana,{w:24} this way, please.{w:42}	abc7	
+zen:028073	draft	Okay.{w:30}	8135	
+zen:028142	draft	I'm Officer Yoneda. {w:30}Well, {w:48}{s:6}as for what kind of case {w:18}{s:4}this is... {w:108}{x:127bc002}Um.{w:24}	50be	
+zen:0281C6	draft	(He seems to find it hard to say...){w:90}	1a81	
+zen:028201	draft	This is no time to be making phone calls.	d42e	
+zen:028230	draft	Oh, right! I have the cell phone Mr. Utsugi lent me so we could stay in touch.{w}	f607	
+zen:02827A	draft	I can't take any more of this. I'll talk to Mr. Utsugi.{w}	b565	
+zen:0282AB	draft	Yes, Utsugi speaking.{w}	cbab	
+zen:0282C5	draft	Mr. Utsugi, it's Ayumi.{w}	9a51	
+zen:0282DF	draft	Ah, Ayumi. What's the matter?{w}	29f0	
+zen:02830E	draft	Mr. Utsugi, something terrible's happened. You see, {s:15}.....{s:3} and that's the whole story.{w}	7e14	
+zen:028366	draft	Please, could you come out here and help me?{w}	8f96	
+zen:02839B	draft	Ayumi, {w:30}I understand how hard this is, but I can't come right away.{w}	c268	
+zen:0283FF	draft	My work here is at a critical stage. {w:30}Can you keep at it on your own a little longer?{w}	46eb	
+zen:028464	draft	...{s:3}I understand. {w:30}I'll manage on my own somehow.{w}	6696	
+zen:0284B0	draft	I'll do my best to rush over as soon as I'm done here.{w}	9cc1	
+zen:0284F1	draft	Thank you.{w}	6bd8	
+zen:02850F	draft	If there's anything I can do from here, call me again.{w}	b106	
+zen:028553	draft	Oh, and Ayumi. {w:42}Your mother is absolutely innocent, so hang in there.{w}	6b01	
+zen:0285AD	draft	Yes. Thank you.{w:30}{se:17}	2033	
+zen:0285E3	draft	(After what Mr. Utsugi said, I'll give it my best on my own.)	569f	
+zen:028632	draft	(He seems to find it hard to say. What kind of case could it be?){w}	eea3	
+zen:02866D	draft	Well, the thing is...{w}	d18c	
+zen:02868F	draft	Just what kind of case is this?{w}	1e90	
+zen:0286B8	draft	Well, you see... {w:48}{x:127bc000}It's actually a murder case.	4140	
+zen:0286FE	draft	What? {w:30}A murder?! {w:30}That can't be...	bc56	
+zen:02874F	draft	What will you ask?{n}	cdb8	
+zen:028772	draft	The victim	7476	
+zen:028785	draft	My mother	6e6c	
+zen:028798	draft	Gozo Kusano	c00a	
+zen:0287AB	draft	The crime scene	b0f3	
+zen:0287BF	draft	Who on earth was killed?{w}	6591	
+zen:0287E8	draft	Mr. Gozo Kusano. I assume you know of him?	5dc5	
+zen:02881E	draft	Why was my mother at a place like that?{w}	6628	
+zen:028842	draft	That, I couldn't say... {w:30}{w}	c6b8	
+zen:028865	draft	Normally, though, we wouldn't have to trouble someone to come to the station...{w}	0474	
+zen:0288B1	draft	Then why...{w}	b40a	
+zen:0288CF	draft	Given the state of the scene, your mother's statement is somewhat vague on certain points...	d811	
+zen:02892F	draft	What exactly is vague?!{w}	a95a	
+zen:02895B	draft	... {w:60}All right. {w:30}Then let me give you some more detail.{w}	5980	
+zen:0289D0	draft	You can't think my mother did it...{w}	90ea	
+zen:0289F2	draft	No, that's not it. We're only questioning her as a witness.	ae10	
+zen:028A40	draft	(Gozo Kusano... {w:60}I feel like I've heard that name somewhere... {w:60}but I can't remember...)	97cb	
+zen:028AB6	draft	Who is Gozo Kusano?{w}	6308	
+zen:028ADA	draft	The former head of Ochidani Village. His body was found at his home this morning.	ab3c	
+zen:028B21	draft	The former head of Ochidani Village. His body was found at his home this morning.	ab3c	
+zen:028B60	draft	The scene is the annex at Mr. Gozo Kusano's home.{w}	0ff3	
+zen:028B8F	draft	The annex{s:5}...?{w}	c47a	
+zen:028BAD	draft	Mr. Kusano slept alone in the annex,{w}	1548	
+zen:028BE4	draft	and early this morning, your mother visited him there and apparently found him dead.	83f9	
+zen:028C56	draft	What will you ask?{n}	cdb8	
+zen:028C79	draft	Cause of death	29f2	
+zen:028C8C	draft	The weapon	5e94	
+zen:028C9F	draft	Time of death	d1bc	
+zen:028CB2	draft	State of scene	2303	
+zen:028CC6	draft	He was stabbed once in the chest with some long, large blade. It seems he died instantly.	b860	
+zen:028D1C	draft	A long, large blade? Like what?{w}	adec	
+zen:028D3E	draft	A big kitchen knife, a mountaineering knife... or else a sword, or a spear.	613a	
+zen:028D8C	draft	Last night, between 2 and 3 a.m. He was found this morning, shortly before 6.{w}	dce5	
+zen:028DE7	draft	Last night, between 2 and 3 a.m. He was found this morning, shortly before 6.{w}	dce5	
+zen:028E34	draft	Last night, between 2 and 3 a.m. He was found this morning, shortly before 6.{w}	dce5	
+zen:028E84	draft	Last night, snow began in the evening and stopped shortly after 1 a.m., so{w}	2c3b	
+zen:028EC6	draft	Going by the estimated time of death, the killer's footprints should be around the scene...{w}	57ab	
+zen:028F2C	draft	Last night, snow began in the evening and stopped shortly after 1 a.m.	0cb7	
+zen:028F75	draft	Going by the estimated time of death, the killer's footprints should be around the scene...{w}	57ab	
+zen:028FD3	draft	There weren't any?{w}	7172	
+zen:028FF3	draft	No, {w:60}it's just...{w}	01bc	
+zen:029014	draft	So there were some?{w}	e848	
+zen:02902E	draft	The thing is, {w:60}{x:127bc000}the only footprints left were those of your mother, who found the body.	3f13	
+zen:02908A	draft	N-no, that can't be...	a6ce	
+zen:0290A9	draft	Did you check carefully?{w}	29c5	
+zen:0290C9	draft	We found no particular sign of anyone rigging something up to escape.	87aa	
+zen:029110	draft	What does my mother say?{w}	5a29	
+zen:029134	draft	Your mother says she saw no other footprints.	9790	
+zen:029183	draft	The only footprints we could find at the scene were your mother's.	5fc7	
+zen:0291C5	draft	(I can't really tell just from hearing about it.)	0d1b	
+zen:0291F0	draft	The only footprints we could find at the scene were your mother's.	5fc7	
+zen:029235	draft	By the way, what was your mother doing last night?{w}	c264	
+zen:02926C	draft	You mean her alibi?!{w}	0c32	
+zen:029286	draft	No, it's just a formality...{w}	40ee	
+zen:0292AA	draft	I think she was asleep by a little after 11.{w}	f6ee	
+zen:0292D5	draft	Was she sleeping alone?{w}	31fe	
+zen:0292F5	draft	I was sleeping next to her. My mother slept the whole time.{w}	4d16	
+zen:029330	draft	Were you awake?{w}	9f40	
+zen:029354	draft	No, I was asleep.{w}	7d80	
+zen:029374	draft	Then she may have gone out after you fell asleep.{w}	3d53	
+zen:0293B5	draft	How awful! {w:60}You suspect my mother, don't you?{w}	c21c	
+zen:0293E5	draft	Oh, no, I didn't mean it that way.	166f	
+zen:029432	draft	Oh, dear. I'm only saying it's possible. Please don't let it bother you.{w}	2a73	
+zen:029489	draft	It does bother me! {w:60}And why would my mother need to kill that man, anyway?!	12ab	
+zen:0294E7	draft	Well, that's... um...{x:127bc000}	3905	
+zen:029517	draft	So you do suspect my mother!{w}	cdc5	
+zen:029544	draft	The truth is... {w:42}maybe you aren't aware of this, but...{w:48}{w}	0547	
+zen:029588	draft	Your mother's family and the Kusanos have long been on poor terms, it seems...	72a5	
+zen:0295E3	draft	Or rather, they fight like cats and dogs, as they say...{w}	c13d	
+zen:029616	draft	Well, that may be part of why the questioning is running a little long.{w}	cf8e	
+zen:02966C	draft	What does that matter? My mother has nothing to do with any of that!	d587	
+zen:0296B5	draft	More importantly, when will my mother be able to go home?{w}	632b	
+zen:0296E9	draft	Well, that's a little... {x:127bc002}{w:120}{x:127bc000}All right. I'll go and see how things are going.{w}	fbad	
+zen:029768	draft	That's the general outline of the case.{w}	72bb	
+zen:0297A2	draft	(I can't really tell just from hearing about it.)	0d1b	
+zen:0297C9	draft	???	dae5	
+zen:0297DE	draft	It looks like a conference room or reception room. (I guess it's not an interrogation room.)	d0fa	
+zen:02982C	draft	It looks like a conference room or reception room. Just chairs and a desk, nothing else.	4157	
+zen:02987F	draft	Just chairs and a desk. A bare, bleak room.	ad8e	
+zen:0298B1	draft	It's quite a fine desk.	fd96	
+zen:0298D4	draft	A window. You can see outside through the gaps in the blinds.	a7fb	
+zen:029910	draft	The sky outside is overcast.	2f82	
+zen:02992B	draft	The snow that piled up last night is starting to melt.	610c	
+zen:02995C	draft	A chair. It looks like leather, but it's made of vinyl.	478d	
+zen:02999D	draft	There's a memo pad and a pen stand.	7120	
+zen:0299C4	draft	You can take notes.	04f1	
+zen:0299F1	draft	May I keep this sketch?{w}	8b87	
+zen:029A1E	draft	Yes, go ahead.{w}	c2ec	
+zen:029A41	draft	Obtained a sketch of the crime scene.	f210	
+zen:029A8C	draft	A clock. It's a little past 10:00.	99f1	
+zen:029AB9	draft	It seems to have stopped. (What time is it, anyway? I want to see Mom soon...)	5527	
+zen:029B2A	draft	There's a memo pad and a pen stand.	7120	
+zen:029B53	draft	There's a memo pad and a pen stand.	7120	
+zen:029B80	draft	You can take notes.	04f1	
+zen:029BA9	draft	Excuse me, could you draw me what the scene looked like?{w}	3fa6	
+zen:029BE6	draft	Sure. Just a moment.{w}	0a7c	
+zen:029C13	draft	Officer Yoneda began drawing a sketch of the scene on the memo pad.{s:1}	4fee	
+zen:029C6E	draft	There, all done.{w}	ab8d	
+zen:029C84	draft	With that, Officer Yoneda showed Ayumi what he had drawn.{w}	514c	
+zen:029CE4	draft	Snow had piled up at the scene, and the footprints looked like this.{w}	3890	
+zen:029D24	draft	Like this?{w}	f1d1	
+zen:029D32	draft	In other words, your mother went to the annex, found the body, then went to tell the main house.{w}	60fd	
+zen:029D83	draft	Weren't there any footprints on the road?{w}	9ce0	
+zen:029DAD	draft	Well, it seems cars had driven down the road before we could check it, so all the footprints were gone.{w}	22eb	
+zen:029E0D	draft	I see.{w}	a8e3	
+zen:029E5B	draft	There's a pen.	1adc	
+zen:029EA6	draft	Excuse me, could you draw me what the scene looked like?{w:72}	6234	
+zen:029EE7	draft	Sure. Just a moment.{w:60}	ab5b	
+zen:029F18	draft	Officer Yoneda began drawing a sketch of the scene on the memo pad.{s:1}	4fee	
+zen:029F70	draft	There, all done.{w:54}	28dd	
+zen:029F8A	draft	With that, Officer Yoneda showed Ayumi what he had drawn.{w:78}	50b8	
+zen:029FEE	draft	Snow had piled up at the scene, and the footprints looked like this.{w:90}	f6e5	
+zen:02A032	draft	Like this?{w:30}	4df4	
+zen:02A044	draft	In other words, your mother went to the annex, found the body, then went to tell the main house.{w:90}	644f	
+zen:02A099	draft	Weren't there any footprints on the road?{w:78}	0cc3	
+zen:02A0C7	draft	Well, it seems cars had driven down the road before we could check it, so all the footprints were gone.{w:90}	8dd5	
+zen:02A12B	draft	I see.{w:42}	4a7a	
+zen:02A1B4	draft	May I keep this sketch?{w:72}	5f78	
+zen:02A1E5	draft	Yes, go ahead.{w:48}	850f	
+zen:02A214	draft	Obtained a sketch of the crime scene.	f210	
+zen:02A28A	draft	By the way, Officer Yoneda...{w:48}	e541	
+zen:02A2A6	draft	Yes, what is it?{w:48}	03ed	
+zen:02A2C4	draft	When will my mother be able to go home?{w:72}	bcb7	
+zen:02A2F3	draft	Well, that's a little... {w:180}All right. I'll go and see how things are going.	1ee3	
+zen:02A39D	draft	May I keep this sketch?{w:72}	5f78	
+zen:02A3CE	draft	Yes, go ahead.{w:48}	850f	
+zen:02A3FA	draft	Obtained a sketch of the crime scene.	f210	
+zen:02A472	draft	Oh, right! I have the cell phone Mr. Utsugi lent me so we could stay in touch.{w:90}	f4e1	
+zen:02A4BF	draft	I can't take any more of this. I'll talk to Mr. Utsugi.{w:72}	5623	
+zen:02A4F4	draft	Yes, Utsugi speaking.{w:48}	7a49	
+zen:02A512	draft	Mr. Utsugi, it's Ayumi.{w:48}	22b4	
+zen:02A530	draft	Ah, Ayumi. What's the matter?{w:72}	2d1e	
+zen:02A563	draft	Mr. Utsugi, something terrible's happened. You see, {s:15}.....{s:3} and that's the whole story.{w:48}	1719	
+zen:02A5BF	draft	Please, could you come out here and help me?{w:72}	ddb8	
+zen:02A5F8	draft	Ayumi, {w:30}I understand how hard this is, but I can't come right away.{w:90}	819b	
+zen:02A660	draft	My work here is at a critical stage. {w:30}Can you keep at it on your own a little longer?{w:90}	c17c	
+zen:02A6C9	draft	...{s:3}I understand. {w:30}I'll manage on my own somehow.{w:60}	bb08	
+zen:02A719	draft	I'll do my best to rush over as soon as I'm done here.{w:90}	7323	
+zen:02A75E	draft	Thank you.{w:60}	4823	
+zen:02A780	draft	If there's anything I can do from here, call me again.{w:90}	5d9b	
+zen:02A7C8	draft	Oh, and Ayumi. {w:42}Your mother is absolutely innocent, so hang in there.{w:90}	c522	
+zen:02A826	draft	Yes. Thank you.{w:60}	a1be	
+zen:02A8A8	draft	(Oh, {w:36}Officer Yoneda's back.){w:60}	d38d	
+zen:02A8DC	draft	I'm sorry. {w:30}It looks like {w:24}{s:5}it'll take {w:18}a little longer, {w:30}so for now, {w:18}would you please go home?{w:12}	f65b	
+zen:02A967	draft	What? {w:18}Why is it taking so long?!{s:5}{w:30}	de4f	
+zen:02A9AC	draft	The details are, {w:18}well... {w:60}I'm very sorry.{w:36}	1bc3	
+zen:02A9F9	draft	My mother isn't well. {w:18}Please let her go home soon!{w:30}	9fcc	
+zen:02AA40	draft	But it's not up to me... {w:120}{x:127bc000}All right.{w:48}	c086	
+zen:02AA7B	draft	Then {w:30}I'll ask them to let her go as soon as they can,{w:30}	5d71	
+zen:02AAC3	draft	so for now, would you please go home?{w:72}	00e3	
+zen:02AAF7	draft	All right. {w:18}Then {w:30}I'll wait at home, {w:30}so please do what you can.{w:30}	5d95	
+zen:02AC28	draft	I'm home.{w:30}	bdf8	
+zen:02AC3E	draft	Welcome back. {w:30}...Where's Toshie?{w:48}	eb59	
+zen:02AC6D	draft	Well... {w:42}the questioning's running long, {w:48}so it sounds like she can't come home yet.{x:dc7ac001}{w:60}	638b	
+zen:02ACD1	draft	I see. {w:66}But {w:60}that girl would never do anything to get in trouble with the police, {w:48}so she'll be fine.{w:72}	1068	
+zen:02AD43	draft	"Just wait at home," {w:30}the police told me, but...{w:30}	f464	
+zen:02AD8D	draft	It'll be all right, Ayumi. {w:72}Let's trust Toshie and wait.{w:36}	8aca	
+zen:02ADD1	draft	Yeah, {w:30}{s:4}you're right, {w:18}Grandma.{w:36}	f480	
+zen:02AE14	draft	(But {w:30}even so, {w:30}just sitting here waiting is depressing. {w:72}I'll try asking around a little.){w:90}	6070	
+zen:02AE99	draft	Who are you calling? This is no time to be making phone calls.	d8ca	
+zen:02AF2C	draft	Who will you call?	fedf	
+zen:02AF54	draft	Shinnosuke	088b	
+zen:02AF67	draft	Shintaro	3258	
+zen:02AF7A	draft	Noriko	3458	
+zen:02AF8D	draft	Koichi	573b	
+zen:02AFA7	draft	You want something from me?	6df4	
+zen:02AFD5	draft	You want something from me?	6df4	
+zen:02AFF2	draft	Is there something else you want to ask?	5461	
+zen:02B02C	draft	Toshie's not with you?	4761	
+zen:02B057	draft	Did you call me?	b722	
+zen:02B087	draft	Will Toshie be all right?{w}	5ef5	
+zen:02B0A7	draft	I think she should be able to come home soon, but...	8c1d	
+zen:02B0E1	draft	I'm right here.	033d	
+zen:02B0FC	draft	Come to think of it, where's Koichi?{w}	e31c	
+zen:02B135	draft	I'm right here.	033d	
+zen:02B172	draft	Grandma, they say the man who was killed is the former village head, someone named Gozo Kusano.{w}	e90f	
+zen:02B1C1	draft	Yes, I heard. People are already talking about it quite a bit.{s:3}	3825	
+zen:02B209	draft	Does this Mr. Kusano have any connection to our family?{w}	289f	
+zen:02B23F	draft	A connection? Well... no, nothing in particular.{s:3}	ceca	
+zen:02B283	draft	At the police station, I heard we and the Kusanos don't get along.{w}	af80	
+zen:02B2BD	draft	You heard about that, did you? {w:30}Well, I suppose you could say we don't get along...{w}	6db9	
+zen:02B312	draft	But even so, that feud between the families is old history. These days, well...{s:3}	f7e9	
+zen:02B379	draft	What about these days?{w}	038a	
+zen:02B394	draft	Well, I think your grandfather's about the only one who still cares about all that.{w}	714e	
+zen:02B3EB	draft	Then it really has nothing to do with Mom, right?{w}	5e4e	
+zen:02B421	draft	None of that has anything to do with her. She left the village a long time ago.{w}	4f7d	
+zen:02B477	draft	You don't need to worry about a thing, Ayumi.{s:3}	1a54	
+zen:02B4B5	draft	By the way, Grandma.{w}	7503	
+zen:02B4DC	draft	What is it, Ayumi?{w}	2f84	
+zen:02B4F9	draft	Where's Grandpa? And Uncle Shintaro and the others?{w}	299f	
+zen:02B525	draft	Your grandfather should be in the back room.{w}	69bc	
+zen:02B552	draft	He's really the most worried of all, but you know how he is. He's too stubborn to come out.{w}	4f28	
+zen:02B5A5	draft	Why don't you call him yourself, Ayumi?{s:3}	7123	
+zen:02B5FC	draft	You don't need to worry about a thing, Ayumi.{s:3}	1a54	
+zen:02B63C	draft	Dear, I think you should tell her...{s:3}	eb0f	
+zen:02B684	draft	You don't need to worry about a thing, Ayumi.{s:3}	1a54	
+zen:02B6BE	draft	If only Shintaro were a bit more dependable...{s:3}	2aaa	
+zen:02B700	draft	You don't need to worry about a thing, Ayumi.{s:3}	1a54	
+zen:02B73A	draft	Come to think of it, why did Toshie go to the Kusanos' place, of all places?{s:3}	f1fe	
+zen:02B793	draft	You don't need to worry about a thing, Ayumi.{s:3}	1a54	
+zen:02B7D1	draft	Grandpa, Mom's still being questioned, so she can't come home yet.{w}	5cb6	
+zen:02B810	draft	Ah, I see. Well, no need to worry. She'll be fine.{w}	ab94	
+zen:02B84A	draft	You're right, Grandpa.	e116	
+zen:02B874	draft	By the way, Grandpa.{w}	2117	
+zen:02B897	draft	What is it, Ayumi?{w}	2fc7	
+zen:02B8B2	draft	Actually, I heard we don't get along with the Kusanos...{w}	5209	
+zen:02B8F4	draft	Who's been saying that?!{w}	a6d7	
+zen:02B91B	draft	The police...{w}	d7a7	
+zen:02B936	draft	The police talk too much.{w}	c6ce	
+zen:02B958	draft	You needn't concern yourself with that!{w}	cbcc	
+zen:02B989	draft	But...	bf5f	
+zen:02B9A5	draft	About you and the Kusanos...{w}	51f3	
+zen:02B9C6	draft	You needn't concern yourself!{w}	857c	
+zen:02B9E7	draft	But...	bf5f	
+zen:02BA03	draft	True, Gozo Kusano and I... no, the Kusano family and I don't get along.{w}	aac5	
+zen:02BA41	draft	But that and this business are separate matters. Nobody kills a man just because they don't get along.{s:3}	99cf	
+zen:02BAAE	draft	Still, it may be just as well that a man like that got killed.{w}	85c4	
+zen:02BAEF	draft	How can you say that...{w}	7569	
+zen:02BB06	draft	That man lorded it over us as village head. He's made a wreck of this village.{s:3}	4952	
+zen:02BB67	draft	Come to think of it, where are Shintaro and the others?{w}	edbe	
+zen:02BB99	draft	They were upstairs, I think...{w}	65c7	
+zen:02BBCD	draft	It seems your shouting brought them down.{w}	d1de	
+zen:02BC05	draft	Oh, Uncle Shintaro...	9a28	
+zen:02BC2A	draft	I told Kusano what I thought plenty of times. He seems to have found me a nuisance.{s:3}	a6d2	
+zen:02BC7F	draft	Ayumi, how's Toshie doing?{w}	be25	
+zen:02BCAE	draft	Well, it looks like it'll be a while yet.{w}	fc34	
+zen:02BCD2	draft	I see. {w:30}That's worrying.{w}	7c47	
+zen:02BCFD	draft	Yeah. But all we can do is wait...{w}	f0a7	
+zen:02BD26	draft	...By the way, Uncle Shintaro, what's the connection between us and the Kusanos?{w}	8753	
+zen:02BD6E	draft	What do you mean? There's nothing special between us.{w}	8f34	
+zen:02BDA4	draft	So you're not on bad terms with the Kusanos?{w}	ed4a	
+zen:02BDD9	draft	Me? Not at all.	cb13	
+zen:02BE04	draft	Unlike my father, I'm no good at fighting with people.{w}	74f8	
+zen:02BE3B	draft	(That does seem like him.){w}	ccdc	
+zen:02BE5F	draft	But it makes me seem unreliable, so my father doesn't trust me at all.{w}	3f76	
+zen:02BEB2	draft	That's why he never hands over Tachibana Lumber to me, no matter how long I wait.{w}	0110	
+zen:02BEFA	draft	That's because you won't shape up!{w}	41b5	
+zen:02BF1C	draft	...{s:3}{w:30}So there you have it. I got yelled at again.	c086	
+zen:02BF6E	draft	It may frustrate my father, but I don't feel anything one way or the other about Mr. Kusano.	546d	
+zen:02BFCA	draft	Don't mind what your grandfather says.{w}	8028	
+zen:02C006	draft	I won't, Aunt Noriko. I know Grandpa well.	e080	
+zen:02C04D	draft	Though having no spark, like my husband, is a problem too.{w}	34c8	
+zen:02C087	draft	That's not true. I like how sensitive Uncle Shintaro is.{w}	9e9b	
+zen:02C0D1	draft	Sensitive, is it? That's one way of putting it.	50f6	
+zen:02C105	draft	I wish he'd show some backbone, like your grandfather.{w}	2f99	
+zen:02C13C	draft	Ayumi: ...{w}	1937	
+zen:02C152	draft	I don't want Koichi turning out like his father, too.{w}	3ecd	
+zen:02C190	draft	That's right, Noriko. Raise Koichi properly.{w}	dc89	
+zen:02C1CF	draft	Ganging up on me, that's cruel. Koichi just has to do his best in his own way.	1436	
+zen:02C227	draft	Well, as long as Koichi grows up healthy, that's enough for me.	abcb	
+zen:02C275	draft	You're all saying whatever you like, as usual.{w}	7eaf	
+zen:02C2A6	draft	Koichi, were you listening?{w}	36f2	
+zen:02C2C4	draft	I was listening from out back, but then you were all talking about me, so I couldn't very well come out.	df79	
+zen:02C31F	draft	Hey, by the way, why do you think Aunt Toshie went to the Kusanos' place, of all places?{w}	d5af	
+zen:02C375	draft	Huh?{w}	9df5	
+zen:02C383	draft	You may not know how much Grandpa hates the Kusanos, Ayumi, but Aunt Toshie does.	d819	
+zen:02C3E7	draft	(That's right. Why did Mom go to a place like that?)	5c90	
+zen:02C43D	draft	Why do you think Aunt Toshie went to the Kusanos' place, of all places?	7649	
+zen:02C488	draft	A window. It looks overcast outside.	971b	
+zen:02C4B5	draft	A dining table. It looks like it seats six.	0b55	
+zen:02C4F5	draft	A kettle.	7c1b	
+zen:02C50E	draft	The flame is safely turned off.	d0c1	
+zen:02C53B	draft	The vent fan is off.	2df6	
+zen:02C566	draft	A teapot. Ayumi's grandmother made this tea.	2089	
+zen:02C59E	draft	Ayumi, would you like some tea too? It'll calm you down.	a7fc	
+zen:02C5E4	draft	A teacup. Ayumi's grandmother was drinking tea from it.	7798	
+zen:02C62D	draft	The Tachibanas' kitchen and dining room.	eb40	
+zen:02C654	draft	The house is old but solidly built.	a0b4	
+zen:02C6BC	draft	Come to think of it, where's Koichi?{w:48}	a262	
+zen:02C6F9	draft	I'm right here.{w:48}	17ee	
+zen:02C728	draft	You're all saying whatever you like, as usual.{w:60}	a17e	
+zen:02C75D	draft	Koichi, were you listening?{w:42}	9dd2	
+zen:02C77F	draft	Yeah, I just got back, though.{w:90}	e77e	
+zen:02C7A9	draft	Hey, by the way, why do you think Aunt Toshie went to the Kusanos' place, of all places?{w:90}	5789	
+zen:02C803	draft	Huh?{w:36}	3b9f	
+zen:02C815	draft	You may not know how much Grandpa hates the Kusanos, Ayumi, but Aunt Toshie does.	d819	
+zen:02C876	draft	(That's right. Why did Mom go to a place like that?)	5c90	
+zen:02C943	draft	(Yes, {w:42}I want to see the Kusanos' place for myself.){w:30}	0688	
+zen:02C990	draft	I'm {w:12}{s:4}just going over to the Kusanos' place.{w:30}	73dc	
+zen:02C9DF	draft	Ayumi!{w:48}	582f	
+zen:02C9F6	draft	Ayumi {w:36}rushed out of the house.{w:48}	95ed	
+zen:02CA42	draft	Oh? {w:30}I thought I heard Ayumi's voice...{w:30}	0686	
+zen:02CA89	draft	Oh, {w:42}Reiko, {w:60}well, {w:24}she said she was going to the Kusanos' {w:48}and ran right out.{w:48}	5c9a	
+zen:02CAFB	draft	I'm sorry to ask, Reiko, {w:48}but could you go check on Ayumi?{w:30}	9d5d	
+zen:02CB55	draft	Yes, {w:18}of course. {w:18}Well, {w:12}I'll be off.{w:30}	0f57	
+zen:030100	draft	Ayumi reached Gozo Kusano's house. {w:120}But {w:30}the gate was shut tight.{s:3}{w:90}	e906	
+zen:030165	draft	This is no time to be making phone calls.	d42e	
+zen:030193	draft	Who will you call?{n}	d2f4	
+zen:0301BE	draft	The police	5be8	
+zen:0301D1	draft	Gozo Kusano	9ac9	
+zen:0301E4	draft	Someone nearby	bd6e	
+zen:0301F8	draft	They've already left. No one's here.	2301	
+zen:03022E	draft	He's already dead.	68f2	
+zen:03024B	draft	He's already dead.	68f2	
+zen:03026A	draft	There's no one around.	b711	
+zen:030287	draft	There's only Naoko Kusano, right in front of you.	8db8	
+zen:0302B7	draft	What a nuisance. What do you want?{w}	c66e	
+zen:0302E4	draft	I was hoping you could talk with me for a bit...	3644	
+zen:030321	draft	What will you ask about?{n}	42dd	
+zen:030350	draft	Gozo Kusano	c00a	
+zen:030363	draft	The Kusanos	d60e	
+zen:030376	draft	The Tachibanas	866b	
+zen:030389	draft	Alibi last night	1c85	
+zen:0303A3	draft	I'd like to ask you about Mr. Gozo Kusano.{w}	6547	
+zen:0303D6	draft	Can't you see this is no time for that?!	746a	
+zen:030419	draft	I told you, this is no time for that!{x:a37ac000}	6f81	
+zen:03044D	draft	Just what do you think you're doing?!	40f7	
+zen:030476	draft	I'd like to ask you about the Kusano family.{w}	bc30	
+zen:0304B3	draft	I told you, this is no time for that!	e018	
+zen:0304E3	draft	Um, about the Tachibanas...{w}	fa28	
+zen:0304FD	draft	What on earth are you thinking?!	8907	
+zen:030524	draft	What were you doing last night?{w}	e2ef	
+zen:03054D	draft	That's quite enough! You know perfectly well what's going on here!{w}	84ec	
+zen:030598	draft	Who do you think you...{w}	9a8c	
+zen:0305D0	draft	What's all this noise?!{w:30}	a9bd	
+zen:0305F7	draft	Honestly, that's quite enough!	882a	
+zen:03062D	draft	Are you one of the family?{w}	37ab	
+zen:030647	draft	Yes, I am. I'm Kazuo Kusano.{w}	bb9c	
+zen:03066B	draft	I'd like to ask you a few things, if I may.{w}	2a24	
+zen:030698	draft	Ask me what...? {w:30}Just who are you?{w}	8e04	
+zen:0306CA	draft	(Oh no, I forgot to introduce myself.){w}	8f31	
+zen:0306F7	draft	I'm sorry, I should have introduced myself. I'm Ayumi Tachibana.{w}	fb34	
+zen:03072F	draft	Tachibana! {w:42}You're from that family?{w}	4f09	
+zen:03075A	draft	Yes, I'm Shinnosuke Tachibana's granddaughter.{w}	7fc2	
+zen:03077F	draft	What...? What have you come here to do this time?!{w}	dfe9	
+zen:0307B2	draft	But I...{w:60}	a41e	
+zen:0307CF	draft	What do you want to ask about?	a2a5	
+zen:0307FD	draft	Gozo Kusano	c00a	
+zen:030810	draft	The Kusanos	d60e	
+zen:030823	draft	The Tachibanas	866b	
+zen:030836	draft	Alibi last night	1c85	
+zen:030850	draft	I'd like to ask you a little about Mr. Gozo Kusano...{w}	5d17	
+zen:03088E	draft	I've got nothing to say to you!	632e	
+zen:0308B9	draft	Please, if you could just...{w}	1c7a	
+zen:0308D3	draft	My father's dead. {w:30}There. Satisfied?	e15b	
+zen:030906	draft	I've got nothing to say to you!	632e	
+zen:03092B	draft	I hear Mr. Gozo Kusano slept alone in the annex...{w}	6326	
+zen:03095F	draft	What's that got to do with you?! {w:30}I've got nothing to say to you!	fe4c	
+zen:0309B3	draft	The Tachibanas and the Kusanos...{w}	e38f	
+zen:0309CF	draft	Don't you say "Tachibana" in front of me! Always getting in people's way...	ce3f	
+zen:030A23	draft	Always getting in the way...?{w}	4999	
+zen:030A3D	draft	If they'd only do as the village head says and keep quiet...{w}	185e	
+zen:030A78	draft	Oops, no use telling this to a girl like you.{w}	619f	
+zen:030AB5	draft	(How rude... He must really hate my family.){w}	06ee	
+zen:030B03	draft	(And... "a girl like you," {w:18}he says... The nerve of him... {w:18}He's really unpleasant.)	c050	
+zen:030B74	draft	(I don't think he'll talk about this.)	ae72	
+zen:030B99	draft	By the way, what were you doing last night?{w}	10d8	
+zen:030BC8	draft	What are you talking about, girl?{w}	ab5e	
+zen:030BEA	draft	That's quite enough! You know perfectly well what's going on here!{w:60}{w}	cced	
+zen:030C3C	draft	Just leave, please!{w}	7e8a	
+zen:030C78	draft	(Oh no, they went back inside.){w}	6365	
+zen:030C9F	draft	??: 	24e7	
+zen:030CAC	draft	Ayumi, that's reckless. {w:30}They won't talk to you that way.{w}	98a5	
+zen:030CEC	draft	Reiko: 	cf89	
+zen:030CF9	draft	Huh?{w}	9df5	
+zen:030D2E	draft	You won't learn anything that way.{w}	84f0	
+zen:030D50	draft	Reiko... why are you here?{w}	6246	
+zen:030D72	draft	You ran out so suddenly, your grandma asked me to come check on you.	3f47	
+zen:030DC9	draft	You can't just show up out of nowhere and ask them to talk to you.{w}	c2e2	
+zen:030E00	draft	Not so soon after what happened.{w}	10c9	
+zen:030E2C	draft	...You're right.{w}	8491	
+zen:030E46	draft	Besides, what exactly were you going to ask?{w}	10d1	
+zen:030E74	draft	Well, um{s:7}... {s:3}I don't even know what kind of man Mr. Kusano was...	d1f5	
+zen:030ED0	draft	I see. But it doesn't look like anyone here will talk to you right now.{w}	367d	
+zen:030F0C	draft	Then for now, I'll tell you what I know.	543e	
+zen:030F4B	draft	What will you ask about?{n}	42dd	
+zen:030F7A	draft	Gozo Kusano	c00a	
+zen:030F8D	draft	The Kusanos	d60e	
+zen:030FA7	draft	Did you know he was the former village head?{w}	1bce	
+zen:030FD5	draft	Yes, I heard that.{w}	de0f	
+zen:030FF5	draft	He retired 5 years ago, but they say he served as village head for many years.{w}	6287	
+zen:031049	draft	Many years?{w}	e523	
+zen:031063	draft	Yes. He was already village head when I was little, so I'd guess he started about 20 years ago.{w}	0cdc	
+zen:0310C1	draft	As long as 20 years...	755c	
+zen:0310E2	draft	His wife passed away some years ago, I think.{w}	96b2	
+zen:03111D	draft	He has two sons. The eldest, Kazuo, is the current village head.	5e90	
+zen:031167	draft	When he retired 5 years ago, he named his son Kazuo as his successor.	b3d6	
+zen:0311B9	draft	Until then, he seems to have been known as a very shrewd village head.	bc45	
+zen:0311F4	draft	He seems to have been known as a very shrewd village head.	f220	
+zen:031227	draft	I hear they've long been one of the village's most prominent families.	ee9b	
+zen:031258	draft	Gozo and Kazuo. Father and son, two generations as village head.{w}	b1f0	
+zen:031289	draft	Kazuo's younger brother, Jiro, left the village and lives in Tokyo, it seems.	1a36	
+zen:0312D6	draft	Who will you ask about?{n}	a43c	
+zen:031305	draft	Kazuo Kusano	1a62	
+zen:031318	draft	Jiro Kusano	e100	
+zen:031332	draft	Even when he was young, he was expected to succeed Gozo, it seems.	c161	
+zen:031377	draft	Before becoming village head, he served on the village council. So he followed his father smoothly.	41b4	
+zen:0313E1	draft	The woman who came out just now is his wife, Naoko. She comes across as pretty harsh.	6b24	
+zen:031431	draft	They have one child, Masaru. He should be at a design school in Tokyo now.{w}	2ffe	
+zen:03147D	draft	You know a lot about them.{w}	0064	
+zen:031497	draft	He was a year behind me in elementary and middle school. We got along pretty well.	058a	
+zen:0314E0	draft	He rose smoothly and became village head, just as he was bound to, I suppose.	0f05	
+zen:031524	draft	That's about all I know.	838b	
+zen:031559	draft	Jiro helped with his father's work too, when he was young.{w}	5001	
+zen:03158E	draft	But it didn't seem to suit him, and he left for Tokyo some years ago. I think he's still single.	d338	
+zen:0315F3	draft	He seems to be a bit of a black sheep in the Kusano family, but I don't know the details either.	c289	
+zen:03165C	draft	I don't know the details either.	c1e4	
+zen:03168C	draft	A cloudy sky.	ba0c	
+zen:0316A3	draft	The sun is gradually starting to come out.	8f66	
+zen:0316D2	draft	There's an intercom.	d164	
+zen:0316F9	draft	(Should I try buzzing?)	6241	
+zen:03171C	draft	(Should I try buzzing?)	6241	
+zen:031739	draft	(Oh well, I'll try buzzing.){se:19}{w:150}{w}	19ce	
+zen:03176E	draft	What is it, at a time like this?!{w}	1527	
+zen:0317B5	draft	An impressive nameplate.	171e	
+zen:0317CE	draft	It reads "Gozo Kusano" and "Kazuo Kusano."	5574	
+zen:031801	draft	The gate is shut tight.	7e74	
+zen:03182C	draft	The police seem to have left too. All is hushed and still.	067a	
+zen:031868	draft	The police seem to have left too. All is hushed and still.	067a	
+zen:0318A6	draft	It looks like the front entrance.	3031	
+zen:0318C5	draft	The police seem to have left too. All is hushed and still.	067a	
+zen:031901	draft	The police seem to have left too. All is hushed and still.	067a	
+zen:03193F	draft	Gozo Kusano's estate.	b3c1	
+zen:031962	draft	The police seem to have left too. All is hushed and still.	067a	
+zen:03199E	draft	The police seem to have left too. All is hushed and still.	067a	
+zen:0319D6	draft	The snow is starting to melt.	7cf4	
+zen:0319FD	draft	A big tree.	fc3b	
+zen:031A1A	draft	A tree standing between the annex and the wall.	84a7	
+zen:031A47	draft	Nothing seems particularly odd.	4652	
+zen:031A7A	draft	The snow is starting to melt.	7cf4	
+zen:031A9B	draft	Nothing seems particularly odd.	4652	
+zen:031ACE	draft	Snow has piled up on top of the wall.	7695	
+zen:031AF3	draft	There's no sign that anyone climbed over it.	da89	
+zen:031B26	draft	Much of the snow has melted. No footprints remain at all.	38bb	
+zen:031BB2	draft	What do you want, hanging around here?	75fe	
+zen:031C3B	draft	What's all this noise?!{w:60}	6b56	
+zen:031C99	draft	Just leave now, please!{w:72}	ae77	
+zen:031CD8	draft	(Oh no, they went back inside.){w:30}	ad90	
+zen:031D05	draft	??: 	24e7	
+zen:031D12	draft	Ayumi, that's reckless. {w:30}They won't talk to you that way.{w:90}	b926	
+zen:031D56	draft	Reiko: 	cf89	
+zen:031D63	draft	Huh?{w:30}	9c19	
+zen:031D97	draft	Ayumi, don't try to do everything on your own.{w:90}	bcbf	
+zen:031DD9	draft	If there's anything I can do to help, just say so.{w:90}	a323	
+zen:031E12	draft	Okay. Thank you, Reiko.{w:48}	05c3	
+zen:031E85	draft	Say, Ayumi.	65ca	
+zen:031E9E	draft	What is it, Reiko?{w:30}	2fec	
+zen:031EBC	draft	It's been a while since I left the village too, {w:42}so as for recent events, {w:18}I don't really know.{w:48}	b742	
+zen:031F14	draft	So, {w:12}for the details on all that,{w:30}	2657	
+zen:031F4C	draft	you should probably ask someone in the village.{w:42}	87af	
+zen:031F87	draft	You're right. {w:36}Then {w:30}I'll {w:18}stay around here a little longer {w:18}and ask around.{w:12}	e46a	
+zen:031FF7	draft	All right. {w:30}Then {w:18}I'll go back and wait,{w:12}	4369	
+zen:032040	draft	and I'll let you know as soon as your mother's back.{w:36}	7e64	
+zen:032080	draft	Thank you, Reiko.{w:54}	6425	
+zen:0320B0	draft	(I'm worried about Mom, {w:78}but just sitting at home waiting is hard too.){w:72}	1a01	
+zen:03210A	draft	(I'm {w:18}a member of the Utsugi Detective Agency, after all. {w:108}The suspicion on Mom... {w:42}I'll try to clear it myself.){w:30}	3041	
+zen:0322BF	draft	Ayumi {w:18}wanted to question the villagers, {w:54}so she started walking around the area.{s:3}{w:90}	ec11	
+zen:03232A	draft	It seems the cell phone doesn't work here.	73c4	
+zen:03235B	draft	(Anyway, I'd better talk to someone.){w}	a483	
+zen:03238D	draft	Who will you call?{n}	d2f4	
+zen:0323B8	draft	Someone nearby	bd6e	
+zen:0323CB	draft	Someone else	adb7	
+zen:0323DE	draft	The last person	5229	
+zen:0323F1	draft	Someone nearby	bd6e	
+zen:03240B	draft	What is it?	dffc	
+zen:032437	draft	What is it? You want something from me?{w}	cca1	
+zen:03245B	draft	There's something I'd like to ask you.	3e26	
+zen:03249A	draft	Villager: ...	6d48	
+zen:0324C8	draft	Yes, what is it?{w}	38c1	
+zen:0324E2	draft	There's something I'd like to ask you.	3e26	
+zen:03251B	draft	You call, but they don't come back. They've gone.	dfb6	
+zen:03256A	draft	Yes, yes.{w}	31a7	
+zen:03257E	draft	There's something I'd like to ask you.	3e26	
+zen:0325C9	draft	What will you do?{n}	a600	
+zen:0325F0	draft	Look at it	374b	
+zen:032603	draft	Show someone	edad	
+zen:032617	draft	A hat. You can't tell whose it is.	f6e6	
+zen:032644	draft	Could you take a look at this?{w}	7670	
+zen:032664	draft	What's this... {w:60}A hat, is it.	5f42	
+zen:032691	draft	Could you take a look at this?{w}	7670	
+zen:0326B1	draft	Villager: ...	6d48	
+zen:0326C8	draft	Could you take a look at this?{w}	7670	
+zen:0326E8	draft	What about it...	fd61	
+zen:0326FF	draft	There's no one to show it to.	4101	
+zen:032723	draft	I'd like to ask you a little about Mr. Kusano.{w}	5461	
+zen:032759	draft	Ah, a terrible business, from what I hear.	b593	
+zen:032786	draft	Do you know that Gozo Kusano was murdered?{w}	ef0d	
+zen:0327B8	draft	I heard, a while ago.	37bd	
+zen:0327D4	draft	What will you ask about?{n}	42dd	
+zen:032803	draft	Gozo Kusano	c00a	
+zen:032816	draft	The Kusanos	d60e	
+zen:032829	draft	Strong-arm ways	c119	
+zen:03283C	draft	Alibi last night	1c85	
+zen:032856	draft	Killed this morning, I hear.{w}	6db7	
+zen:032876	draft	Um, anything else?{w}	f5ac	
+zen:032892	draft	Getting killed is another matter, but {w:30}he wasn't what you'd call liked by everyone.	4b5f	
+zen:0328F6	draft	So some people did hate him.{w}	4b48	
+zen:03291A	draft	I didn't say that... Well, there may be a few like that.	6d4c	
+zen:03296F	draft	He used some pretty strong-arm tactics as village head, back in the day.	4ae9	
+zen:0329B6	draft	Strong-arm, sure, but that's all in the past now.	25db	
+zen:0329F0	draft	Father and son, two generations as village head. That's something.{w}	fdc3	
+zen:032A1B	draft	You mean Mr. Kazuo Kusano.{w}	0fab	
+zen:032A33	draft	He's young, but he's plenty shrewd. I admire that.	ba2b	
+zen:032A6E	draft	What about Mr. Jiro Kusano?{w}	a8ac	
+zen:032A8C	draft	Ah, Jiro left the village and hardly ever comes back. {w:30}I couldn't tell you.	ea82	
+zen:032AEA	draft	Is there anything else you've noticed about Mr. Kusano?{w}	b425	
+zen:032B2A	draft	Nothing else, no.	63a3	
+zen:032B4D	draft	Anyone else in the Kusano family...{w}	aad5	
+zen:032B6F	draft	Why are you digging into every little thing?{w}	48dd	
+zen:032BA2	draft	Oh, well, um...{w}	c3b7	
+zen:032BC2	draft	Hmm. I don't know what you're up to, but I'm done talking.	d338	
+zen:032BF0	draft	I don't know what you're up to, but I'm done talking.	deef	
+zen:032C17	draft	What do you mean, strong-arm tactics?{w}	b473	
+zen:032C42	draft	Well now... {w:60}I can't be the one to tell you that.	4522	
+zen:032C81	draft	Could you tell me about these strong-arm tactics?{w}	84f4	
+zen:032CBA	draft	I can't tell you that.	2665	
+zen:032CDB	draft	Please, if you could just...{w}	1c7a	
+zen:032CF5	draft	Can't tell you.	73c1	
+zen:032D0A	draft	Is there really no way you could tell me?{w}	ea27	
+zen:032D36	draft	If you push that hard... {w:60}I'd better make a run for it.{w}	1e00	
+zen:032D83	draft	Oh, wait!{w}	59d1	
+zen:032D99	draft	The villager walked away.	ef58	
+zen:032DD4	draft	What were you doing last night?{w}	5a08	
+zen:032DFF	draft	What, you mean me? I was at home.	eefd	
+zen:032E37	draft	You were at home?{w}	9af3	
+zen:032E51	draft	That's right. Don't tell me you suspect me.{w}	4113	
+zen:032E85	draft	No, it's not that, but...	e5bf	
+zen:032EAF	draft	Were you asleep?{w}	3e4e	
+zen:032EC7	draft	Why ask a thing like that? {w:60}I don't care for this.{w}	b1bc	
+zen:032F16	draft	Oh, wait!{w}	59d1	
+zen:032F2C	draft	The villager walked away.	ef58	
+zen:032F68	draft	I'd like to ask you a little about Mr. Kusano.{w}	5461	
+zen:032F9E	draft	Ah, you mean the village head?{w}	8e06	
+zen:032FBA	draft	Oh, yes. About, um, various things...{w}	f1a1	
+zen:032FE3	draft	I don't mind, I suppose.	2b0f	
+zen:033001	draft	What will you ask about?{n}	42dd	
+zen:033030	draft	Gozo Kusano	c00a	
+zen:033043	draft	The Kusanos	d60e	
+zen:033056	draft	The Tachibanas	866b	
+zen:033069	draft	Strong-arm ways	c119	
+zen:033083	draft	I'd like to ask about Gozo Kusano.{w}	be4c	
+zen:0330B1	draft	The former village head, right? What about Gozo Kusano?	d4e3	
+zen:0330E9	draft	Um, actually... {w:30}he was killed this morning...{w}	183a	
+zen:033127	draft	What! Is that true? {w:60}So who killed him?{w}	4061	
+zen:033165	draft	Well, no one knows that yet.	bfca	
+zen:03319F	draft	Can you think of anyone who hated Mr. Kusano?{w}	4500	
+zen:0331DF	draft	No, not really.	75e7	
+zen:033206	draft	What's Mr. Kusano's reputation like?{w}	0e4b	
+zen:03322A	draft	He was a shrewd village head, so I suppose some didn't think well of him.	4390	
+zen:03327B	draft	Still, he mellowed a lot after he retired.	4c86	
+zen:0332CA	draft	Though he's still on bad terms with the Tachibanas, I hear.{w}	cb9e	
+zen:033305	draft	What, the Tachibanas?!	23cc	
+zen:033331	draft	He's still on bad terms with the Tachibanas, I hear.	d6d6	
+zen:033363	draft	They're on bad terms, no doubt. But if anything, it looks like it's the Kusano side doing the harassing.	76fb	
+zen:0333C5	draft	I'd like to ask about the Kusano family.{w}	0be6	
+zen:033400	draft	His son Kazuo is the village head now. Shrewd, just like his old man.	4763	
+zen:033456	draft	Beyond that, I don't know much.	73ea	
+zen:03347B	draft	He's on bad terms with the Tachibanas?{w}	10b3	
+zen:033499	draft	Old man Tachibana and the village head are like oil and water.	dfa2	
+zen:0334D3	draft	The Tachibanas make their living cutting timber, so the village head developing the mountains is trouble for them.	11b4	
+zen:03352C	draft	He fought the village head's policies at every turn.{w}	4ecc	
+zen:033567	draft	The man who hated the village head most might well be Shinnosuke Tachibana.{w}	1182	
+zen:0335A4	draft	Ayumi: ?!.....{w}	f23a	
+zen:0335C2	draft	Um... I'm Shinnosuke Tachibana's granddaughter.{w}	362b	
+zen:0335F8	draft	O-oh, I see. Well, don't mind me.	a877	
+zen:03362E	draft	My mother, Toshie Tachibana, is under suspicion...{w}	df44	
+zen:033661	draft	You're Toshie's daughter? She left the village. She's got nothing to do with Gozo Kusano.	7859	
+zen:0336C7	draft	No more talk about the Tachibanas, please.	c87e	
+zen:0336EE	draft	No more talk about the Tachibanas, please.	c87e	
+zen:033713	draft	I heard he used some rather strong-arm tactics.{w}	ca70	
+zen:033745	draft	To bring money into the village, he kept pushing development ahead, it seems.	f9f7	
+zen:033796	draft	Development?{w}	1037	
+zen:0337AA	draft	This village is rich in nature, so many people were against it.{w}	e37e	
+zen:0337E7	draft	But the village head paid no mind and pushed the development on.{w}	fa45	
+zen:033820	draft	You could say that was a pretty strong-arm way of doing things.	1d7e	
+zen:033868	draft	This village is rich in nature, so many people were against the development.{w}	cb86	
+zen:0338AC	draft	But the village head paid no mind and pushed on.{w}	d8b0	
+zen:0338DF	draft	You could say that was a pretty strong-arm way of doing things.	1d7e	
+zen:033927	draft	I'd like to ask you a little about Mr. Kusano.{w}	e5a0	
+zen:03395D	draft	Gozo, you mean?{w}	8090	
+zen:033973	draft	Oh, yes. That's right.{w}	3ef0	
+zen:033997	draft	In that case... {w:60}I've got nothing to say.	cda4	
+zen:0339CD	draft	What will you ask about?{n}	42dd	
+zen:0339FC	draft	Gozo Kusano	c00a	
+zen:033A0F	draft	Gozo's killer	8c80	
+zen:033A22	draft	The ghost	1460	
+zen:033A3C	draft	Do you know that Gozo Kusano was murdered?{w}	4ff0	
+zen:033A6D	draft	Villager: ...	6d48	
+zen:033A88	draft	Do you know something about Gozo Kusano's murder?!{w}	6d91	
+zen:033ACE	draft	Villager: ...	6d48	
+zen:033AE9	draft	Could it be you have an idea who the killer is?!{w}	c3f0	
+zen:033B1A	draft	Villager: ...	6d48	
+zen:033B33	draft	Do you know something about Gozo Kusano's murder?!{w}	6d91	
+zen:033B79	draft	Villager: ...	6d48	
+zen:033B90	draft	If you know who the killer is, please tell me!{w}	e4ea	
+zen:033BC6	draft	A ghost 	49e4	
+zen:033BCF	draft	did 	eb4f	
+zen:033BDA	draft	it.{w:420}	0036	
+zen:033BF7	draft	A ghost?	f804	
+zen:033C10	draft	What do you mean, a ghost...?{w}	b06b	
+zen:033C30	draft	The ghosts of the fallen warriors.	5ea0	
+zen:033C4D	draft	What do you mean, a ghost...?{w}	b06b	
+zen:033C6D	draft	The ghosts of the fallen warriors.	5ea0	
+zen:033C88	draft	What do you mean, the ghosts of the fallen warriors?{w}	804a	
+zen:033CB9	draft	It's a curse. The curse of the fallen warriors.	bdd6	
+zen:033CEF	draft	I don't recognize your face from the village.{w}	2e29	
+zen:033D18	draft	I'm Shinnosuke Tachibana's granddaughter.{w}	7b67	
+zen:033D2C	draft	Back from the city, are you? Take my advice. Hurry up and leave this village.	7a68	
+zen:033D81	draft	I can't talk to outsiders. Take my advice. Hurry up and leave this village.	ee60	
+zen:033DC8	draft	It's a curse. The curse of the fallen warriors.	bdd6	
+zen:033E03	draft	The snow is starting to melt. The road is still unpaved.	04ab	
+zen:033E47	draft	There are several villagers around.	105f	
+zen:033E7F	draft	There's some trash lying in the grass.	f145	
+zen:033EAA	draft	Weeds grow along the roadside.	f0db	
+zen:033ED5	draft	Some plants don't wither even in winter.	a4db	
+zen:033F08	draft	A forest.	1958	
+zen:033F1F	draft	A beautiful natural landscape.	d4ba	
+zen:033F3E	draft	Nothing unusual here.	acaa	
+zen:033F71	draft	The mountains. Last night's snow has given them a light dusting of white.	986a	
+zen:033FB3	draft	A beautiful natural landscape.	d4ba	
+zen:033FD2	draft	Nothing unusual here.	acaa	
+zen:034005	draft	A cloudy sky.	ba0c	
+zen:03401C	draft	It seems to be gradually clearing up.	0de7	
+zen:03404F	draft	(Huh?!)	b902	
+zen:03406C	draft	(It looks like something's on the ground.)	9743	
+zen:034093	draft	(Something's on the ground.)	de13	
+zen:0340C8	draft	(Something's on the ground.)	de13	
+zen:0340EE	draft	(What's this?)	4ba6	
+zen:03410C	draft	A worn-out hat is lying there.{s:1}	f603	
+zen:034156	draft	You don't know whose it is, but you'd better keep it.{w}	964a	
+zen:0341ED	draft	(Anyway, I'll try talking to the people around here.){w}	c239	
+zen:034230	draft	What is it? You want something from me?{w}	cca1	
+zen:034254	draft	There's something I'd like to ask you.	3e26	
+zen:0342C2	draft	Anyway, {w:30}I've got nothing more to say.{w}	7309	
+zen:034303	draft	Oh, wait!{w}	59d1	
+zen:034319	draft	The villager walked away.{w}	bf46	
+zen:034381	draft	I'll try asking someone else.{w}	62cd	
+zen:0343BE	draft	Yes, what can I do for you?{w}	e52c	
+zen:0343DA	draft	There's something I'd like to ask you.	3e26	
+zen:034448	draft	Oh, look at the time. Sorry, but I'll be heading home.{w}	a537	
+zen:034493	draft	The villager walked away.	0200	
+zen:0344FF	draft	Ayumi called out to someone nearby.{w}	c0a3	
+zen:03453C	draft	Yes, yes.{w}	31a7	
+zen:034550	draft	There's something I'd like to ask you.	3e26	
+zen:0345C8	draft	There's something in the grass.	6c06	
+zen:034600	draft	You don't know whose it is, but you'd better keep it.	dd73	
+zen:034696	draft	That's enough now, isn't it?{w:90}	7dbb	
+zen:0346C0	draft	The villager walked away.{w:90}	67b5	
+zen:0346FF	draft	What are you going around asking about?{w:36}	fb8a	
+zen:034723	draft	Oh, {w:30}Dr. Imada.{w:60}	8b18	
+zen:034747	draft	(Dr. Imada {w:48}is the only doctor in the village. {w:54}He's also Ayumi's mother's physician.){w:24}	0453	
+zen:0347A7	draft	Perfect timing. {w:60}{s:5}Doctor, {w:30}there's something I'd like to ask you...	5604	
+zen:03480E	draft	Sure, {w:30}I don't mind, {w:24}{s:5}but {w:30}talking on our feet {s:4}won't do. {w:36}{s:5}Come to my place.{w:18}	8500	
+zen:03488E	draft	All right.{s:1}{w:30}	81cb	
+zen:03490F	draft	Doctor,{w:30} what I wanted to ask you about is...{w:18}	8be2	
+zen:034951	draft	You mean Kusano's murder, I take it.{w:18}	060a	
+zen:034978	draft	Yes.{w:24} My mother...{w:24}{s:4} the police took her away, and she hasn't come back.{w:12}	0ed0	
+zen:0349DA	draft	No need{w:18}{s:4} to worry so.{w:48} Before long{w:12} she'll be back, I'd say.{w:30}	baf1	
+zen:034A35	draft	But...{w:60} the police{w:30} say there are vague points in my mother's statement,{w:12} or something...{w:12}	8177	
+zen:034A9A	draft	She'll be fine.{w:54}{s:5} Toshie would never do such a thing,{w:60} as I know very well.{w:108}	4f2a	
+zen:034B02	draft	...But Toshie...{w:60}{s:7} why would she go to Kusano's, of all places?{w:36}	6516	
+zen:034B69	draft	That's just it.{w:30} It puzzles me too.{w:54}	0de4	
+zen:034B9B	draft	Well,{w:18} once Toshie's back,{w:30}{s:6} it should all come clear.{w:30}	328d	
+zen:034BF1	draft	I think so too, but...{w:12}	ff0d	
+zen:034C14	draft	I just couldn't sit still,{w:12} so I've been asking around about what happened.{w:30}	f18b	
+zen:034C65	draft	Mm,{w:30} so that's how it was.{w:48}	c801	
+zen:034C99	draft	If there's anything I can do to help,{w:12} come and talk to me anytime.{w:48}	a4bd	
+zen:034CDE	draft	Thank you,{w:6} Doctor.{w:90} ...Actually, there's something I heard that's bothering me.{w:60}	b167	
+zen:034D3E	draft	Mm,{w:42} what is it?{w:24}	c9bf	
+zen:034D64	draft	Just now, someone in the village said{w:60} it was fallen warriors who killed Gozo.{w:30} That's what I heard.{w:48}	20c6	
+zen:034DC1	draft	These "fallen warriors,"{w:42} what on earth does that mean?{w:42}	97a1	
+zen:034DFF	draft	The fallen warriors, eh?{w:30}	12a6	
+zen:034E14	draft	This village, Ochidani,{w:18} was originally{w:18} "the valley of the fallen warriors."{s:7} That's{w:30} where the name comes from.{s:6}{w:60}	1b1e	
+zen:034E7F	draft	Near the end of the Warring States era,{w:42} a band of fallen warriors{w:48}{s:8} built a hidden village here, or so it's said.{s:6}{w:30}	5173	
+zen:034EF0	draft	A hidden village of fallen warriors...{w:18}	7717	
+zen:034F10	draft	That's right.{w:18} That was the beginning of this village.{w:132}	b1a1	
+zen:034F4A	draft	But{w:42} as for Gozo,{w:18} I can't see what connection it has...{w:90}	872b	
+zen:034F99	draft	Oh!{w:30} Never mind that,{w:18} it's just struck me...{w:48} Could it be...{w:24}	6c0a	
+zen:034FF6	draft	Could it be{w:18} what?{w:36}	2ab4	
+zen:035023	draft	I wonder if Toshie{w:42} isn't covering{w:30} for someone.{w:42}	29d0	
+zen:03506F	draft	Covering...?{w:18}	d9c5	
+zen:03508D	draft	That's the feeling I get...{w:78}{s:7} Or is it just my imagination?{s:5}{w:150}	2f09	
+zen:0350E8	draft	Someone...{w:132}	e41f	
+zen:035107	draft	Oh,{w:30} excuse me a moment.{w:60}{s:3} Yes, hello?{w:18}	8cd2	
+zen:035151	draft	Hello,{w:18} Ayumi?{w:30} It's me,{w:18} Reiko.{w:54} Your mom's back from the police.{w:48}	74a4	
+zen:0351BF	draft	Come on back right away, Ayumi.{s:4}{w:18}	f16e	
+zen:0351F0	draft	Okay,{w:30} got it.{w:30} I'll be right home.{w:30} Bye.{w:30}	e2dc	
+zen:035240	draft	(Thank goodness.{w:30} At least Mom's back.){w:84}	be06	
+zen:035282	draft	My mother's back.{w:24} Doctor,{w:18} thank you so much.{w:48}	ccbf	
+zen:0352D6	draft	Well then,{w:6} I'll be going.{w:30}	28be	
+zen:0353FF	draft	Ayumi's mother,{w:60} when she came back from the police,{w:60} said she was tired,{w:42} and had gone off to her room alone.{s:3}{w:90}	b4c0	
+zen:03548E	draft	(I wonder if Mom's asleep?){w:90}	85a9	
+zen:0354CB	draft	(First I need to ask Mom what happened...)	b961	
+zen:035505	draft	(I should check in with Mr. Utsugi.){w}	6e5f	
+zen:03553B	draft	Utsugi is out at the moment. Please leave a message after the tone.{w:18}{se:18}{w:102}{w}	14fd	
+zen:03559B	draft	(The answering machine.{w:30} Oh well. I'll just leave a report.){w}	5b74	
+zen:0355E1	draft	This is Ayumi. My mother has come back from the police.{w}	2a25	
+zen:035612	draft	She seems a little tired and is asleep now. I'll try to talk to her tomorrow.{w}	fd19	
+zen:035667	draft	That's just my report for now. Goodbye.	859d	
+zen:0356B1	draft	I'll contact Mr. Utsugi again tomorrow.	192c	
+zen:0356DE	draft	A hat. You can't tell whose it is.	f6e6	
+zen:03570F	draft	Mom...{w}	038b	
+zen:035728	draft	Oh,{w:30} Ayumi...{s:1}	a336	
+zen:03577A	draft	...{w}	1f9e	
+zen:035788	draft	(She's tired. I should let her rest.)	576d	
+zen:0357C6	draft	(It doesn't look like I can talk to her today.)	db32	
+zen:035818	draft	She must have been truly tired. She was soon breathing softly in her sleep.	73e3	
+zen:03585C	draft	(I mustn't wake her.)	a8d4	
+zen:035885	draft	(I mustn't wake her.)	a8d4	
+zen:0358A8	draft	(I mustn't wake her.)	a8d4	
+zen:0358D5	draft	Mom, are you all right?{w}	7994	
+zen:0358F5	draft	I'm sorry to have worried you. But I'm fine, so don't worry.	2ce8	
+zen:03592F	draft	Mom, why...{w}	08e0	
+zen:03594F	draft	Why on earth did you go to Mr. Kusano's, of all places?{w}	3aac	
+zen:03598D	draft	Well...{w:30} Mr. Kusano had asked me to come...{w}	d7b9	
+zen:0359D5	draft	I'm sorry. I'm just a little tired today...{w}	3e8a	
+zen:035A0E	draft	Forgive me, but could you let me rest?{w:60}{s:1}	e2aa	
+zen:035A71	draft	The storm shutters are still closed.	f86e	
+zen:035A92	draft	A closet.	4e07	
+zen:035AAD	draft	Toshie's futon.	82d3	
+zen:035AC2	draft	Toshie is sleeping.	d928	
+zen:035ADD	draft	The room Ayumi and Toshie stay in when they come home.	15c1	
+zen:035B1C	draft	A storage closet. It's not in use now.	ef76	
+zen:035B46	draft	Ayumi's futon is still laid out too.	bd9c	
+zen:035BDA	draft	(Somehow{s:8} I'm getting{s:10} sleepy...){w:180}	6353	
+zen:035C2C	draft	While she turned things over in her mind, Ayumi fell asleep...{s:1}{w:150}	674a	
+zen:035CB3	draft	Ayumi,{w:36} Ayumi...{w:36} Ayumi,{w:24} wake up,{w:6} Ayumi!	2701	
+zen:035D2F	draft	Reiko...{w:60}	17df	
+zen:035D49	draft	(I must have fallen asleep just like that last night.){w:36}	9b60	
+zen:035D75	draft	Ayumi,{w:36} it's terrible!{w:18}	a4a1	
+zen:035DA0	draft	What's so terrible,{w:24} Reiko?{w:36}	dca9	
+zen:035DD4	draft	Well,{w:30} Kazuo Kusano{w:36} has been murdered!{w:6}	fa9f	
+zen:035E10	draft	What!?{w:12} K-{w:6}Kazuo Kusano!?{w:90}	0838	
+zen:035EA7	draft	BS Detective Club{n}The Past That Disappeared in the Snow{n}{s:15}To Be Continued in Part 2{s:1}{w:330}	83b0	
+zen:035F29	draft	{c}Cast{w:468}{c}Ayumi Tachibana{n}Yuko Minaguchi{w:468}{c}Reiko Nomura{n}Mariko Suzuki{w:468}{c}Officer Yoneda{n}Michio Nakao{w:468}{c}Narrator{n}Shiho Niiyama{w:468}{c}Toshie and Sachi Tachibana{n}Hiroko Emori{w:468}{c}Dr. Imada and Chief Sakuma{n}Takeshi Aono{w:468}{c}Produced by{n}Nintendo / St.GIGA{w:468}	6b92	Full names, one credit to a page. Readings from general knowledge of these actors; the game has no furigana.
+zen:036226	draft	In a small mountain village,{w:30} yet another murder...{w}	ca4a	
+zen:036268	draft	Next time: BS Detective Club, Part 2.{n}Don't miss it!{n}{w:60}Press START to continue.	924c	"Next time", as the port plays the parts back to back. The voice says next week.
+zen:02CBDA	draft	Score so far:     000% (Best000% )	4d93	
+zen:02CC0F	draft	Checking the broadcast time.{n}Please wait a moment.	9c1a	
+zen:02D8CD	draft	Password$	4815	
+zen:02D8E7	draft	Best score:                 !	d4c2	
+zen:02D913	draft	Couldn't receive the time signal.{n}Please press START.	fb24	
+zen:02CCBB	draft	                                                Audio Staff	ad19	
+zen:02CD94	review	       [Recording & Editing]                                                        Hideaki Ito                       Akira Takahashi                        Yuji Kato                           (St. GIGA)	ddf5	Staff name readings unconfirmed: Hideaki Ito, Akira Takahashi (Yuji Kato is confirmed by Kyoto Report)
+zen:02CE6D	draft	                                                  [Music]                                                              Kenji Yamamoto	5cba	
+zen:02CF46	review	                                                 [Producer]                                                           Fumika Yakushiji                       (St. GIGA)	a9d6	Staff name reading unconfirmed: Fumika Yakushiji. Kyoto Report gives both "Ayayoshi" and "Bunkei", so it does not settle it
+zen:02D01F	draft	                                             Development Staff	7d53	
+zen:02D0F8	draft	                                            [Director & Script]                                                       Masayu Nakata	54ea	Readings from Kyoto Report (kyoto-report.wikidot.com/bs-detective-club), which agrees with VGMdb on the sound staff.
+zen:02D1D1	draft	               [Art]                                                               Nobuaki Tanaka                       Nozomi Kitsuta                       Mikio Mishima	815f	Readings from Kyoto Report (kyoto-report.wikidot.com/bs-detective-club), which agrees with VGMdb on the sound staff.
+zen:02D2AA	draft	          [Sound Effects]                                                          Kenji Yamamoto                        Masaru Tajima                        Kazuki Hirose	6657	Readings from Kyoto Report (kyoto-report.wikidot.com/bs-detective-club), which agrees with VGMdb on the sound staff.
+zen:02D383	draft	                                               [Engineering]                                                           Noriyuki Sano                       Kazuki Hirose	c0a5	Readings from Kyoto Report (kyoto-report.wikidot.com/bs-detective-club), which agrees with VGMdb on the sound staff.
+zen:02D45C	draft	                                          [Voice Sync Technology]                                                        Keiji Hara	253f	Readings from Kyoto Report (kyoto-report.wikidot.com/bs-detective-club), which agrees with VGMdb on the sound staff.
+zen:02D535	draft	                                                 [Support]                                                            Super Mario Club	4919	
+zen:02D60E	draft	                                            [Production Support]                                                      Yoshio Sakamoto                           R&D1	c051	
+zen:02D6E7	draft	                                                 [Producer]                                                            Satoshi Yamato	73b1	Readings from Kyoto Report (kyoto-report.wikidot.com/bs-detective-club), which agrees with VGMdb on the sound staff.
+zen:02D7C0	draft	                                                Produced by                                                              {x:F003F004F005F006F007}                         {x:F008F009F00AF00BF00CF00D}	da46	

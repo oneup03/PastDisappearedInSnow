@@ -1,0 +1,136 @@
+format_version = 1
+id = "pvs.options"
+version = "1.0.0"
+name = "Game options"
+author = "PastVanishedSnow"
+description = "Ways to play and display the game."
+license = "MIT"
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "bstanteiclub-jpn"
+rom_sha256 = "8efbfaa2e70adf2ab90ad4737422d5fcc7b97dc62d688afcfc66aaa9ab3e5f0a"
+
+[[feature]]
+id = "pacing"
+name = "Pacing"
+description = "Real Time plays as it aired in 1997: the clock never stops, and timed events won't wait. Unlimited Time stops the clock just before each timed event, and SELECT moves on when you are ready."
+group = "Pacing"
+default_enabled = true
+
+[[plugin]]
+feature = "pacing"
+id = "pvs.pacing"
+
+[[option]]
+feature = "pacing"
+id = "mode"
+label = "Time"
+type = "choice"
+default = "real-time"
+
+[[option.choice]]
+value = "real-time"
+label = "Real Time"
+
+[[option.choice]]
+value = "unlimited"
+label = "Unlimited Time"
+
+[[feature]]
+id = "integer-scale"
+name = "Integer scaling"
+description = "Scale the picture by a whole number, so every pixel and scanline is the same size. Leaves a border in most windows."
+group = "Display"
+default_enabled = false
+
+[[plugin]]
+feature = "integer-scale"
+id = "pvs.integer-scale"
+
+[[feature]]
+id = "start"
+name = "Where to start"
+description = "Continue picks up exactly where you last left off. Choosing a part starts that part from its beginning at every launch, until you set this back."
+group = "Session"
+default_enabled = true
+
+[[plugin]]
+feature = "start"
+id = "pvs.start"
+
+[[option]]
+feature = "start"
+id = "from"
+label = "Start at"
+type = "choice"
+default = "continue"
+
+[[option.choice]]
+value = "continue"
+label = "Continue"
+
+[[option.choice]]
+value = "zen"
+label = "Part 1 (Zenpen)"
+
+[[option.choice]]
+value = "chu"
+label = "Part 2 (Chuuhen)"
+
+[[option.choice]]
+value = "kou"
+label = "Part 3 (Kouhen)"
+
+[[feature]]
+id = "language"
+name = "Language"
+description = "The language of the game's text. A string with no translation yet stays in Japanese."
+group = "Language"
+default_enabled = true
+
+[[plugin]]
+feature = "language"
+id = "pvs.language"
+
+[[option]]
+feature = "language"
+id = "lang"
+label = "Language"
+type = "choice"
+default = "en"
+
+[[option.choice]]
+value = "en"
+label = "English"
+
+[[option.choice]]
+value = "ja"
+label = "Japanese"
+
+[[feature]]
+id = "audio"
+name = "Sound"
+description = "The radio audio is the story's voices and music, from recordings of the 1997 broadcast. Without them, or with ROM only, the game is silent apart from its own music and effects."
+group = "Sound"
+default_enabled = true
+
+[[plugin]]
+feature = "audio"
+id = "pvs.audio"
+
+[[option]]
+feature = "audio"
+id = "source"
+label = "Sound source"
+type = "choice"
+default = "recording"
+
+[[option.choice]]
+value = "recording"
+label = "Recording + ROM effects"
+
+[[option.choice]]
+value = "rom"
+label = "ROM only"

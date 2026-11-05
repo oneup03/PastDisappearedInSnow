@@ -35,6 +35,9 @@
 #include "game_rtl.h"
 
 #include "beam_frame_driver.h"
+#include "session.h"
+
+void BsxTraceShot(void);
 
 void GameRunOneFrame(void)
 {
@@ -44,6 +47,7 @@ void GameRunOneFrame(void)
 void GameDrawPpuFrame(void)
 {
     snes_beam_frame_driver_draw_ppu_frame();
+    BsxTraceShot();
 }
 
 void GameSessionReset(void)
@@ -57,7 +61,7 @@ void GameSessionReset(void)
 
 const RtlGameInfo kGameInfo = {
     .title = "bstanteiclub",
-    .initialize = NULL,
+    .initialize = &SessionOnMachineBuilt,
     .run_frame = &GameRunOneFrame,
     .draw_ppu_frame = &GameDrawPpuFrame,
     .save_name_prefix = "save",
@@ -67,5 +71,5 @@ const RtlGameInfo kGameInfo = {
     .state_load_extra = &snes_beam_frame_driver_state_load,
     .on_state_loaded = &snes_beam_frame_driver_state_loaded,
     .snapshot_guard_identity = &snes_beam_frame_driver_state_identity,
-    .snapshot_preflight = &snes_beam_frame_driver_state_preflight,
+    .snapshot_preflight = &SessionSnapshotPreflight,
 };

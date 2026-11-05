@@ -27,6 +27,9 @@
 
 #include "host_main.h"
 #include "game_rtl.h"
+#include "options.h"
+#include "session.h"
+#include "title.h"
 #include "snesrecomp_rom_identity.h"  /* generated from rom_identity.txt */
 
 #ifndef __ANDROID__
@@ -37,6 +40,8 @@
 /* SDLActivity loads libmain.so and dlsyms its SDL_main. */
 #define main SDL_main
 #endif
+
+#include <string.h>
 
 #ifndef SNES_GAME_VERSION
 #define SNES_GAME_VERSION "dev"
@@ -56,6 +61,15 @@ static const SnesDesktopHostGame kGameHost = {
     /* Battery-backed SRAM shows the launcher's SAVES panel. Leave NULL for a
      * title without one. The path is exe-relative. */
     .sram_path           = "saves/save.srm",
+    .before_run_frame    = &SessionBeforeFrame,
+    .compute_viewport    = &OptionsComputeViewport,
+    .display_aspect_supported = 1,
+    .shader_supported    = 1,
+    .rewind_settings     = 1,
+    .in_game_launcher    = 1,
+    .after_config        = &OptionsAfterConfig,
+    .on_shutdown         = &SessionOnShutdown,
+    .publish_native_field = &TitlePublishField,
 };
 
 #ifndef __ANDROID__
@@ -63,5 +77,9 @@ static const SnesDesktopHostGame kGameHost = {
 #endif
 int main(int argc, char **argv)
 {
+    for (int i = 1; i + 1 < argc; i++) {
+        if (strcmp(argv[i], "--rom") == 0)
+            SessionSetLaunchedRom(argv[i + 1]);
+    }
     return snesrecomp_desktop_main(&kGameHost, argc, argv);
 }
