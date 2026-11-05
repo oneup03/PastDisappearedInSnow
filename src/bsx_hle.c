@@ -130,7 +130,51 @@ static void TraceStrip(const char *path, int clock_frames) {
     fflush(f);
 }
 
+static void WriteShot(const char *path) {
+    FILE *f = fopen(path, "wb");
+    if (!f)
+        return;
+    fprintf(f, "P6\n256 224\n255\n");
+    for (int y = 0; y < 224; y++) {
+        const uint8 *row = g_ppu->renderBuffer + y * g_ppu->renderPitch;
+        for (int x = 0; x < 256; x++) {
+            const uint8 rgb[3] = {row[x * 4 + 2], row[x * 4 + 1], row[x * 4]};
+            fwrite(rgb, 1, 3, f);
+        }
+    }
+    fclose(f);
+}
+
+/* Development aid: PVS_TRACE_TEXT_SHOTS=<dir> saves the screen a moment after each string
+ * finishes drawing, named by part and string, once each. */
+static char g_text_shot[64];
+static int g_text_shot_wait;
+
+void BsxTraceTextShot(const char *name) {
+    static int enabled = -1;
+    if (enabled < 0)
+        enabled = getenv("PVS_TRACE_TEXT_SHOTS") != NULL;
+    if (!enabled)
+        return;
+    snprintf(g_text_shot, sizeof(g_text_shot), "%s", name);
+    g_text_shot_wait = 4;
+}
+
+static void TraceTextShot(void) {
+    if (!g_text_shot[0] || --g_text_shot_wait > 0 || g_snes->disableRender)
+        return;
+    char path[256];
+    snprintf(path, sizeof(path), "%s/%s.ppm", getenv("PVS_TRACE_TEXT_SHOTS"), g_text_shot);
+    FILE *exists = fopen(path, "rb");
+    if (exists)
+        fclose(exists);
+    else
+        WriteShot(path);
+    g_text_shot[0] = 0;
+}
+
 void BsxTraceShot(void) {
+    TraceTextShot();
     static const char *dir, *strip;
     static int checked;
     static int next_frame;

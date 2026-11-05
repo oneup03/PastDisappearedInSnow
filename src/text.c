@@ -27,6 +27,8 @@
 #include "common_rtl.h"
 #include "cpu_state.h"
 #include "font.h"
+
+void BsxTraceTextShot(const char *name);  /* src/bsx_hle.c */
 #include "host_paths.h"
 #include "script.h"
 #include "session.h"
@@ -957,6 +959,10 @@ RecompReturn HleTextOpcode(CpuState *cpu) {
             if (AdvanceString(ram, win, p, run->text, run->glyph_count, run->ticks)) {
                 p->run = NO_RUN;
                 Write16(ram, win + WIN_PC, (uint16)run->end);
+                char name[32];
+                static const char *const kKeys[PART_COUNT] = {"zen", "chu", "kou"};
+                snprintf(name, sizeof(name), "%s_%06X", kKeys[ram[WRAM_PVS_PART] % PART_COUNT], (unsigned)(start & 0x3FFFFF));
+                BsxTraceTextShot(name);
             } else {
                 Write16(ram, win + WIN_PC, (uint16)start);
             }
