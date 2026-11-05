@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare a native run's clock-named frames against a reference run's frames.
 
-usage: tools/analysis/ref/compare_timeline.py <reference dir> <native dir>
+usage: tools/analysis/ref/compare_timeline.py <reference dir> <native dir> [tolerance seconds]
 
 Reference frames are f<t>.png, with log.txt mapping some t to a clock second. Native
 frames are c<mm>_<ss>_<ff>.ppm (PVS_TRACE_SHOTS). Pairs frames by clock and prints
@@ -28,11 +28,12 @@ def reference_clock(log):
 
 def differing_pixels(a, b):
     diff = ImageChops.difference(a, b).convert("L")
-    return sum(1 for value in diff.getdata() if value)
+    return sum(1 for value in diff.tobytes() if value)
 
 
 def main():
     ref_dir, native_dir = map(pathlib.Path, sys.argv[1:3])
+    tolerance = int(sys.argv[3]) if len(sys.argv) > 3 else TOLERANCE_SECONDS
     clocks = reference_clock(ref_dir / "log.txt")
     native = {}
     for path in native_dir.glob("c*.ppm"):
@@ -45,7 +46,7 @@ def main():
             continue
         reference = Image.open(png).convert("RGB")
         best = None
-        for candidate in range(second - TOLERANCE_SECONDS, second + TOLERANCE_SECONDS + 1):
+        for candidate in range(second - tolerance, second + tolerance + 1):
             path = native.get(candidate)
             if path:
                 image = Image.open(path).convert("RGB").resize(reference.size)

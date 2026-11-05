@@ -853,6 +853,11 @@ static bool DrawNextGlyph(uint8 *ram, uint32 win, RunProgress *p, const char *te
     p->offset = (uint16)(next - text);
     if (!glyph)
         return false;
+    if (*at == ' ' && p->px + glyph->width > width) {
+        /* A space that doesn't fit ends the row instead of starting the next one. */
+        NextTextRow(ram, win, p, text);
+        return false;
+    }
     if (p->px + glyph->width > width)
         NextTextRow(ram, win, p, text);
     int row = Read16(ram, win + WIN_BASE_ROW) + Read16(ram, win + WIN_ROW);
