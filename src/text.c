@@ -885,6 +885,9 @@ static RunProgress *ProgressFor(uint8 *ram, uint32 win) {
 static void StartString(uint8 *ram, uint32 win, RunProgress *p, uint16 run, uint16 bank, uint16 start_px) {
     int col = Read16(ram, win + WIN_COL), row = Read16(ram, win + WIN_ROW);
     int cells = (p->px + CELL_PIXELS - 1) / CELL_PIXELS;
+    int cols = Read16(ram, win + WIN_COLS);
+    if (cells >= cols)
+        cells = cols - 1;  /* as DrawNextGlyph reports it */
     if (p->row != row || (!p->wrapped && (col == 0 || cells != col))) {
         p->px = (uint16)(col ? col * CELL_PIXELS : start_px);
         p->margin = p->px;
