@@ -1,7 +1,10 @@
 # English glossary
 
 Names and terms for the English translation, so all three parts agree. Family names
-follow given names. A reading marked (?) is my best guess, with no furigana in the game.
+follow given names. Names shared with Nintendo's English Switch releases (*The Missing Heir*,
+*The Girl Who Stands Behind*, *Emio*) follow them: Ayumi Tachibana, Shunsuke Utsugi,
+"Mr. Utsugi", the Utsugi Detective Agency. Those releases keep Japanese names and drop
+honorifics, as this one does. A reading marked (?) is my best guess, with no furigana in the game.
 
 ## People
 
