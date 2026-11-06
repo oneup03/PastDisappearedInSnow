@@ -25,3 +25,14 @@ void SessionOnShutdown(void);
 
 /* Snapshot hook. A snapshot from another part switches to that part first. */
 bool SessionSnapshotPreflight(const void *data, size_t size);
+
+/* What the player has supplied: each part's image, and each part's recording (already
+ * imported, or in inputs/ or beside the images). */
+typedef struct SessionFiles {
+    bool image[PART_COUNT];
+    bool recording[PART_COUNT];
+} SessionFiles;
+void SessionCheckFiles(SessionFiles *files);
+
+/* The parts' names, "Zenpen" and so on. */
+const char *SessionPartName(int part);

@@ -8,6 +8,9 @@
 /* Pull audio/<part>.mp3 out of any recordings beside the launched ROM. */
 void AudioImportRecordings(const char *search_dir, const char *audio_dir);
 
+/* Which parts' recordings are in a folder, known by size, by part number. */
+void AudioFindRecordings(const char *search_dir, bool found[3]);
+
 /* Choose the audio folder. No file there means ROM sound only. */
 void AudioSetDirectory(const char *audio_dir);
 

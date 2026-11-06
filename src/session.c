@@ -182,6 +182,47 @@ static void FindImageDir(void) {
     }
 }
 
+void SessionCheckFiles(SessionFiles *files) {
+    memset(files, 0, sizeof(*files));
+    /* Look without settling where the images are: the launcher may pick another ROM yet. */
+    char saved_dir[sizeof(g_image_dir)];
+    bool saved_known = g_image_dir_known;
+    strcpy(saved_dir, g_image_dir);
+    FindImageDir();
+    char dir[sizeof(g_image_dir)];
+    bool known = g_image_dir_known;
+    strcpy(dir, g_image_dir);
+    strcpy(g_image_dir, saved_dir);
+    g_image_dir_known = saved_known;
+    if (!known)
+        return;
+    char root[1024], path[1200];
+    const char *slash = strrchr(dir, '/');
+    snprintf(root, sizeof(root), "%.*s", slash ? (int)(slash - dir) : 1, slash ? dir : ".");
+    for (int part = 0; part < PART_COUNT; part++) {
+        snprintf(path, sizeof(path), "%s/%s.sfc", dir, kParts[part].key);
+        FILE *f = fopen(path, "rb");
+        if (f) {
+            files->image[part] = true;
+            fclose(f);
+        }
+        snprintf(path, sizeof(path), "%s/audio/%s.mp3", root, kParts[part].key);
+        f = fopen(path, "rb");
+        if (f) {
+            files->recording[part] = true;
+            fclose(f);
+        }
+    }
+    snprintf(path, sizeof(path), "%s/inputs", root);
+    AudioFindRecordings(path, files->recording);
+    AudioFindRecordings(dir, files->recording);
+}
+
+const char *SessionPartName(int part) {
+    static const char *const kNames[PART_COUNT] = {"Zenpen", "Chuuhen", "Kouhen"};
+    return part >= 0 && part < PART_COUNT ? kNames[part] : "";
+}
+
 /* Images live in <folder>/images, recordings in <folder>/inputs or beside the images, and
  * the audio taken from them in <folder>/audio. */
 static void ImportRecordings(void) {

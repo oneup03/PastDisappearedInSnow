@@ -47,10 +47,19 @@
 #define SNES_GAME_VERSION "dev"
 #endif
 
+/* The image the launcher checks is built from all three verified packs. Naming it here
+ * keeps the host from making up a label from the Region row, which says more. */
+static const SnesRomRevision kRevisions[] = {
+    {"BS Tantei Club: Yuki ni Kieta Kako, built from your packs", SNESRECOMP_ROM_EXPECTED_SHA256, NULL,
+     SNESRECOMP_ROM_EXPECTED_CRC32, NULL},
+};
+
 static const SnesDesktopHostGame kGameHost = {
     .display_name        = "BS Tantei Club",
     .window_title        = "BS Tantei Club",
-    .region              = SNESRECOMP_ROM_REGION,
+    .region              = g_options_region,
+    .rom_revisions       = kRevisions,
+    .num_rom_revisions   = 1,
     .rom_file            = SNESRECOMP_ROM_FILE,
     .expected_sha256_hex = SNESRECOMP_ROM_EXPECTED_SHA256,
     .expected_crc32_hex  = SNESRECOMP_ROM_EXPECTED_CRC32,

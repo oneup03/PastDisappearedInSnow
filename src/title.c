@@ -17,6 +17,7 @@
 #include "desktop/sdl_compat.h"
 #include "font.h"
 #include "options.h"
+#include "session.h"
 
 enum {
     WIDTH = 256,
@@ -305,6 +306,33 @@ static void DrawTextAt(const char *text, int pen, int y0, Rgb colour, bool lean)
     }
 }
 
+/* Text with a dark outline all round, to read over the snowy ridges. */
+static void DrawOutlined(const char *text, int y0, Rgb colour) {
+    Cell cells[MAX_CELLS];
+    int count = Layout(text, cells), pen = (WIDTH - TextWidth(text, 1)) / 2;
+    const Rgb edge = {8, 12, 34};
+    for (int pass = 0; pass < 2; pass++) {
+        int x0 = pen;
+        for (int c = 0; c < count; c++) {
+            for (int y = 0; y < GLYPH_ROWS; y++) {
+                for (int x = 0; x < cells[c].width; x++) {
+                    if (!CellPixel(&cells[c], x, y))
+                        continue;
+                    if (pass == 1) {
+                        Put(x0 + x, y0 + y, colour);
+                        continue;
+                    }
+                    for (int dy = -1; dy <= 1; dy++) {
+                        for (int dx = -1; dx <= 1; dx++)
+                            Put(x0 + x + dx, y0 + y + dy, edge);
+                    }
+                }
+            }
+            x0 += cells[c].advance;
+        }
+    }
+}
+
 static void DrawText(const char *text, int y0, Rgb colour) {
     DrawTextAt(text, (WIDTH - TextWidth(text, 1)) / 2, y0, colour, false);
 }
@@ -321,6 +349,58 @@ static void DrawCopyright(int x, int y, Rgb colour) {
             if (kSign[j][i] == '#')
                 Put(x + i, y + j, colour);
         }
+    }
+}
+
+
+/* Two lines under the prompt: which recordings were found, and what that means. */
+static void FileStatus(char *first, char *second, size_t size) {
+    static const char *const kJaParts[PART_COUNT] = {"\x91\x4f\x95\xd2", "\x92\x86\x95\xd2", "\x8c\xe3\x95\xd2"};
+    const bool ja = strcmp(OptionsLanguage(), "ja") == 0;
+    SessionFiles files;
+    SessionCheckFiles(&files);
+    int found = 0, missing = 0;
+    for (int part = 0; part < PART_COUNT; part++)
+        found += files.recording[part];
+    missing = PART_COUNT - found;
+    first[0] = second[0] = 0;
+    if (strcmp(OptionsAudioSource(), "rom") == 0) {
+        /* 音声：ゲーム本体の音, ランチャーのModsで変更できます */
+        snprintf(first, size, "%s", ja ? "\x89\xb9\x90\xba\x81\x46\x83\x51\x81\x5b\x83\x80\x96\x7b\x91\xcc\x82\xcc\x89\xb9"
+                                       : "Sound: the game's own, not the recordings");
+        snprintf(second, size, "%s", ja ? "\x83\x89\x83\x93\x83\x60\x83\x83\x81\x5b\x82\xcc" "Mods"
+                                          "\x82\xc5\x95\xcf\x8d\x58\x82\xc5\x82\xab\x82\xdc\x82\xb7"
+                                        : "Change it on the launcher's Mods page");
+    } else if (missing == 0) {
+        /* 全３話の放送音声あり */
+        snprintf(first, size, "%s", ja ? "\x91\x53\x82\x52\x98\x62\x82\xcc\x95\xfa\x91\x97\x89\xb9\x90\xba\x82\xa0\x82\xe8"
+                                       : "Broadcast audio for all three parts");
+    } else if (found == 0) {
+        /* 録画が見つかりません, ゲーム本体の音のみ */
+        snprintf(first, size, "%s", ja ? "\x98\x5e\x89\xe6\x82\xaa\x8c\xa9\x82\xc2\x82\xa9\x82\xe8\x82\xdc\x82\xb9\x82\xf1"
+                                       : "No recordings found");
+        snprintf(second, size, "%s", ja ? "\x83\x51\x81\x5b\x83\x80\x96\x7b\x91\xcc\x82\xcc\x89\xb9\x82\xcc\x82\xdd"
+                                        : "The game's own sounds only");
+    } else {
+        /* <parts>の録画がありません, その回はゲーム本体の音のみ */
+        int listed = 0;
+        for (int part = 0; part < PART_COUNT; part++) {
+            if (files.recording[part])
+                continue;
+            const char *joint = listed == 0 ? "" : ja ? "\x81\x45" : listed == missing - 1 ? " or " : ", ";
+            snprintf(first + strlen(first), size - strlen(first), "%s%s", joint,
+                     ja ? kJaParts[part] : SessionPartName(part));
+            listed++;
+        }
+        char parts[64];
+        snprintf(parts, sizeof(parts), "%s", first);
+        if (ja)
+            snprintf(first, size, "%s\x82\xcc\x98\x5e\x89\xe6\x82\xaa\x82\xa0\x82\xe8\x82\xdc\x82\xb9\x82\xf1", parts);
+        else
+            snprintf(first, size, "No recording for %s", parts);
+        snprintf(second, size, "%s", ja ? "\x82\xbb\x82\xcc\x89\xf1\x82\xcd\x83\x51\x81\x5b\x83\x80\x96\x7b\x91\xcc\x82\xcc\x89\xb9\x82\xcc\x82\xdd"
+                                        : missing == 1 ? "That part uses the game's own sounds"
+                                                       : "Those parts use the game's own sounds");
     }
 }
 
@@ -348,6 +428,15 @@ void TitlePublishField(uint8_t *field, unsigned number) {
         if (g_waiting && g_frame / BLINK_FRAMES % 2 == 0)
             DrawText("Press any key", 150, gold);
     }
+    static char status[2][96];
+    static bool status_known;
+    if (!status_known) {
+        FileStatus(status[0], status[1], sizeof(status[0]));
+        status_known = true;
+    }
+    const Rgb muted = {200, 208, 232};
+    DrawOutlined(status[0], 172, muted);
+    DrawOutlined(status[1], 186, muted);
     const char *line = "1988, 1989, 1997 Nintendo";
     int left = (WIDTH - (TextWidth(line, 1) + 9)) / 2;
     DrawCopyright(left, 211 + 2, (Rgb){200, 205, 225});

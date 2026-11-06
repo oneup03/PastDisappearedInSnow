@@ -1,6 +1,10 @@
 #pragma once
 #include "display_aspect.h"
 
+/* SnesDesktopHostGame.region: the launcher's Region row, which also says whether every
+ * part and recording is there. Filled in by OptionsAfterConfig, before the launcher opens. */
+extern char g_options_region[96];
+
 /* SnesDesktopHostGame.after_config. */
 void OptionsAfterConfig(void);
 

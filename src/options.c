@@ -59,7 +59,49 @@ void OptionsChooseBoxArt(void) {
     }
 }
 
+char g_options_region[96] = "Japan";
+
+/* "Kouhen", "Chuuhen and Kouhen", "Zenpen, Chuuhen and Kouhen". */
+static void ListParts(const bool present[PART_COUNT], bool want, char *out, size_t size) {
+    int count = 0, done = 0;
+    for (int part = 0; part < PART_COUNT; part++)
+        count += present[part] == want;
+    out[0] = 0;
+    for (int part = 0; part < PART_COUNT; part++) {
+        if (present[part] != want)
+            continue;
+        done++;
+        const char *joint = done == 1 ? "" : done == count ? " and " : ", ";
+        snprintf(out + strlen(out), size - strlen(out), "%s%s", joint, SessionPartName(part));
+    }
+}
+
+/* Japan, then all good or what's missing. Recordings are optional. */
+static void DescribeFiles(void) {
+    SessionFiles files;
+    SessionCheckFiles(&files);
+    char missing[64];
+    int images = 0, recordings = 0;
+    for (int part = 0; part < PART_COUNT; part++) {
+        images += files.image[part];
+        recordings += files.recording[part];
+    }
+    if (images < PART_COUNT) {
+        ListParts(files.image, false, missing, sizeof(missing));
+        snprintf(g_options_region, sizeof(g_options_region), "Japan - %s missing: run setup", missing);
+    } else if (recordings == PART_COUNT) {
+        snprintf(g_options_region, sizeof(g_options_region), "Japan - all 3 parts and recordings");
+    } else if (recordings == 0) {
+        snprintf(g_options_region, sizeof(g_options_region), "Japan - all 3 parts, no recordings");
+    } else {
+        ListParts(files.recording, false, missing, sizeof(missing));
+        snprintf(g_options_region, sizeof(g_options_region), "Japan - all 3 parts, no %s recording", missing);
+    }
+}
+
 void OptionsAfterConfig(void) {
+    DescribeFiles();
+    fprintf(stderr, "[files] %s\n", g_options_region);
     /* These values mean nobody has chosen otherwise. */
     if (g_config.rewind_depth == FRAMEWORK_REWIND_DEPTH && g_config.rewind_interval == FRAMEWORK_REWIND_INTERVAL) {
         g_config.rewind_depth = REWIND_DEPTH;

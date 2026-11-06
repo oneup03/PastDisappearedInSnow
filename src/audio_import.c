@@ -129,3 +129,23 @@ void AudioImportRecordings(const char *search_dir, const char *audio_dir) {
         SDL_free(names);
     }
 }
+
+void AudioFindRecordings(const char *search_dir, bool found[3]) {
+    static const char *const kPatterns[] = {"*.divx", "*.avi"};
+    for (size_t p = 0; p < 2; p++) {
+        int count = 0;
+        char **names = SDL_GlobDirectory(search_dir, kPatterns[p], SDL_GLOB_CASEINSENSITIVE, &count);
+        for (int i = 0; i < count; i++) {
+            char path[1200];
+            snprintf(path, sizeof(path), "%s/%s", search_dir, names[i]);
+            SDL_PathInfo info;
+            if (!SDL_GetPathInfo(path, &info))
+                continue;
+            for (size_t r = 0; r < sizeof(kRecordings) / sizeof(kRecordings[0]) && r < 3; r++) {
+                if (info.size == kRecordings[r].size)
+                    found[r] = true;
+            }
+        }
+        SDL_free(names);
+    }
+}
