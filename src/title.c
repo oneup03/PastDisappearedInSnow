@@ -241,8 +241,8 @@ static bool MaskAt(int x, int y) {
 }
 
 /* Pale blue, lighter at the top with a white band, inside a dark navy outline and shadow. */
-static void DrawLogo(const char *text, int y0) {
-    const int scale = LOGO_SCALE, top = 4;
+static void DrawLogo(const char *text, int y0, int scale) {
+    const int top = 4;
     int width = TextWidth(text, scale);
     MaskText(text, scale, (WIDTH - width) / 2, top);
     const Rgb outline = {10, 20, 70}, shadow = {4, 6, 20};
@@ -336,14 +336,14 @@ void TitlePublishField(uint8_t *field, unsigned number) {
     const Rgb pale = {230, 236, 255}, gold = {255, 230, 120};
     if (strcmp(OptionsLanguage(), "ja") == 0) {
         /* BS探偵倶楽部, 〜雪に消えた過去〜, なにかキーを押してください */
-        DrawLogo("BS\x92\x54\x92\xe3\x8b\xe4\x8a\x79\x95\x94", 44);
+        DrawLogo("BS\x92\x54\x92\xe3\x8b\xe4\x8a\x79\x95\x94", 44, LOGO_SCALE);
         DrawItalic("\x81\x60\x90\xe1\x82\xc9\x8f\xc1\x82\xa6\x82\xbd\x89\xdf\x8b\x8e\x81\x60", 106, pale);
         if (g_waiting && g_frame / BLINK_FRAMES % 2 == 0)
             DrawText("\x82\xc8\x82\xc9\x82\xa9\x83\x4c\x81\x5b\x82\xf0\x89\x9f\x82\xb5\x82\xc4"
                      "\x82\xad\x82\xbe\x82\xb3\x82\xa2", 150, gold);
     } else {
-        DrawLogo("BS", 30);
-        DrawLogo("Detective Club", 66);
+        DrawLogo("BS", 30, LOGO_SCALE);
+        DrawLogo("Detective Club", 66, LOGO_SCALE);
         DrawItalic("~ The Past That Disappeared in the Snow ~", 112, pale);
         if (g_waiting && g_frame / BLINK_FRAMES % 2 == 0)
             DrawText("Press any key", 150, gold);
@@ -362,4 +362,13 @@ void TitlePublishField(uint8_t *field, unsigned number) {
         if (--g_fade <= 0)
             g_fading = false;
     }
+}
+
+/* The logo and the line under it, for the game's own title card (src/art.c): drawn into a
+ * cleared 256x224 field, centred across it, letters at the top. */
+void TitleDrawCard(uint8_t *field, const char *logo, const char *subtitle) {
+    g_field = field;
+    const int scale = 2;
+    DrawLogo(logo, -2, scale);
+    DrawItalic(subtitle, GLYPH_ROWS * scale + 3, (Rgb){230, 236, 255});
 }

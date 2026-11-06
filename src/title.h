@@ -16,3 +16,7 @@ void TitleCancel(void);
 
 /* SnesDesktopHostGame.publish_native_field. */
 void TitlePublishField(uint8_t *field, unsigned number);
+
+/* The English for the game's title card: logo and subtitle into a cleared 256x224 B,G,R,A
+ * field, centred, from the top. Pixels left with alpha 0 are untouched. */
+void TitleDrawCard(uint8_t *field, const char *logo, const char *subtitle);

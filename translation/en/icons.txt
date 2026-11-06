@@ -1,6 +1,7 @@
 # Labels drawn into the game's graphics when a part loads, from the language's font, so
 # that no art needs shipping. A line is: kind, parts, where in the pack, text.
 # "icon" is a command in the side panel. "item" is an item's sprite in the panel's list.
+# An item's text may start "@<column> " to clear from that column, where its Japanese starts further left.
 icon zen,chu,kou 0x90960 People
 icon zen,chu,kou 0x909E0 Phone
 icon zen,chu,kou 0x90A60 Deduce
@@ -10,7 +11,7 @@ icon zen,chu,kou 0x911E0 Review
 icon zen,chu,kou 0x91260 Go out
 item zen,chu,kou 0x46FF3 Sketch
 item zen,chu 0x46BB5 Hat
-item chu,kou 0x47431 Charm
+item chu,kou 0x47431 @14 Charm
 
 # The People chart, all in one tile sheet. "name" is: sheet, first tile, width and height in
 # tiles, then rows going down the box, at most two letters each if they fit. "heading" is: sheet, first tile, width in tiles,

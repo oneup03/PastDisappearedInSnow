@@ -470,6 +470,7 @@ enum {
     ITEM_HEIGHT = 16,
     ITEM_OLD_LABEL_LEFT = 22,
     ITEM_TEXT_LEFT = 19,
+    ITEM_MIN_LEFT = 17,  /* the charm's cord ends just before this */
     ITEM_TEXT_TOP = 8,
     ITEM_TEXT_ROWS = 7,
     TINY_COLUMNS = 3,
@@ -528,11 +529,30 @@ static void DrawLabel(uint32 sheet, const char *label) {
 /* An item's sprite is 48 by 16, with its picture on the left and its label on the right.
  * A word in the bottom row reaches furthest left, under the picture's narrow top. */
 static void DrawItemLabel(uint32 sheet, const char *label) {
+    /* "@<column> " first: where the Japanese starts, if left of the usual place. */
+    int clear_from = ITEM_OLD_LABEL_LEFT;
+    if (label[0] == '@') {
+        clear_from = atoi(label + 1);
+        label = strchr(label, ' ') ? strchr(label, ' ') + 1 : "";
+    }
+    /* A label too wide for its place starts further left, as far as the icon allows. */
+    int width = 1;
+    for (const char *p = label; *p;) {
+        const Glyph *glyph = GlyphFor(NextCodepoint(&p));
+        width += glyph ? FontAdvance(glyph) : 0;
+    }
+    int left = ITEM_WIDTH - width < ITEM_TEXT_LEFT ? ITEM_WIDTH - width : ITEM_TEXT_LEFT;
+    if (left < ITEM_MIN_LEFT)
+        left = ITEM_MIN_LEFT;
     for (int y = 0; y < ITEM_HEIGHT; y++) {
-        for (int x = y < ITEM_TEXT_TOP ? ITEM_OLD_LABEL_LEFT : ITEM_TEXT_LEFT; x < ITEM_WIDTH; x++)
+        /* Above the text, only where the old label was: icons can reach up there. */
+        int from = left < clear_from ? left : clear_from;
+        if (y < ITEM_TEXT_TOP && left >= ITEM_TEXT_LEFT)
+            from = clear_from;
+        for (int x = from; x < ITEM_WIDTH; x++)
             PutTilePixel(sheet, x, y, 0);
     }
-    int pen = ITEM_TEXT_LEFT;
+    int pen = left;
     for (const char *p = label; *p;) {
         const Glyph *glyph = GlyphFor(NextCodepoint(&p));
         if (!glyph)
@@ -546,7 +566,7 @@ static void DrawItemLabel(uint32 sheet, const char *label) {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dx = -1; dx <= 1; dx++) {
                         int ox = pen + x + dx, oy = ITEM_TEXT_TOP + y + dy;
-                        if (ox >= ITEM_TEXT_LEFT && ox < ITEM_WIDTH && oy < ITEM_HEIGHT && !GetTilePixel(sheet, ox, oy))
+                        if (ox >= left && ox < ITEM_WIDTH && oy < ITEM_HEIGHT && !GetTilePixel(sheet, ox, oy))
                             PutTilePixel(sheet, ox, oy, LABEL_BACK);
                     }
                 }

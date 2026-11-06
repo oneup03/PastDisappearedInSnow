@@ -2,6 +2,8 @@
 # art <parts> <layer> <x> <y> <w> <h> <hash> <style> <text>
 # The hash is of the rectangle as the game draws it. PVS_TRACE_ART prints it. "|" starts a new row.
 # Styles: tiny is the small capitals, big is the text font at double size, plain is the text font.
+# logo is the title card: the title screen's logo, "|", then the line under it, over a see-through
+# layer. map means x and y are in the layer's own space, for a picture that slides.
 art zen,chu,kou 0 26 33 44 12 54d0666c tiny RECEPTION
 art zen,chu,kou 0 155 33 17 12 0bed0a5d tiny TRAF
 art zen,chu,kou 0 81 134 28 8 23926e6c tiny KEEP OUT
@@ -12,3 +14,10 @@ art kou 1 130 24 84 104 50f50701 plain Best Score %|Password|Address, Name|Age, 
 art zen,chu,kou 0 79 76 33 9 56827ff6 tiny OCHIDANI
 art zen,chu,kou 0 79 76 33 9 445b209a tiny OCHIDANI
 art kou 1 45 131 158 12 820b529a plain Or fax: 03-3863-1744
+art zen,chu,kou 1 50 104 204 58 99e6b7b7 logo,map BS Detective Club|~ The Past That Disappeared in the Snow ~
+art zen,chu,kou 0 29 34 50 14 6a16087c plain Main house
+art zen,chu,kou 0 28 68 40 12 f62b758c plain Entrance
+art zen,chu,kou 0 97 42 46 12 ba044973 plain Footprints
+art zen,chu,kou 0 144 17 28 30 6843eba7 plain Annex|scene
+art zen,chu,kou 0 64 131 40 12 a878f65e plain Road
+art chu,kou 0 119 101 27 8 d4493210 tiny CHIEF

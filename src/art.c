@@ -21,6 +21,7 @@
 #include "font.h"
 #include "snes/ppu.h"
 #include "text.h"
+#include "title.h"
 
 enum {
     MAX_RULES = 64,
@@ -40,17 +41,20 @@ typedef struct Rule {
     bool big;   /* the text font at twice the size */
     bool map;   /* x and y are in the layer's own space, so a picture that pans keeps its rule */
     bool fill;  /* cover the Japanese first: off where the picture carries on behind it */
+    bool logo;  /* the title card: the logo, then a line under it, over a see-through layer */
     char text[MAX_TEXT];
 } Rule;
 
 static Rule g_rules[MAX_RULES];
 static int g_steady[MAX_RULES];
+static uint32 g_palettes[MAX_RULES];  /* hash of each rule's palettes last frame */
 
 /* What a drawn rule took, so that it can tell when the game writes into one of its tiles. */
 enum { MAX_CELLS = 26 * 19, MAX_TILE_WORDS = 32 };
 typedef struct Drawn {
     bool active;
     int paper, ink;
+    uint32 palettes;                /* the rule's palettes when it was drawn */
     int cells;
     uint16 entry_at[MAX_CELLS];     /* map word of each cell */
     uint16 tile[MAX_CELLS];         /* the tile it was given */
@@ -213,6 +217,20 @@ static void PutColour(int layer, int x, int y, int colour) {
     PutPixel(layer, x, y, best);
 }
 
+/* A pixel as seen, keeping see-through ones (colour number 0) apart from real colours. */
+enum { SEE_THROUGH = 0xFFFF };
+
+static int SeenAt(int layer, int x, int y) {
+    return GetPixel(layer, x, y) ? ColourAt(layer, x, y) : SEE_THROUGH;
+}
+
+static void PutSeen(int layer, int x, int y, int seen) {
+    if (seen == SEE_THROUGH)
+        PutPixel(layer, x, y, 0);
+    else
+        PutColour(layer, x, y, seen);
+}
+
 static bool TileIsBlank(uint32 base, int words) {
     for (int w = 0; w < words; w++) {
         if (g_ppu->vram[(base + (uint32)w) & 0x7FFF])
@@ -319,7 +337,7 @@ static bool MakeTilesPrivate(const Rule *rule, Drawn *drawn) {
             int pixels[8][8];
             for (int j = 0; j < 8; j++) {
                 for (int i = 0; i < 8; i++)
-                    pixels[j][i] = ColourAt(layer, sx + i, sy + j);
+                    pixels[j][i] = SeenAt(layer, sx + i, sy + j);
             }
             int keep = *entry & 0x3C00;
             bool inside = sx >= rule->x && sy >= rule->y && sx + 8 <= rule->x + rule->w && sy + 8 <= rule->y + rule->h;
@@ -333,7 +351,7 @@ static bool MakeTilesPrivate(const Rule *rule, Drawn *drawn) {
             }
             for (int j = 0; j < 8; j++) {
                 for (int i = 0; i < 8; i++)
-                    PutColour(layer, sx + i, sy + j, pixels[j][i]);
+                    PutSeen(layer, sx + i, sy + j, pixels[j][i]);
             }
         }
     }
@@ -360,6 +378,62 @@ static void Remember(const Rule *rule, Drawn *drawn) {
     drawn->active = true;
 }
 
+/* The logo's main colours, which pick the palette for the tiles it covers. */
+enum { LOGO_PAPER = 31 << 10 | 25 << 5 | 18, LOGO_INK = 31 << 10 | 31 << 5 | 31 };
+
+/* The title card: clear the Japanese to see-through, then the English logo and the line
+ * under it, drawn as the title screen draws them, in the nearest colours the tiles have. */
+static void DrawLogoRule(const Rule *rule) {
+    enum { FIELD_W = 256, FIELD_H = 224 };
+    static uint8_t field[FIELD_W * FIELD_H * 4];
+    memset(field, 0, sizeof(field));
+    char text[MAX_TEXT];
+    snprintf(text, sizeof(text), "%s", rule->text);
+    char *bar = strchr(text, '|');
+    const char *subtitle = "";
+    if (bar) {
+        *bar = 0;
+        subtitle = bar + 1;
+    }
+    TitleDrawCard(field, text, subtitle);
+    int top = FIELD_H, bottom = -1;
+    for (int y = 0; y < FIELD_H; y++) {
+        for (int x = 0; x < FIELD_W; x++) {
+            if (field[(y * FIELD_W + x) * 4 + 3]) {
+                top = y < top ? y : top;
+                bottom = y;
+            }
+        }
+    }
+    for (int j = 0; j < rule->h; j++) {
+        for (int i = 0; i < rule->w; i++)
+            PutPixel(rule->layer, rule->x + i, rule->y + j, 0);
+    }
+    if (bottom < 0)
+        return;
+    const int dx = rule->x + rule->w / 2 - FIELD_W / 2;
+    const int dy = rule->y + (rule->h - (bottom - top + 1)) / 2 - top;
+    for (int y = top; y <= bottom; y++) {
+        for (int x = 0; x < FIELD_W; x++) {
+            const uint8_t *p = &field[(y * FIELD_W + x) * 4];
+            int sx = x + dx, sy = y + dy;
+            if (!p[3] || sx < rule->x || sy < rule->y || sx >= rule->x + rule->w || sy >= rule->y + rule->h)
+                continue;
+            int colour = p[2] >> 3 | (p[1] >> 3) << 5 | (p[0] >> 3) << 10;
+            PutColour(rule->layer, sx, sy, colour);
+        }
+    }
+}
+
+/* The rule's cells on screen, whole tiles of its layer. */
+static void SetCellArea(const Rule *rule, Drawn *drawn) {
+    const int hs = g_ppu->hScroll[rule->layer], vs = g_ppu->vScroll[rule->layer];
+    drawn->ox = ((rule->x + hs) & ~7) - hs;
+    drawn->oy = ((rule->y + vs) & ~7) - vs;
+    drawn->ow = ((rule->x + rule->w - 1 + hs) | 7) - hs + 1 - drawn->ox;
+    drawn->oh = ((rule->y + rule->h - 1 + vs) | 7) - vs + 1 - drawn->oy;
+}
+
 /* first: the picture as the game drew it, which is kept to draw again from if needed. */
 static void DrawRule(const Rule *rule, Drawn *drawn, bool first) {
     const int layer = rule->layer, hs = g_ppu->hScroll[layer], vs = g_ppu->vScroll[layer];
@@ -367,21 +441,24 @@ static void DrawRule(const Rule *rule, Drawn *drawn, bool first) {
         SignColours(rule, &drawn->paper, &drawn->ink);
         if (getenv("PVS_TRACE_ART"))
             fprintf(stderr, "[art] draw '%s' paper %04x ink %04x\n", rule->text, drawn->paper, drawn->ink);
+        if (rule->logo) {
+            drawn->paper = LOGO_PAPER;
+            drawn->ink = LOGO_INK;
+        }
         if (drawn->paper == drawn->ink || !drawn->paper && !drawn->ink)
             return;
-        drawn->ox = ((rule->x + hs) & ~7) - hs;
-        drawn->oy = ((rule->y + vs) & ~7) - vs;
-        drawn->ow = ((rule->x + rule->w - 1 + hs) | 7) - hs + 1 - drawn->ox;
-        drawn->oh = ((rule->y + rule->h - 1 + vs) | 7) - vs + 1 - drawn->oy;
+        SetCellArea(rule, drawn);
         free(drawn->before);
         drawn->before = malloc((size_t)(drawn->ow * drawn->oh) * sizeof(uint16));
         if (!drawn->before)
             return;
         for (int j = 0; j < drawn->oh; j++) {
             for (int i = 0; i < drawn->ow; i++)
-                drawn->before[j * drawn->ow + i] = (uint16)ColourAt(layer, drawn->ox + i, drawn->oy + j);
+                drawn->before[j * drawn->ow + i] = (uint16)SeenAt(layer, drawn->ox + i, drawn->oy + j);
         }
     }
+    /* A rule in the layer's own space may have moved on screen since the first time. */
+    SetCellArea(rule, drawn);
     if (!MakeTilesPrivate(rule, drawn)) {
         fprintf(stderr, "[art] no free tiles for: %s\n", rule->text);
         drawn->active = false;
@@ -389,7 +466,12 @@ static void DrawRule(const Rule *rule, Drawn *drawn, bool first) {
     }
     for (int j = 0; j < drawn->oh; j++) {
         for (int i = 0; i < drawn->ow; i++)
-            PutColour(layer, drawn->ox + i, drawn->oy + j, drawn->before[j * drawn->ow + i]);
+            PutSeen(layer, drawn->ox + i, drawn->oy + j, drawn->before[j * drawn->ow + i]);
+    }
+    if (rule->logo) {
+        DrawLogoRule(rule);
+        Remember(rule, drawn);
+        return;
     }
     int paper = drawn->paper, ink = drawn->ink;
     if (rule->fill) {
@@ -460,6 +542,7 @@ void ArtLoad(const char *language, int part) {
         rule.big = strstr(style, "big") != NULL;
         rule.map = strstr(style, "map") != NULL;
         rule.fill = strstr(style, "over") == NULL;
+        rule.logo = strstr(style, "logo") != NULL;
         snprintf(rule.text, sizeof(rule.text), "%s", line + used);
         g_rules[g_rule_count++] = rule;
     }
@@ -519,14 +602,25 @@ static void TraceArt(void) {
     }
 }
 
-/* Whether the palette held still since the last frame: pictures fade in by changing it. */
-static bool PaletteSteady(void) {
-    static uint32 last;
+/* Whether the palettes a rule's tiles use held still since the last frame: pictures fade in
+ * by changing them. Only those: elsewhere on screen colours may cycle all the time. */
+static bool PaletteSteady(const Rule *rule, uint32 *last) {
+    const int layer = rule->layer, bpp = LayerBpp(layer);
+    uint32 used = 0;
+    for (int j = 0; j < rule->h; j += 8) {
+        for (int i = 0; i < rule->w; i += 8)
+            used |= 1u << SpotAt(layer, rule->x + i, rule->y + j).palette;
+    }
     uint32 hash = 2166136261u;
-    for (int c = 0; c < 256; c++)
-        hash = (hash ^ g_ppu->cgram[c]) * 16777619u;
-    bool steady = hash == last;
-    last = hash;
+    for (int palette = 0; palette < 8; palette++) {
+        if (bpp == 8 ? palette == 0 : (used >> palette & 1)) {
+            int base = bpp == 8 ? 0 : palette << bpp, count = 1 << bpp;
+            for (int c = 0; c < count; c++)
+                hash = (hash ^ g_ppu->cgram[(base + c) & 255]) * 16777619u;
+        }
+    }
+    bool steady = hash == *last;
+    *last = hash;
     return steady;
 }
 
@@ -534,7 +628,6 @@ void ArtOnFrame(void) {
     if (!g_ppu)
         return;
     TraceArt();
-    const bool steady = PaletteSteady();
     for (int i = 0; i < g_rule_count; i++) {
         Rule screen = g_rules[i];
         if (screen.map) {
@@ -547,6 +640,7 @@ void ArtOnFrame(void) {
         if (!LayerBpp(rule->layer))
             continue;
         Drawn *drawn = &g_drawn[i];
+        const bool steady = PaletteSteady(rule, &g_palettes[i]);
         if (drawn->active) {
             /* Still this picture? Then check the tiles it was given are as it left them. */
             bool ours = true, intact = true;
@@ -559,15 +653,20 @@ void ArtOnFrame(void) {
                     }
                 }
             }
-            if (!ours)
+            if (!ours) {
                 drawn->active = false;
-            else if (!intact && steady)
+            } else if (steady && (!intact || rule->logo && drawn->palettes != g_palettes[i])) {
+                /* A logo's colours are picked from its palette, which may still be fading in. */
                 DrawRule(rule, drawn, false);
+                drawn->palettes = g_palettes[i];
+            }
             continue;
         }
         if (steady && HashRect(rule->layer, rule->x, rule->y, rule->w, rule->h) == rule->hash) {
-            if (++g_steady[i] == STEADY_FRAMES)
+            if (++g_steady[i] == STEADY_FRAMES) {
                 DrawRule(rule, drawn, true);
+                drawn->palettes = g_palettes[i];
+            }
         } else {
             g_steady[i] = 0;
         }
