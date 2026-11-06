@@ -65,7 +65,7 @@ You need Python 3, Rust, CMake, Ninja and a C compiler.
 # in a clone of this repository
 mkdir inputs                # then put the three packs here
 python3 tools/setup.py
-build/BsTanteiClubSNESRecomp --rom images/zen.sfc
+build/BsTanteiClubSNESRecomp --launcher --rom images/zen.sfc
 ```
 
 Setup checks the packs, builds their images and generates the code from them. All of that
