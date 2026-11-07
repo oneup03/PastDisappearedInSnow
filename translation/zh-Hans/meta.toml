@@ -1,0 +1,4 @@
+# Simplified Chinese. The font draws everything this language's text has; the port's own
+# Latin font is the fallback. tools/fetch_font.py fetches it.
+name = "简体中文"
+font = "assets/fonts/fusion-pixel-12px-monospaced-zh_hans.bdf"

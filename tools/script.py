@@ -7,7 +7,7 @@ usage: tools/script.py dump [--dir FOLDER] [--out text-dump/ja]
        tools/script.py merge --lang en <worksheet.tsv>
        tools/script.py status [--lang en]
        tools/script.py lint --lang en
-       tools/script.py tm-export | tm-check <out_NN.tsv> | tm-apply --lang en
+       tools/script.py tm-export | tm-check [--lang en] <out_NN.tsv> | tm-apply --lang en
 
 `dump` writes the Japanese source as TSV from the player's own ROMs. The result
 is ROM data, so it stays out of git: anyone can regenerate it in seconds.
@@ -19,10 +19,13 @@ it was made from, so `status` can tell when a row has gone stale.
 
 The `tm-` commands translate each unique string once and apply it to every row with
 the same Japanese. They work in text-dump/tm, which is local because it holds Japanese.
+Batches going in are shared; each language's output goes in text-dump/tm/<lang>/, apart
+from English, the first, whose output is in text-dump/tm itself.
 """
 import argparse
 import pathlib
 import sys
+import tomllib
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from pvs import script as sc  # noqa: E402
@@ -33,6 +36,50 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 TRANSLATION_DIR = ROOT / "translation"
 FONT_PATH = ROOT / "assets" / "fonts" / "latin.txt"
 NAME_PLACEHOLDER = "Shinnosuke: "  # long enough to fit any speaker's name
+
+
+def language_meta(lang):
+    """translation/<lang>/meta.toml, if the language has one: its font, for a start."""
+    path = TRANSLATION_DIR / lang / "meta.toml"
+    return tomllib.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def language_font(lang):
+    """Glyph widths as the game draws this language: its own font first, then ours."""
+    font = sc.load_font(FONT_PATH)
+    own = language_meta(lang).get("font")
+    if own:
+        path = ROOT / own
+        if not path.exists():
+            sys.exit(f"{path} not found. Run: tools/fetch_font.py")
+        font.update(sc.load_font(path))
+    return font
+
+
+def name_labels(lang):
+    """Each speaker's label in a language, by the Japanese name the dump gives as speaker."""
+    labels = {}
+    for episode in EPISODES:
+        done = read_translation(lang, episode)
+        for row in read_source(episode):
+            text = done.get(row["key"], {}).get("text")
+            if row["kind"] == "string" and text:
+                labels[row["text"].strip("\u3000「")] = text
+    return labels
+
+
+def name_placeholder(lang, font):
+    """A function giving the label to leave room for before a speaker's message: the
+    speaker's own if known, or else the widest the language has."""
+    labels = name_labels(lang)
+    widest = max(labels.values(), default=NAME_PLACEHOLDER,
+                 key=lambda name: sum(sc.metrics(font, ch)[1] for ch in name))
+    return lambda speaker: labels.get(speaker, widest) if speaker else ""
+
+
+def encoded_size(text):
+    """Bytes a translation takes in place: ASCII is one, anything else a two-byte code."""
+    return sum(1 if ord(ch) < 0x80 else 2 for ch in text)
 
 
 def clock(seconds):
@@ -111,11 +158,12 @@ def worksheet(lang, out):
 def merge(lang, sheet):
     sources = {e: {r["key"]: r for r in read_source(e)} for e in EPISODES}
     merged = {e: read_translation(lang, e) for e in EPISODES}
-    count = 0
+    count, touched = 0, set()
     for line in pathlib.Path(sheet).read_text(encoding="utf-8").splitlines()[1:]:
         parts = line.split("\t") + [""] * 8
         key, target, status, note = parts[0], parts[5], parts[6], parts[7]
         episode = key.split(":")[0]
+        touched.add(episode)
         if episode not in sources or key not in sources[episode]:
             sys.exit(f"{key}: not a row in the source")
         if not target and key not in merged[episode]:
@@ -123,8 +171,9 @@ def merge(lang, sheet):
         merged[episode][key] = {"status": status or "draft", "text": target,
                                 "hash": sc.source_hash(sources[episode][key]["text"]), "note": note}
         count += 1
+    # Only the parts the sheet has, so sheets for different parts can merge side by side.
     for episode in EPISODES:
-        if merged[episode]:
+        if merged[episode] and episode in touched:
             write_translation(lang, episode, merged[episode])
     print(f"merged {count} rows")
 
@@ -144,7 +193,8 @@ def status(lang):
 
 
 def lint(lang):
-    font = sc.load_font(FONT_PATH)
+    font = language_font(lang)
+    placeholder = name_placeholder(lang, font)
     problems = 0
     for episode in EPISODES:
         done = read_translation(lang, episode)
@@ -162,15 +212,16 @@ def lint(lang):
                 problems += 1
             if jp["kind"] == "screen":
                 source_size = len(jp["text"].replace("{n}", "\n").encode("shift_jis", "replace"))
-                size = len(text.replace("{n}", "\n").encode("ascii", "replace"))
+                size = encoded_size(sc.KEPT_TAG.sub("", text).replace("{n}", "\n")) + sum(
+                    len(t[3:-1]) // 2 for t in sc.kept_tags(text) if t.startswith("{x:"))
                 if size > source_size:
                     print(f"{key}: {size} bytes, the screen string has {source_size}: {text}")
                     problems += 1
-            elif jp["kind"] == "menu" and len(text.encode("ascii", "replace")) > sc.MENU_LABEL_BYTES:
+            elif jp["kind"] == "menu" and encoded_size(text) > sc.MENU_LABEL_BYTES:
                 print(f"{key}: menu label over {sc.MENU_LABEL_BYTES} characters: {text}")
                 problems += 1
             elif jp["kind"] == "text":
-                name = NAME_PLACEHOLDER if jp["speaker"] else ""
+                name = placeholder(jp["speaker"])
                 rows, missing = sc.layout_rows(name + text, font)
                 if rows > sc.WINDOW_ROWS:
                     print(f"{key}: takes {rows} rows, the window has {sc.WINDOW_ROWS}: {text}")
@@ -220,16 +271,22 @@ def tm_export(batch_chars):
         print(f"in_{number:02d}.tsv: {len(rows)} strings, {rows[0]['episode']} scene {rows[0]['scene']} on")
 
 
-def tm_problems(row, text, font):
+def tm_out_dir(lang):
+    """Where a language's batch output goes. English, the first, has the top folder."""
+    return TM_DIR if lang == "en" else TM_DIR / lang
+
+
+def tm_problems(row, text, font, placeholder=lambda speaker: NAME_PLACEHOLDER if speaker else ""):
     """Why a translation won't work in the game, if it won't."""
     problems = []
     if sc.kept_tags(row["text"]) != sc.kept_tags(text):
         problems.append(f"tags should be, in order: {' '.join(sc.kept_tags(row['text'])) or 'none'}")
     if row["kind"] == "menu":
-        if len(text) > sc.MENU_LABEL_BYTES:
-            problems.append(f"menu labels fit {sc.MENU_LABEL_BYTES} characters, this has {len(text)}")
+        if encoded_size(text) > sc.MENU_LABEL_BYTES:
+            problems.append(f"menu labels fit {sc.MENU_LABEL_BYTES} bytes (a wide character takes 2), "
+                            f"this has {encoded_size(text)}")
     else:
-        rows, missing = sc.layout_rows((NAME_PLACEHOLDER if row["speaker"] else "") + text, font)
+        rows, missing = sc.layout_rows(placeholder(row["speaker"]) + text, font)
         if rows > sc.WINDOW_ROWS:
             problems.append(f"takes {rows} rows of text, the window has {sc.WINDOW_ROWS}")
         if missing:
@@ -237,12 +294,13 @@ def tm_problems(row, text, font):
     return problems
 
 
-def tm_check(path):
+def tm_check(path, lang):
     """Check a batch's output: every id present once, and everything fits."""
-    font = sc.load_font(FONT_PATH)
+    font = language_font(lang)
+    placeholder = name_placeholder(lang, font)
     path = pathlib.Path(path)
     source = {}
-    for line in (path.parent / path.name.replace("out_", "in_")).read_text(encoding="utf-8").splitlines()[1:]:
+    for line in (TM_DIR / path.name.replace("out_", "in_")).read_text(encoding="utf-8").splitlines()[1:]:
         fields = line.split("\t")
         source[fields[0]] = {"speaker": fields[3], "kind": fields[4], "text": fields[5]}
     seen, bad = set(), 0
@@ -251,7 +309,7 @@ def tm_check(path):
             continue
         fields = line.split("\t")
         if len(fields) < 2:
-            print(f"bad line, needs id<TAB>english: {line}")
+            print(f"bad line, needs id<TAB>translation: {line}")
             bad += 1
             continue
         if fields[0] not in source:
@@ -259,7 +317,7 @@ def tm_check(path):
             bad += 1
             continue
         seen.add(fields[0])
-        for problem in tm_problems(source[fields[0]], fields[1], font):
+        for problem in tm_problems(source[fields[0]], fields[1], font, placeholder):
             print(f"{fields[0]}: {problem}: {fields[1]}")
             bad += 1
     missing = sorted(set(source) - seen)
@@ -272,7 +330,7 @@ def tm_check(path):
 def tm_apply(lang):
     """Apply every batch's output to all the rows with that Japanese, then write them."""
     by_source, count = {}, 0
-    for path in sorted(TM_DIR.glob("out_*.tsv")):
+    for path in sorted(tm_out_dir(lang).glob("out_*.tsv")):
         source = {}
         for line in (TM_DIR / path.name.replace("out_", "in_")).read_text(encoding="utf-8").splitlines()[1:]:
             fields = line.split("\t")
@@ -284,7 +342,7 @@ def tm_apply(lang):
                 if not note.isascii():
                     sys.exit(f"{path.name}: {fields[0]}: notes get committed, so no Japanese in them: {note}")
                 by_source[source[fields[0]]] = {
-                    "text": fields[1].translate(STRAIGHT_QUOTES),
+                    "text": fields[1].translate(STRAIGHT_QUOTES) if lang == "en" else fields[1],
                     "status": fields[2] if len(fields) > 2 and fields[2] else "draft",
                     "note": note,
                 }
@@ -316,6 +374,7 @@ def main():
     export.add_argument("--batch-chars", type=int, default=9000)
     batch = sub.add_parser("tm-check")
     batch.add_argument("path")
+    batch.add_argument("--lang", default="en")
     apply_tm = sub.add_parser("tm-apply")
     apply_tm.add_argument("--lang", required=True)
     dump = sub.add_parser("dump")
@@ -344,7 +403,7 @@ def main():
         tm_export(args.batch_chars)
         return
     if args.command == "tm-check":
-        sys.exit(1 if tm_check(args.path) else 0)
+        sys.exit(1 if tm_check(args.path, args.lang) else 0)
     if args.command == "tm-apply":
         tm_apply(args.lang)
         return

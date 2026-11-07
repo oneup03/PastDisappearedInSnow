@@ -35,10 +35,15 @@ static bool g_integer_scale;
  * next time. Options are only readable once the game is running. */
 void OptionsChooseBoxArt(void) {
     char leaf[64], from[1024], to[1024];
-    snprintf(leaf, sizeof(leaf), "assets/img/boxart_%s.tga", strcmp(OptionsLanguage(), "ja") == 0 ? "ja" : "en");
+    snprintf(leaf, sizeof(leaf), "assets/img/boxart_%s.tga", OptionsLanguage());
     AssetPath(leaf, from, sizeof(from));
     AssetPath("assets/img/boxart.tga", to, sizeof(to));
     FILE *in = fopen(from, "rb");
+    if (!in) {
+        /* A language with no art of its own shows the English. */
+        AssetPath("assets/img/boxart_en.tga", from, sizeof(from));
+        in = fopen(from, "rb");
+    }
     if (!in)
         return;
     static uint8 buffer[4 << 20];

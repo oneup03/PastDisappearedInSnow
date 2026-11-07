@@ -1,7 +1,7 @@
 # BS Tantei Club: Yuki ni Kieta Kako, native port
 
 A native port of Nintendo's 1997 Satellaview game *BS Detective Club: The Past That
-Disappeared in the Snow*: all three parts in one program, in English or Japanese, with
+Disappeared in the Snow*: all three parts in one program, in English, Simplified Chinese or Japanese, with
 the broadcast's radio audio restored. It needs neither the BS-X BIOS nor the BS-X town.
 
 **Work in progress.** You can build it on Linux and play it from start to finish, but few
@@ -13,7 +13,8 @@ you want the audio.
 ## What works
 
 - All three parts run one after another in one program, with no restart.
-- English and Japanese text, with the original's timing kept so lines still match the voices.
+- English, Simplified Chinese and Japanese text, with the original's timing kept so lines still
+  match the voices.
 - Save states that work across parts, rewind, and resuming where you left off.
 - Two ways to play: **Real Time**, as it aired, or **Unlimited Time**, which stops the clock
   before each timed event until SELECT moves on.
@@ -32,6 +33,8 @@ you want the audio.
   pass of each track from every recording that has it, so have all three if you can.
 - The English is a machine translation with no human review, so expect some mistakes.
   It's plain text in [translation/en](translation/en), and fixes are welcome.
+- The Simplified Chinese is too, in [translation/zh-Hans](translation/zh-Hans). Words drawn
+  into the game's pictures, such as the command icons, stay in Japanese for now.
 
 ## What you need
 
@@ -74,7 +77,9 @@ options: pacing, scaling, where to start, language and sound.
 
 ## Translating
 
-A language is a folder under [translation](translation), with no code changes needed.
+A language is a folder under [translation](translation), with no code changes needed. One
+whose script our Latin font lacks names a 12-pixel BDF font in its `meta.toml`, as
+[zh-Hans](translation/zh-Hans/meta.toml) does; text with no spaces breaks between characters.
 `python3 tools/script.py dump` writes the Japanese to `text-dump/ja/` from your own packs, and
 `worksheet` and `merge` turn that into a side-by-side sheet for editing and back. `status`
 and `lint` report what's left and what doesn't fit.
@@ -84,8 +89,10 @@ and `lint` report what's left and what doesn't fit.
 Our own code is MIT. It builds on [snesrecomp](https://github.com/RetroPortingToolKit/snesrecomp)
 and [recomp-ui](https://github.com/mstan/recomp-ui), so see [LICENSE](LICENSE) for which files
 that covers: snesrecomp is PolyForm Noncommercial, which means builds are for noncommercial
-use only. MP3 decoding is [minimp3](https://github.com/lieff/minimp3) (CC0), and Japanese text
-uses the public-domain Shinonome font, fetched at setup.
+use only. MP3 decoding is [minimp3](https://github.com/lieff/minimp3) (CC0). Japanese text
+uses the public-domain Shinonome font, and Chinese text the
+[Fusion Pixel](https://github.com/TakWolf/fusion-pixel-font) font (SIL Open Font License),
+both fetched at setup.
 
 This is an unofficial fan project, not affiliated with or endorsed by Nintendo. The game, its
 ROMs and its audio belong to their rights holders and are not part of this project.

@@ -8,13 +8,22 @@ enum { GLYPH_ROWS = 12 };
 /* One glyph, left-aligned: the top bit of each row is the leftmost pixel. */
 typedef struct Glyph {
     uint8 width;
+    uint8 advance;
     uint16 rows[GLYPH_ROWS];
 } Glyph;
 
 /* Load a text font (see assets/fonts/latin.txt). */
 bool FontLoad(const char *path);
 
-/* The glyph for a Unicode code point, or NULL if the font lacks it. */
+/* Load a language's own font, a BDF with 12-pixel glyphs by Unicode code point, which comes
+ * before the text font wherever it has a glyph. NULL drops it. Loading the same path again
+ * keeps what's loaded. */
+bool FontLoadLanguage(const char *path);
+
+/* Whether a language font is loaded. */
+bool FontHasLanguage(void);
+
+/* The glyph for a Unicode code point, or NULL if the fonts lack it. */
 const Glyph *FontGlyph(uint32 codepoint);
 
 /* Pixels a glyph takes up, with its gap. */

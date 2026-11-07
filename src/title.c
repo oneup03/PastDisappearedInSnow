@@ -3,7 +3,7 @@
  * (still waiting for its first time signal) until any key, button or click. It then stays up
  * while the game checks the time, and fades away as the story begins. The logo follows the
  * 1997 one: chunky pale-blue letters, dark outline, an italic line under it. In Japanese
- * it says what the original logo did.
+ * it says what the original logo did, and Chinese says the same.
  *
  * Everything is drawn here from the port's own font, so there is no art to ship.
  */
@@ -168,7 +168,8 @@ static void DrawSnow(unsigned frame) {
     }
 }
 
-/* A line of text as glyphs: the port's Latin font, or Shift-JIS from the Japanese one. */
+/* A line of text as glyphs: Shift-JIS from the Japanese font, or else UTF-8 from the
+ * language's own font and the port's Latin one. */
 typedef struct Cell {
     int width, advance;
     uint16 rows[GLYPH_ROWS];
@@ -176,13 +177,32 @@ typedef struct Cell {
 
 enum { MAX_CELLS = 64 };
 
+static uint32 NextUtf8(const uint8 **text) {
+    const uint8 *p = *text;
+    uint32 c = *p++;
+    int more = c >= 0xF0 ? 3 : c >= 0xE0 ? 2 : c >= 0xC0 ? 1 : 0;
+    c &= more == 3 ? 7 : more == 2 ? 15 : more == 1 ? 31 : 0x7F;
+    for (; more && (*p & 0xC0) == 0x80; more--)
+        c = c << 6 | (*p++ & 0x3Fu);
+    *text = p;
+    return c;
+}
+
 static int Layout(const char *text, Cell *cells) {
+    const bool shift_jis = strcmp(OptionsLanguage(), "ja") == 0;
     int count = 0;
     for (const uint8 *p = (const uint8 *)text; *p && count < MAX_CELLS;) {
         Cell *cell = &cells[count];
         memset(cell, 0, sizeof(*cell));
         uint8 bitmap[24];
-        if (*p >= 0x81 && (*p < 0xA0 || *p >= 0xE0) && p[1]) {
+        if (!shift_jis) {
+            const Glyph *glyph = FontGlyph(NextUtf8(&p));
+            if (!glyph)
+                continue;
+            cell->width = glyph->width;
+            cell->advance = FontAdvance(glyph);
+            memcpy(cell->rows, glyph->rows, sizeof(cell->rows));
+        } else if (*p >= 0x81 && (*p < 0xA0 || *p >= 0xE0) && p[1]) {
             bool ok = FontJisFullWidth((uint16)(p[0] << 8 | p[1]), bitmap);
             p += 2;
             cell->width = cell->advance = 12;
@@ -353,10 +373,48 @@ static void DrawCopyright(int x, int y, Rgb colour) {
 }
 
 
+/* FileStatus in Chinese, in UTF-8. */
+static void ZhFileStatus(const SessionFiles *files, int found, int missing, const char *const *parts,
+                         char *first, char *second, size_t size) {
+    if (strcmp(OptionsAudioSource(), "rom") == 0) {
+        /* 声音：游戏自带的音效, 可在启动器的Mods页更改 */
+        snprintf(first, size, "\xe5\xa3\xb0\xe9\x9f\xb3\xef\xbc\x9a\xe6\xb8\xb8\xe6\x88\x8f\xe8\x87\xaa"
+                              "\xe5\xb8\xa6\xe7\x9a\x84\xe9\x9f\xb3\xe6\x95\x88");
+        snprintf(second, size, "\xe5\x8f\xaf\xe5\x9c\xa8\xe5\x90\xaf\xe5\x8a\xa8\xe5\x99\xa8\xe7\x9a\x84"
+                               "Mods\xe9\xa1\xb5\xe6\x9b\xb4\xe6\x94\xb9");
+    } else if (missing == 0) {
+        /* 三篇的广播音频齐全 */
+        snprintf(first, size, "\xe4\xb8\x89\xe7\xaf\x87\xe7\x9a\x84\xe5\xb9\xbf\xe6\x92\xad\xe9\x9f\xb3"
+                              "\xe9\xa2\x91\xe9\xbd\x90\xe5\x85\xa8");
+    } else if (found == 0) {
+        /* 找不到录像, 只有游戏自带的声音 */
+        snprintf(first, size, "\xe6\x89\xbe\xe4\xb8\x8d\xe5\x88\xb0\xe5\xbd\x95\xe5\x83\x8f");
+        snprintf(second, size, "\xe5\x8f\xaa\xe6\x9c\x89\xe6\xb8\xb8\xe6\x88\x8f\xe8\x87\xaa\xe5\xb8\xa6"
+                               "\xe7\x9a\x84\xe5\xa3\xb0\xe9\x9f\xb3");
+    } else {
+        /* 没有<parts>的录像, 该篇只有游戏自带的声音 */
+        snprintf(first, size, "\xe6\xb2\xa1\xe6\x9c\x89");
+        int listed = 0;
+        for (int part = 0; part < PART_COUNT; part++) {
+            if (files->recording[part])
+                continue;
+            snprintf(first + strlen(first), size - strlen(first), "%s%s", listed ? "\xe3\x80\x81" : "", parts[part]);
+            listed++;
+        }
+        snprintf(first + strlen(first), size - strlen(first), "\xe7\x9a\x84\xe5\xbd\x95\xe5\x83\x8f");
+        snprintf(second, size, "\xe8\xaf\xa5\xe7\xaf\x87\xe5\x8f\xaa\xe6\x9c\x89\xe6\xb8\xb8\xe6\x88\x8f"
+                               "\xe8\x87\xaa\xe5\xb8\xa6\xe7\x9a\x84\xe5\xa3\xb0\xe9\x9f\xb3");
+    }
+}
+
 /* Two lines under the prompt: which recordings were found, and what that means. */
 static void FileStatus(char *first, char *second, size_t size) {
     static const char *const kJaParts[PART_COUNT] = {"\x91\x4f\x95\xd2", "\x92\x86\x95\xd2", "\x8c\xe3\x95\xd2"};
+    /* 前篇, 中篇, 后篇 */
+    static const char *const kZhParts[PART_COUNT] = {"\xe5\x89\x8d\xe7\xaf\x87", "\xe4\xb8\xad\xe7\xaf\x87",
+                                                     "\xe5\x90\x8e\xe7\xaf\x87"};
     const bool ja = strcmp(OptionsLanguage(), "ja") == 0;
+    const bool zh = strncmp(OptionsLanguage(), "zh", 2) == 0;
     SessionFiles files;
     SessionCheckFiles(&files);
     int found = 0, missing = 0;
@@ -364,7 +422,9 @@ static void FileStatus(char *first, char *second, size_t size) {
         found += files.recording[part];
     missing = PART_COUNT - found;
     first[0] = second[0] = 0;
-    if (strcmp(OptionsAudioSource(), "rom") == 0) {
+    if (zh) {
+        ZhFileStatus(&files, found, missing, kZhParts, first, second, size);
+    } else if (strcmp(OptionsAudioSource(), "rom") == 0) {
         /* 音声：ゲーム本体の音, ランチャーのModsで変更できます */
         snprintf(first, size, "%s", ja ? "\x89\xb9\x90\xba\x81\x46\x83\x51\x81\x5b\x83\x80\x96\x7b\x91\xcc\x82\xcc\x89\xb9"
                                        : "Sound: the game's own, not the recordings");
@@ -421,6 +481,13 @@ void TitlePublishField(uint8_t *field, unsigned number) {
         if (g_waiting && g_frame / BLINK_FRAMES % 2 == 0)
             DrawText("\x82\xc8\x82\xc9\x82\xa9\x83\x4c\x81\x5b\x82\xf0\x89\x9f\x82\xb5\x82\xc4"
                      "\x82\xad\x82\xbe\x82\xb3\x82\xa2", 150, gold);
+    } else if (strncmp(OptionsLanguage(), "zh", 2) == 0) {
+        /* BS侦探俱乐部, ～消失在雪中的过去～, 请按任意键 */
+        DrawLogo("BS\xe4\xbe\xa6\xe6\x8e\xa2\xe4\xbf\xb1\xe4\xb9\x90\xe9\x83\xa8", 44, LOGO_SCALE);
+        DrawItalic("\xef\xbd\x9e\xe6\xb6\x88\xe5\xa4\xb1\xe5\x9c\xa8\xe9\x9b\xaa\xe4\xb8\xad\xe7\x9a\x84"
+                   "\xe8\xbf\x87\xe5\x8e\xbb\xef\xbd\x9e", 106, pale);
+        if (g_waiting && g_frame / BLINK_FRAMES % 2 == 0)
+            DrawText("\xe8\xaf\xb7\xe6\x8c\x89\xe4\xbb\xbb\xe6\x84\x8f\xe9\x94\xae", 150, gold);
     } else {
         DrawLogo("BS", 30, LOGO_SCALE);
         DrawLogo("Detective Club", 66, LOGO_SCALE);

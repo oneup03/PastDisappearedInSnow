@@ -102,6 +102,28 @@ class LayoutTest(unittest.TestCase):
         self.assertEqual(sc.layout_rows("ab!", self.FONT)[1], {"!"})
 
 
+class WideLayoutTest(unittest.TestCase):
+    """Text with no spaces, such as Chinese, breaks between characters."""
+    FONT = {**{ord(c): (12, 12) for c in "一二三四五六七八九十，。（）"}, ord(" "): 4}
+
+    def test_wide_text_breaks_anywhere(self):
+        # 228 pixels across, after a 12-pixel margin: 18 wide characters to a row.
+        self.assertEqual(sc.layout_rows("一" * 18, self.FONT)[0], 1)
+        self.assertEqual(sc.layout_rows("一" * 19, self.FONT)[0], 2)
+        self.assertEqual(sc.layout_rows("一" * 55, self.FONT)[0], 4)
+
+    def test_closing_punctuation_stays_on_the_row(self):
+        # The comma can't start a row, so the character before it moves down with it.
+        self.assertEqual(sc.layout_rows("一" * 18 + "，", self.FONT)[0], 2)
+        self.assertFalse(sc.can_break("一", "，"))
+        self.assertFalse(sc.can_break("（", "一"))
+        self.assertTrue(sc.can_break("，", "一"))
+
+    def test_latin_words_still_break_at_spaces(self):
+        self.assertFalse(sc.can_break("a", "b"))
+        self.assertTrue(sc.can_break("a", "一"))
+
+
 class TagsTest(unittest.TestCase):
     def test_translation_own_tags_are_not_kept(self):
         self.assertEqual(sc.kept_tags("a{n}b{c}{w:30}c{w}"), ["{w:30}", "{w}"])

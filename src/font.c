@@ -45,6 +45,7 @@ bool FontLoad(const char *path) {
             entry->glyph.rows[row + ROW_ABOVE_ART] = bits;
             if (width > entry->glyph.width)
                 entry->glyph.width = (uint8)width;
+            entry->glyph.advance = (uint8)(entry->glyph.width + LETTER_GAP);
             row++;
         } else {
             entry = NULL;
@@ -55,7 +56,93 @@ bool FontLoad(const char *path) {
     return g_glyph_count > 0;
 }
 
+/* ---- a language's own font ------------------------------------------------- */
+
+static FontEntry *g_language;
+static int g_language_count;
+static char g_language_path[1024];
+
+static int CompareEntries(const void *a, const void *b) {
+    uint32 x = ((const FontEntry *)a)->codepoint, y = ((const FontEntry *)b)->codepoint;
+    return x < y ? -1 : x > y;
+}
+
+/* A BDF's glyphs sit on its baseline: each one's box says where, so rows are placed down
+ * from the font's ascent and bits across from the box's left. */
+bool FontLoadLanguage(const char *path) {
+    if (path && strcmp(path, g_language_path) == 0 && g_language)
+        return true;
+    free(g_language);
+    g_language = NULL;
+    g_language_count = 0;
+    g_language_path[0] = 0;
+    if (!path)
+        return true;
+    FILE *f = fopen(path, "r");
+    if (!f) {
+        fprintf(stderr, "[font] cannot open %s\n", path);
+        return false;
+    }
+    int capacity = 0, ascent = GLYPH_ROWS, row = -1, top = 0, left = 0;
+    char line[256];
+    FontEntry *entry = NULL;
+    while (fgets(line, sizeof(line), f)) {
+        if (strncmp(line, "FONT_ASCENT ", 12) == 0) {
+            ascent = atoi(line + 12);
+        } else if (strncmp(line, "ENCODING ", 9) == 0) {
+            long code = atol(line + 9);
+            entry = NULL;
+            if (code < 0)
+                continue;
+            if (g_language_count == capacity) {
+                capacity = capacity ? capacity * 2 : 4096;
+                FontEntry *grown = (FontEntry *)realloc(g_language, sizeof(FontEntry) * (size_t)capacity);
+                if (!grown)
+                    break;
+                g_language = grown;
+            }
+            entry = &g_language[g_language_count++];
+            memset(entry, 0, sizeof(*entry));
+            entry->codepoint = (uint32)code;
+        } else if (entry && strncmp(line, "DWIDTH ", 7) == 0) {
+            int advance = atoi(line + 7);
+            entry->glyph.advance = (uint8)advance;
+            entry->glyph.width = (uint8)advance;
+        } else if (entry && strncmp(line, "BBX ", 4) == 0) {
+            int w, h, x, y;
+            if (sscanf(line + 4, "%d %d %d %d", &w, &h, &x, &y) == 4) {
+                top = ascent - (y + h);
+                left = x;
+            }
+        } else if (entry && strncmp(line, "BITMAP", 6) == 0) {
+            row = 0;
+        } else if (strncmp(line, "ENDCHAR", 7) == 0) {
+            row = -1;
+            entry = NULL;
+        } else if (entry && row >= 0) {
+            size_t digits = strspn(line, "0123456789abcdefABCDEF");
+            unsigned long bits = strtoul(line, NULL, 16);
+            int y = top + row++;
+            if (digits && digits <= 4 && y >= 0 && y < GLYPH_ROWS && left >= 0)
+                entry->glyph.rows[y] = (uint16)((bits << (16 - digits * 4)) >> left);
+        }
+    }
+    fclose(f);
+    qsort(g_language, (size_t)g_language_count, sizeof(FontEntry), CompareEntries);
+    snprintf(g_language_path, sizeof(g_language_path), "%s", path);
+    fprintf(stderr, "[font] %d glyphs from %s\n", g_language_count, path);
+    return g_language_count > 0;
+}
+
+bool FontHasLanguage(void) { return g_language_count > 0; }
+
 const Glyph *FontGlyph(uint32 codepoint) {
+    FontEntry key = {.codepoint = codepoint};
+    const FontEntry *own = g_language_count
+        ? (const FontEntry *)bsearch(&key, g_language, (size_t)g_language_count, sizeof(FontEntry), CompareEntries)
+        : NULL;
+    if (own)
+        return &own->glyph;
     for (int i = 0; i < g_glyph_count; i++) {
         if (g_glyphs[i].codepoint == codepoint)
             return &g_glyphs[i].glyph;
@@ -63,7 +150,7 @@ const Glyph *FontGlyph(uint32 codepoint) {
     return NULL;
 }
 
-int FontAdvance(const Glyph *glyph) { return glyph->width + LETTER_GAP; }
+int FontAdvance(const Glyph *glyph) { return glyph->advance; }
 
 /* ---- Japanese ---------------------------------------------------------------- */
 

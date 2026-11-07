@@ -247,9 +247,13 @@ LETTER_GAP = 1
 
 
 def load_font(path):
-    """Read a text font's advance widths, by code point."""
+    """Read a font's glyph widths, by code point: an advance for the port's own text font,
+    or (width, advance) for a BDF font, whose glyphs carry their own spacing."""
+    path = pathlib.Path(path)
+    if path.suffix == ".bdf":
+        return load_bdf_widths(path)
     widths, code, width = {}, None, 0
-    for line in pathlib.Path(path).read_text(encoding="utf-8").splitlines():
+    for line in path.read_text(encoding="utf-8").splitlines():
         if line.startswith("U+"):
             if code is not None:
                 widths[code] = width
@@ -261,26 +265,83 @@ def load_font(path):
     return {c: w + LETTER_GAP for c, w in widths.items()}
 
 
+def load_bdf_widths(path):
+    widths, code = {}, None
+    with open(path, encoding="latin-1") as f:
+        for line in f:
+            if line.startswith("ENCODING "):
+                code = int(line.split()[1])
+            elif line.startswith("DWIDTH ") and code is not None and code >= 0:
+                advance = int(line.split()[1])
+                widths[code] = (advance, advance)
+    return widths
+
+
+def metrics(font, ch):
+    """(width, advance) of a character, falling back to "?" as the game does."""
+    value = font.get(ord(ch), font.get(ord("?"), 5))
+    return value if isinstance(value, tuple) else (value - LETTER_GAP, value)
+
+
+# Line breaking for text with no spaces, such as Chinese: a row may break between two
+# characters when either is wide, unless that would start a row with closing punctuation
+# or end one with opening punctuation. src/text.c follows the same rules.
+NO_ROW_START = set("，。、：；！？）」』”’…—·～〕】》〉%,.!?:;)]}")
+NO_ROW_END = set("（「『“‘〔【《〈([{")
+
+
+def is_wide(ch):
+    return ord(ch) >= 0x2E80 or ch in "…—“”‘’·"
+
+
+def can_break(before, after):
+    """Whether a row may end between two characters that have no space between them."""
+    if before in " \0" or after == " ":
+        return False
+    if after in NO_ROW_START or before in NO_ROW_END:
+        return False
+    return is_wide(before) or is_wide(after)
+
+
 def layout_rows(text, font, first_px=NAME_MARGIN_PX, margin=NAME_MARGIN_PX, width=WINDOW_COLS * CELL_PIXELS):
     """How many window rows a translated message's longest page takes, and any characters
-    with no glyph."""
+    with no glyph. This walks the text as src/text.c draws it."""
     if "{c}" in text:
         pages = [layout_rows(page, font, first_px, margin, width) for page in text.split("{c}")]
         return max(page[0] for page in pages), set().union(*(page[1] for page in pages))
-    rows, px, missing = 1, first_px, set()
-    text = KEPT_TAG.sub("", text)
-    for line_index, line in enumerate(text.split("{n}")):
-        if line_index:
+    # Each stretch between kept tags is drawn as its own string, so each starts a word.
+    text = KEPT_TAG.sub("\0", text).replace("{n}", "\n")
+    missing = set(ch for ch in text if ch not in "\0\n" and ord(ch) not in font)
+
+    def word_start(i):
+        return i == 0 or text[i - 1] in " \0\n" or can_break(text[i - 1], text[i])
+
+    def word_width(i):
+        total = 0
+        while i < len(text) and text[i] not in " \0\n":
+            total += metrics(font, text[i])[1]
+            i += 1
+            if i < len(text) and can_break(text[i - 1], text[i]):
+                break
+        return total
+
+    rows, px, wrapped = 1, first_px, False
+    for i, ch in enumerate(text):
+        if ch == "\0":
+            continue
+        if ch == "\n":
+            rows, px, wrapped = rows + 1, margin, True
+            continue
+        if ch == " " and wrapped:
+            continue
+        if word_start(i) and ch != " " and not wrapped and px + word_width(i) > width:
+            rows, px, wrapped = rows + 1, margin, True
+        glyph_width, advance = metrics(font, ch)
+        if ch == " " and px + glyph_width > width:
+            rows, px, wrapped = rows + 1, margin, True
+            continue
+        if px + glyph_width > width:
             rows, px = rows + 1, margin
-        for word_index, word in enumerate(line.split(" ")):
-            advance = 0
-            for ch in word:
-                if ord(ch) not in font:
-                    missing.add(ch)
-                advance += font.get(ord(ch), font.get(ord("?"), 5))
-            space = font[ord(" ")] if word_index else 0
-            if px + space + advance > width and px > margin:
-                rows, px = rows + 1, margin
-                space = 0
-            px += space + advance
+        px += advance
+        wrapped = False
     return rows, missing

@@ -373,6 +373,59 @@ static void ApplyName(const ScriptItem *item) {
     bytes[1] = (uint8)g_name_count;
 }
 
+/* Menus and fixed screens are drawn by the game's own glyph routine, one byte or one
+ * two-byte code per character. A character outside ASCII that the language's font has gets
+ * a two-byte code from the rows Shift-JIS leaves empty ($85-$88), in the order first met, and
+ * DrawCell draws it from that font. Loading is deterministic, so a code in a save state
+ * always names the same character. */
+enum { WIDE_FIRST_LEAD = 0x85, WIDE_LEADS = 4, WIDE_TRAILS = 188, MAX_WIDE = WIDE_LEADS * WIDE_TRAILS };
+static uint32 g_wide[MAX_WIDE];
+static int g_wide_count;
+
+static uint16 WideCode(uint32 codepoint) {
+    int index = 0;
+    while (index < g_wide_count && g_wide[index] != codepoint)
+        index++;
+    if (index == g_wide_count) {
+        if (g_wide_count == MAX_WIDE || !FontHasLanguage() || !FontGlyph(codepoint))
+            return 0;
+        g_wide[g_wide_count++] = codepoint;
+    }
+    int trail = index % WIDE_TRAILS;
+    return (uint16)((WIDE_FIRST_LEAD + index / WIDE_TRAILS) << 8 | (trail < 0x3F ? 0x40 + trail : 0x41 + trail));
+}
+
+static const Glyph *WideGlyph(uint16 code) {
+    int lead = code >> 8, trail = code & 0xFF;
+    if (lead < WIDE_FIRST_LEAD || lead >= WIDE_FIRST_LEAD + WIDE_LEADS || trail < 0x40 || trail == 0x7F || trail > 0xFC)
+        return NULL;
+    int index = (lead - WIDE_FIRST_LEAD) * WIDE_TRAILS + trail - (trail < 0x7F ? 0x40 : 0x41);
+    return index < g_wide_count ? FontGlyph(g_wide[index]) : NULL;
+}
+
+/* Write one character of a translation in the game's own encoding, if it fits. Returns the
+ * bytes written. */
+static size_t PutCharacter(uint8 *bytes, size_t room, uint32 codepoint) {
+    if (codepoint < 0x80) {
+        if (room < 1)
+            return 0;
+        bytes[0] = (uint8)codepoint;
+        return 1;
+    }
+    uint16 code = WideCode(codepoint);
+    if (!code) {
+        if (room < 1)
+            return 0;
+        bytes[0] = '?';
+        return 1;
+    }
+    if (room < 2)
+        return 0;
+    bytes[0] = (uint8)(code >> 8);
+    bytes[1] = (uint8)code;
+    return 2;
+}
+
 static void ApplyMenu(const ScriptItem *item) {
     int count = *RomPtr(item->addr + 1);
     for (int i = 0; i < count; i++) {
@@ -381,11 +434,11 @@ static void ApplyMenu(const ScriptItem *item) {
         if (!text)
             continue;
         uint8 *bytes = RomPtr(label);
-        size_t length = strlen(text);
-        if (length > MENU_LABEL_SIZE)
-            length = MENU_LABEL_SIZE;
         memset(bytes, ' ', MENU_LABEL_SIZE);
-        memcpy(bytes, text, length);
+        for (size_t at = 0, put = 1; *text && put;) {
+            put = PutCharacter(bytes + at, MENU_LABEL_SIZE - at, NextCodepoint(&text));
+            at += put;
+        }
     }
 }
 
@@ -438,8 +491,33 @@ void AssetPath(const char *leaf, char *path, size_t size) {
         snprintf(path, size, "%s", leaf);
 }
 
+/* A language's own font, named by "font = <path>" in translation/<language>/meta.toml. */
+static void LoadLanguageFont(void) {
+    char leaf[128], path[1024], line[512], font[512] = "";
+    snprintf(leaf, sizeof(leaf), "translation/%s/meta.toml", g_language);
+    AssetPath(leaf, path, sizeof(path));
+    FILE *f = IsTranslating() ? fopen(path, "r") : NULL;
+    while (f && fgets(line, sizeof(line), f)) {
+        char *quote;
+        if (strncmp(line, "font", 4) == 0 && strchr(line, '=') && (quote = strchr(line, '"')) != NULL) {
+            snprintf(font, sizeof(font), "%s", quote + 1);
+            font[strcspn(font, "\"")] = 0;
+        }
+    }
+    if (f)
+        fclose(f);
+    if (!font[0]) {
+        FontLoadLanguage(NULL);
+        return;
+    }
+    AssetPath(font, path, sizeof(path));
+    if (!FontLoadLanguage(path))
+        fprintf(stderr, "[text] no font for %s: run tools/fetch_font.py\n", g_language);
+}
+
 /* Japanese is needed in every language, for anything not yet translated. */
 static void LoadFonts(void) {
+    LoadLanguageFont();
     if (g_font_ready)
         return;
     g_font_ready = true;
@@ -700,9 +778,22 @@ static void InstallOpcodeStub(void) {
 static void ApplyInPlace(uint32 addr, const char *text) {
     uint8 *bytes = RomPtr(0xC00000 | addr);
     size_t size = strlen((const char *)bytes);
+    /* Each line is padded out to where the original's ended, as padding left for the end
+     * would run the last line past the window's edge and scroll the first one away. */
+    size_t line_ends[16];
+    int line_count = 0, line = 0;
+    for (size_t i = 0; i < size && line_count < 16; i++) {
+        if (bytes[i] == 0xF0)
+            i++;  /* a logo tile, whose number can look like a newline */
+        else if (bytes[i] == OP_NEWLINE)
+            line_ends[line_count++] = i;
+    }
     size_t at = 0;
     while (*text && at < size) {
         if (strncmp(text, "{n}", 3) == 0) {
+            if (line < line_count && at < line_ends[line])
+                memset(bytes + at, ' ', line_ends[line] - at), at = line_ends[line];
+            line++;
             bytes[at++] = OP_NEWLINE;
             text += 3;
         } else if (strncmp(text, "{x:", 3) == 0) {
@@ -713,8 +804,10 @@ static void ApplyInPlace(uint32 addr, const char *text) {
             if (*text == '}')
                 text++;
         } else {
-            uint32 c = NextCodepoint(&text);
-            bytes[at++] = c < 0x80 ? (uint8)c : '?';
+            size_t put = PutCharacter(bytes + at, size - at, NextCodepoint(&text));
+            if (!put)
+                break;
+            at += put;
         }
     }
     if (at < size)
@@ -725,6 +818,7 @@ void TextOnImageLoaded(int part) {
     static const char *const kKeys[PART_COUNT] = {"zen", "chu", "kou"};
     g_run_count = 0;
     g_name_count = 0;
+    g_wide_count = 0;
     LoadFonts();
     if (!IsTranslating())
         return;
@@ -798,11 +892,50 @@ static const Glyph *GlyphFor(uint32 codepoint) {
     return glyph ? glyph : FontGlyph('?');
 }
 
+/* Text with no spaces, such as Chinese, may break between two characters when either is
+ * wide, unless that would start a row with closing punctuation or end one with opening
+ * punctuation. tools/pvs/script.py's layout_rows follows the same rules. */
+static bool IsWide(uint32 c) {
+    return c >= 0x2E80 || c == 0x2026 || c == 0x2014 || c == 0x201C || c == 0x201D || c == 0x2018 ||
+           c == 0x2019 || c == 0x00B7;
+}
+
+static bool InList(uint32 c, const char *list) {
+    for (const char *p = list; *p;) {
+        if (NextCodepoint(&p) == c)
+            return true;
+    }
+    return false;
+}
+
+static bool CanBreak(uint32 before, uint32 after) {
+    if (before == ' ' || after == ' ' || !before || !after)
+        return false;
+    if (InList(after, "，。、：；！？）」』”’…—·～〕】》〉%,.!?:;)]}") || InList(before, "（「『“‘〔【《〈([{"))
+        return false;
+    return IsWide(before) || IsWide(after);
+}
+
+static uint32 PeekCodepoint(const char *text) { return *text ? NextCodepoint(&text) : 0; }
+
+/* The code point before a position in a string, or 0 at its start. */
+static uint32 PreviousCodepoint(const char *text, const char *at) {
+    if (at == text)
+        return 0;
+    const char *p = at - 1;
+    while (p > text && ((uint8)*p & 0xC0) == 0x80)
+        p--;
+    return NextCodepoint(&p);
+}
+
 static int WordWidth(const char *text) {
     int width = 0;
     while (*text && *text != ' ' && !IsOwnTag(text)) {
-        const Glyph *glyph = GlyphFor(NextCodepoint(&text));
+        uint32 c = NextCodepoint(&text);
+        const Glyph *glyph = GlyphFor(c);
         width += glyph ? FontAdvance(glyph) : 0;
+        if (!IsOwnTag(text) && CanBreak(c, PeekCodepoint(text)))
+            break;
     }
     return width;
 }
@@ -865,7 +998,8 @@ static bool DrawNextGlyph(uint8 *ram, uint32 win, RunProgress *p, const char *te
         p->offset++;
         return false;
     }
-    bool at_word_start = at == text || at[-1] == ' ' || (at - text >= 3 && IsOwnTag(at - 3));
+    bool at_word_start = at == text || at[-1] == ' ' || (at - text >= 3 && IsOwnTag(at - 3)) ||
+                         CanBreak(PreviousCodepoint(text, at), PeekCodepoint(at));
     if (at_word_start && at[0] != ' ' && !p->wrapped && p->px + WordWidth(at) > width)
         NextTextRow(ram, win, p, text);
     const char *next = at;
@@ -1073,7 +1207,13 @@ static bool LatinGlyph(uint16 code, uint8 *out) {
 static void DrawCell(uint8 *ram, int window, int cell, uint16 code, int color) {
     uint8 bitmap[GLYPH_BYTES];
     bool half_width = false;
-    if (LatinGlyph(code, bitmap))
+    const Glyph *wide = WideGlyph(code);
+    if (wide) {
+        for (int y = 0; y < GLYPH_ROWS; y++) {
+            bitmap[y * 2] = (uint8)(wide->rows[y] >> 8);
+            bitmap[y * 2 + 1] = (uint8)wide->rows[y];
+        }
+    } else if (LatinGlyph(code, bitmap))
         half_width = true;
     else if (!JisGlyph(code, bitmap, &half_width))
         RomGlyph(code, bitmap, &half_width);

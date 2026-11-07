@@ -109,6 +109,10 @@ label = "English"
 value = "ja"
 label = "Japanese"
 
+[[option.choice]]
+value = "zh-Hans"
+label = "Simplified Chinese"
+
 [[feature]]
 id = "audio"
 name = "Sound"
