@@ -1,0 +1,12 @@
+# Text stays LF on every checkout. The game's own parsers read the data files, and Git Bash
+# runs the .sh scripts, so a Windows checkout with autocrlf must not turn them into CRLF.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.tga binary
+*.ttf binary
+*.otf binary
+*.ico binary
+*.avif binary

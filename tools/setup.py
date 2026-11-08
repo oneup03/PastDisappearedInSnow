@@ -5,8 +5,9 @@ usage: tools/setup.py [--packs FOLDER] [--ad IMAGE] [--no-build]
 
 Verifies the three packs, builds their images, generates the
 recompiled code and compiles it. Everything it makes stays on your machine: none of it
-is in the repo, or may be shared. Needs Python 3, Rust, CMake, Ninja and a C compiler.
-Recordings are optional, and are picked up at launch from inputs/ or from images/.
+is in the repo, or may be shared. Needs Python 3, Rust, CMake and a C compiler: on Linux,
+gcc or clang with Ninja; on Windows, Visual Studio 2022's C++ tools, run from its Developer
+PowerShell. Recordings are optional, and are picked up at launch from inputs/ or from images/.
 """
 import argparse
 import pathlib
@@ -34,16 +35,20 @@ def main():
     run(python, "tools/build_image.py", "--dir", args.packs)
     if args.ad:
         run(python, "tools/make_boxart.py", args.ad)
-    bash = shutil.which("bash")
-    if not bash:
-        sys.exit("bash is needed to generate the code (on Windows, Git Bash has it)")
-    run(bash, "tools/regen.sh", "--rom", "images/zen.sfc")
-    run(bash, "tools/regen_parts.sh")
+    run(python, "tools/regen.py", "--rom", "images/zen.sfc")
     if args.no_build:
         return
-    run("cmake", "-S", ".", "-B", "build", "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release")
-    run("cmake", "--build", "build")
-    print("Done. Run: build/BsTanteiClubSNESRecomp --rom images/zen.sfc")
+    if not shutil.which("cmake"):
+        sys.exit("CMake is needed to build (on Windows, open the Developer PowerShell for VS 2022)")
+    # Ninja where there is one, which Visual Studio's Developer PowerShell has too; otherwise
+    # CMake's default, which on Windows is the Visual Studio generator.
+    generator = ["-G", "Ninja"] if shutil.which("ninja") else []
+    run("cmake", "-S", ".", "-B", "build", *generator, "-DCMAKE_BUILD_TYPE=Release")
+    run("cmake", "--build", "build", "--config", "Release", "--parallel")
+    exe = "BsTanteiClubSNESRecomp.exe" if sys.platform == "win32" else "BsTanteiClubSNESRecomp"
+    found = next((p for p in (ROOT / "build" / exe, ROOT / "build" / "Release" / exe) if p.exists()), None)
+    shown = found.relative_to(ROOT) if found else pathlib.Path("build") / exe
+    print(f"Done. Run: {shown} --launcher --rom {pathlib.Path('images') / 'zen.sfc'}")
 
 
 if __name__ == "__main__":
