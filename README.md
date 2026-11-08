@@ -92,7 +92,8 @@ that covers: snesrecomp is PolyForm Noncommercial, which means builds are for no
 use only. MP3 decoding is [minimp3](https://github.com/lieff/minimp3) (CC0). Japanese text
 uses the public-domain Shinonome font, and Chinese text the
 [Fusion Pixel](https://github.com/TakWolf/fusion-pixel-font) font (SIL Open Font License),
-both fetched at setup.
+both kept in [assets/fonts](assets/fonts). The Chinese font is cut down to the characters
+the translation uses: `tools/subset_font.py` cuts it again from the full font when that changes.
 
 This is an unofficial fan project, not affiliated with or endorsed by Nintendo. The game, its
 ROMs and its audio belong to their rights holders and are not part of this project.

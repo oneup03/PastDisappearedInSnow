@@ -51,7 +51,7 @@ def language_font(lang):
     if own:
         path = ROOT / own
         if not path.exists():
-            sys.exit(f"{path} not found. Run: tools/fetch_font.py")
+            sys.exit(f"{path} not found")
         font.update(sc.load_font(path))
     return font
 

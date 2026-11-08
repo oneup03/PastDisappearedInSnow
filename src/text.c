@@ -512,7 +512,7 @@ static void LoadLanguageFont(void) {
     }
     AssetPath(font, path, sizeof(path));
     if (!FontLoadLanguage(path))
-        fprintf(stderr, "[text] no font for %s: run tools/fetch_font.py\n", g_language);
+        fprintf(stderr, "[text] cannot load the font for %s\n", g_language);
 }
 
 /* Japanese is needed in every language, for anything not yet translated. */
@@ -528,7 +528,7 @@ static void LoadFonts(void) {
     AssetPath("assets/fonts/shnm6x12a.bdf", ascii, sizeof(ascii));
     AssetPath("assets/fonts/shnm6x12r.bdf", kana, sizeof(kana));
     if (!FontJisLoad(full, ascii, kana))
-        fprintf(stderr, "[text] no Japanese font: run tools/fetch_font.py\n");
+        fprintf(stderr, "[text] no Japanese font in assets/fonts\n");
 }
 
 /* ---- labels drawn into the game's graphics ----------------------------------- */

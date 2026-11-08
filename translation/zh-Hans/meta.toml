@@ -1,4 +1,5 @@
 # Simplified Chinese. The font draws everything this language's text has; the port's own
-# Latin font is the fallback. tools/fetch_font.py fetches it.
+# Latin font is the fallback. It is cut down to the characters used: after adding new ones,
+# run tools/subset_font.py on the full font.
 name = "简体中文"
 font = "assets/fonts/fusion-pixel-12px-monospaced-zh_hans.bdf"

@@ -3,7 +3,7 @@
 
 usage: tools/setup.py [--packs FOLDER] [--ad IMAGE] [--no-build]
 
-Verifies the three packs, builds their images, fetches the Japanese font, generates the
+Verifies the three packs, builds their images, generates the
 recompiled code and compiles it. Everything it makes stays on your machine: none of it
 is in the repo, or may be shared. Needs Python 3, Rust, CMake, Ninja and a C compiler.
 Recordings are optional, and are picked up at launch from inputs/ or from images/.
@@ -32,8 +32,6 @@ def main():
     if not (ROOT / "snesrecomp" / "runner" / "runner.cmake").exists():
         run("git", "submodule", "update", "--init", "--recursive")
     run(python, "tools/build_image.py", "--dir", args.packs)
-    if not (ROOT / "assets" / "fonts" / "shnmk12.bdf").exists():
-        run(python, "tools/fetch_font.py")
     if args.ad:
         run(python, "tools/make_boxart.py", args.ad)
     bash = shutil.which("bash")

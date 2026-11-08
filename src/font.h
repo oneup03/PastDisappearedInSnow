@@ -29,7 +29,7 @@ const Glyph *FontGlyph(uint32 codepoint);
 /* Pixels a glyph takes up, with its gap. */
 int FontAdvance(const Glyph *glyph);
 
-/* Japanese, from the Shinonome font (tools/fetch_font.py): 24 bytes for one character,
+/* Japanese, from the Shinonome font (assets/fonts/shnm*.bdf): 24 bytes for one character,
  * two per row. Returns false if that font or character isn't there. */
 bool FontJisLoad(const char *full_width_path, const char *ascii_path, const char *kana_path);
 bool FontJisFullWidth(uint16 shift_jis, uint8 *bitmap);
