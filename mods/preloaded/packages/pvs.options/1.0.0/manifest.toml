@@ -116,7 +116,7 @@ label = "Simplified Chinese"
 [[feature]]
 id = "audio"
 name = "Sound"
-description = "The radio audio is the story's voices and music, from recordings of the 1997 broadcast. Without them, or with ROM only, the game is silent apart from its own music and effects."
+description = "The radio audio is the story's voices and music, from recordings of the 1997 broadcast. Without them, or with ROM only, the game is silent apart from its own music and effects. Some investigation music is a tune the composer also wrote for the Famicom Detective Club games: if you have those albums, put them in the soundtrack folder beside images and choose a version to hear in place of the recording, which has the original player's typing in it."
 group = "Sound"
 default_enabled = true
 
@@ -138,3 +138,22 @@ label = "Recording + ROM effects"
 [[option.choice]]
 value = "rom"
 label = "ROM only"
+
+[[option]]
+feature = "audio"
+id = "soundtrack"
+label = "Investigation music"
+type = "choice"
+default = "recording"
+
+[[option.choice]]
+value = "recording"
+label = "As broadcast"
+
+[[option.choice]]
+value = "sfc"
+label = "Super Famicom album"
+
+[[option.choice]]
+value = "remaster"
+label = "Switch remake album"

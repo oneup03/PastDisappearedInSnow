@@ -3,6 +3,8 @@
 #include "audio_reader.h"
 
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 enum { SEEK_WARMUP_FRAMES = 6 };  /* the bit reservoir reaches back into earlier frames */
@@ -160,4 +162,53 @@ int ReaderRead(Reader *r, int16 **pcm, int most) {
     r->ready_at += take;
     r->ready_count -= take;
     return take;
+}
+
+static int FrameBytes(const uint8 *h, int *sample_rate) {
+    static const short kBitrates[16] = {0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0};
+    static const int kRates[4] = {44100, 48000, 32000, 0};
+    if (h[0] != 0xFF || (h[1] & 0xFE) != 0xFA)  /* MPEG-1 Layer III */
+        return 0;
+    int bitrate = kBitrates[h[2] >> 4] * 1000, rate = kRates[(h[2] >> 2) & 3];
+    if (!bitrate || !rate)
+        return 0;
+    *sample_rate = rate;
+    return 144 * bitrate / rate + ((h[2] >> 1) & 1);
+}
+
+bool RecordingLoad(Recording *r, const char *path) {
+    memset(r, 0, sizeof(*r));
+    FILE *f = fopen(path, "rb");
+    if (!f)
+        return false;
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    r->data = size > 0 ? (uint8 *)malloc((size_t)size) : NULL;
+    size_t got = r->data ? fread(r->data, 1, (size_t)size, f) : 0;
+    fclose(f);
+    if (got != (size_t)size) {
+        free(r->data);
+        r->data = NULL;
+        return false;
+    }
+    /* An album's tags can hold pictures, whose bytes could pass for frames. */
+    long pos = 0;
+    if (size >= 10 && memcmp(r->data, "ID3", 3) == 0)
+        pos = 10 + ((r->data[6] & 0x7F) << 21 | (r->data[7] & 0x7F) << 14 | (r->data[8] & 0x7F) << 7 | (r->data[9] & 0x7F));
+    /* An index of frame starts, so a seek lands exactly. */
+    int capacity = (int)(size / 96) + 1;
+    r->offsets = (uint32 *)malloc(sizeof(uint32) * (size_t)capacity);
+    if (!r->offsets)
+        return false;
+    while (pos + 4 <= size && r->frame_count < capacity) {
+        int bytes = FrameBytes(r->data + pos, &r->sample_rate);
+        if (!bytes) {
+            pos++;
+            continue;
+        }
+        r->offsets[r->frame_count++] = (uint32)pos;
+        pos += bytes;
+    }
+    return r->frame_count > 0;
 }

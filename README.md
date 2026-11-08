@@ -28,13 +28,27 @@ you want the audio.
 
 ## What's missing
 
-- Removing the original player's sound effects from the recordings is only partly done. It
-  works where the music repeats, and elsewhere they remain. Playback pieces together a clean
-  pass of each track from every recording that has it, so have all three if you can.
 - The English is a machine translation with no human review, so expect some mistakes.
   It's plain text in [translation/en](translation/en), and fixes are welcome.
 - The Simplified Chinese is too, in [translation/zh-Hans](translation/zh-Hans). Words drawn
   into the game's pictures, such as the command icons, stay in Japanese for now.
+
+## Known issues
+
+- **Sound effects in the music.** No clean copy of the radio audio exists. The only
+  recordings were made by people playing along, so their typing, beeps and clicks are mixed
+  into the music. Where a track repeats, playback pieces together a clean pass from every
+  take in every recording, so have all three recordings if you can. Where a track plays only
+  once, any part of it that repeats within itself stands in, and the rest is filtered as far as
+  possible without harming the music. Either way you may still hear some bleed through, mostly
+  faint beeps and typing.
+  [docs/AUDIO_STATUS.md](docs/AUDIO_STATUS.md) lists where each track stands.
+- **Voices stay as broadcast.** Dialogue is never cut, and on tracks that repeat it plays as
+  recorded, so any effects under a line of dialogue remain. On tracks that play only once, the
+  filter that takes off the player's sounds runs under dialogue too.
+- **Soundtrack versions.** A few investigation tunes can be swapped for versions from the
+  Famicom Detective Club albums (see below). They're different arrangements, so the music
+  changes character when one comes in after the scene's opening dialogue.
 
 ## What you need
 
@@ -57,8 +71,16 @@ broadcast. They're optional. They're known by size, because the names of two are
 
 Put them in `inputs/`. At launch the audio is copied out of them
 as it is, with no re-encoding, and they can be deleted after that. A background task then
-renders a cleaned copy of each looping track into `audio/loops/`, once, in a few minutes,
-using a few hundred MB. Playback uses each one as soon as it's ready.
+renders a cleaned copy of each looping track into `audio/loops/`, once. That takes about ten
+minutes and up to about a gigabyte of memory, and you can play meanwhile: each track uses its
+cleaned copy as soon as it's ready.
+
+Optionally, a few tunes behind the investigations are ones the composer, Kenji Yamamoto,
+also wrote for the Famicom Detective Club games, and their albums have clean versions. Put
+the Super Famicom album (disc 2 of the complete music collection) or the Switch remakes'
+soundtracks anywhere under `soundtrack/`, and choose a version under Sound, Investigation
+music. Files are found by name and length; [data/soundtrack/tracks.toml](data/soundtrack/tracks.toml)
+lists them.
 
 ## Building on Linux
 

@@ -146,6 +146,17 @@ const char *OptionsAudioSource(void) {
     return "recording";
 }
 
+const char *OptionsSoundtrack(void) {
+    /* Development aid: PVS_SOUNDTRACK overrides the launcher. */
+    static char version[32];
+    const char *chosen = getenv("PVS_SOUNDTRACK");
+    if (chosen)
+        return chosen;
+    if (snes_mod_runtime_feature_option_value_c("pvs.options", "audio", "soundtrack", version, sizeof(version)) > 0)
+        return version;
+    return "recording";
+}
+
 static void ApplyStartOption(void) {
     char from[16];
     if (snes_mod_runtime_feature_option_value_c("pvs.options", "start", "from", from, sizeof(from)) > 0)

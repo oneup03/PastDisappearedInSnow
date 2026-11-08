@@ -20,6 +20,9 @@ const char *OptionsLanguage(void);
 /* "recording" or "rom". */
 const char *OptionsAudioSource(void);
 
+/* Which albums' versions of some investigation music to play: "recording" (none), "sfc" or "remaster". */
+const char *OptionsSoundtrack(void);
+
 /* SnesDesktopHostGame.compute_viewport: integer scaling, when chosen. */
 void OptionsComputeViewport(int frame_w, int frame_h, int drawable_w, int drawable_h,
                             SnesDisplayViewport *viewport);

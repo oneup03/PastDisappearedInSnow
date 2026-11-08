@@ -47,6 +47,7 @@ add_executable(BsTanteiClubSNESRecomp
     src/audio_import.c
     src/bsx_hle.c
     src/font.c
+    src/loop_clean.c
     src/loop_render.c
     src/art.c
     src/mouse.c
@@ -54,6 +55,7 @@ add_executable(BsTanteiClubSNESRecomp
     src/pacing.c
     src/script.c
     src/session.c
+    src/soundtrack.c
     src/endings.c
     src/text.c
     src/title.c
@@ -132,6 +134,7 @@ snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/assets/fo
 snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/assets/img assets/img)
 snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/translation translation)
 snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/data/cues data/cues)
+snesrecomp_target_stage_dir(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/data/soundtrack data/soundtrack)
 # rom.cfg (the ROM the wizard set this project up from; git-ignored) is
 # staged beside the executable when none is there yet, so the first launch
 # opens on that dump rather than asking for one.

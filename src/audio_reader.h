@@ -38,6 +38,9 @@ typedef struct Reader {
     int kernel_up, kernel_down;
 } Reader;
 
+/* Read a whole MP3 file into memory and index its frames. Leading ID3 tags are skipped. */
+bool RecordingLoad(Recording *r, const char *path);
+
 /* Forget where it is. Reading then needs a seek first. */
 void ReaderReset(Reader *r);
 

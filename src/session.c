@@ -27,6 +27,7 @@
 #include "program_module.h"
 #include "snes/snes.h"
 #include "snes_osd.h"
+#include "soundtrack.h"
 #include "text.h"
 
 typedef struct Part {
@@ -234,6 +235,9 @@ static void ImportRecordings(void) {
     AudioImportRecordings(inputs, audio_dir);
     AudioImportRecordings(g_image_dir, audio_dir);
     AudioSetDirectory(audio_dir);
+    char soundtrack_dir[1100];
+    snprintf(soundtrack_dir, sizeof(soundtrack_dir), "%s/soundtrack", root);
+    SoundtrackSetDirectory(soundtrack_dir);
 }
 
 static void ApplyStart(void) {
@@ -244,6 +248,7 @@ static void ApplyStart(void) {
     if (pacing && strcmp(pacing, "unlimited") == 0)
         PacingSetMode(PACING_UNLIMITED);
     AudioSetSource(OptionsAudioSource());
+    SoundtrackSetVersion(OptionsSoundtrack());
     const char *from = getenv("PVS_START_PART");
     from = from ? from : g_start_from;
     for (int part = PART_ZENPEN; part < PART_COUNT; part++) {

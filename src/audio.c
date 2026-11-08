@@ -30,11 +30,12 @@
 #include "loop_render.h"
 #include "pacing.h"
 #include "session.h"
+#include "soundtrack.h"
 
 enum {
     CHANNELS = READER_CHANNELS,
     FRAMES_PER_MINUTE = 3606,
-    RENDER_VERSION = 2,
+    RENDER_VERSION = 3,
     MAX_PASS_SEGMENTS = 256,
     MAX_PATCH_LINES = 8,
     PATCH_GROW = 256,
@@ -79,6 +80,13 @@ typedef struct Loop {
     double fade;         /* a track that never truly repeats: seconds to cross into its start */
     RenderPatch *patches;  /* the player's sounds on it, for the background render */
     int patch_count;
+    float tone[PART_COUNT][TONE_BANDS];  /* another recording's tone against this part's */
+    bool has_tone[PART_COUNT];
+    RenderRange *as_is;    /* stretches the background render leaves exactly as the takes are */
+    double opening_ends;   /* where the dialogue its scene opens with is over */
+    double closing_starts; /* and where the next long stretch of it starts */
+    int as_is_count;
+    CleanPlan clean;       /* cleaning its one take: see src/loop_clean.c */
 } Loop;
 
 /* A stretch inside a loop to leave as recorded: a voice or a cue over the music. */
@@ -100,6 +108,14 @@ typedef struct AudioPart {
 } AudioPart;
 
 static AudioPart g_parts[PART_COUNT];
+static CleanSounds g_sounds[PART_COUNT];  /* the player's sounds, for cleaning one take */
+
+static bool Cleans(const Loop *loop) {
+    return loop->clean.filter || loop->clean.long_sounds || loop->clean.copy_count || loop->clean.bar_count;
+}
+
+/* Cleaning that stands in for a second take, so the first time through can play it too. */
+static bool CleansTheTake(const Loop *loop) { return loop->clean.filter || loop->clean.copy_count || loop->clean.bar_count; }
 static char g_audio_dir[1024] = "audio";
 static SDL_AudioStream *g_stream;
 static int g_stream_rate;
@@ -112,23 +128,12 @@ static float g_read_gain[CHANNELS] = {1.0f, 1.0f};
 static const int16 *g_rendered;  /* when a loop's clean pass is what's playing */
 static long g_rendered_at, g_rendered_length;
 static float g_gain = 1.0f;
+static float g_soundtrack;   /* how far a soundtrack version has faded in over this */
 static SDL_Thread *g_render_thread;
 static SDL_AtomicInt g_render_stop;
 static bool g_use_recording = true;
 
 void AudioSetDirectory(const char *audio_dir) { snprintf(g_audio_dir, sizeof(g_audio_dir), "%s", audio_dir); }
-
-static int FrameBytes(const uint8 *h, int *sample_rate) {
-    static const short kBitrates[16] = {0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0};
-    static const int kRates[4] = {44100, 48000, 32000, 0};
-    if (h[0] != 0xFF || (h[1] & 0xFE) != 0xFA)  /* MPEG-1 Layer III */
-        return 0;
-    int bitrate = kBitrates[h[2] >> 4] * 1000, rate = kRates[(h[2] >> 2) & 3];
-    if (!bitrate || !rate)
-        return 0;
-    *sample_rate = rate;
-    return 144 * bitrate / rate + ((h[2] >> 1) & 1);
-}
 
 static int PartOfKey(const char *key) {
     for (int i = 0; i < PART_COUNT; i++) {
@@ -152,6 +157,83 @@ static void ReadPatch(Loop *loop, const char *text) {
     if (loop->patch_count % PATCH_GROW == 0)
         loop->patches = (RenderPatch *)realloc(loop->patches, sizeof(RenderPatch) * (size_t)(loop->patch_count + PATCH_GROW));
     loop->patches[loop->patch_count++] = (RenderPatch){from, to, lines, count};
+}
+
+/* "copies = <lag> ..." or "bars = <lag> ...": where the music comes round again, in seconds. */
+static void ReadLags(const char *text, double *lags, int *count) {
+    const char *at = strchr(text, '=');
+    double lag;
+    int more = 0;
+    for (at = at ? at + 1 : text; *count < CLEAN_MOST_LAGS && sscanf(at, "%lf%n", &lag, &more) == 1; at += more)
+        lags[(*count)++] = lag;
+}
+
+/* data/cues/sounds.toml: "<kind> = <part> <name> <seconds heard> <hz>[:<db>] ...", where the
+ * kind is sound, typing or long. */
+static void ReadSounds(void) {
+    static bool read;
+    if (read)
+        return;
+    read = true;
+    char path[1200], line[1024];
+    if (!snesrecomp_exe_dir_path("data/cues/sounds.toml", path, sizeof(path)))
+        snprintf(path, sizeof(path), "data/cues/sounds.toml");
+    FILE *f = fopen(path, "r");
+    if (!f) {
+        fprintf(stderr, "[audio] no %s: one-take tracks stay as recorded\n", path);
+        return;
+    }
+    while (fgets(line, sizeof(line), f)) {
+        char kind[8], key[8];
+        CleanSound sound = {0};
+        int used = 0;
+        if (sscanf(line, "%7s = %7s %7s %lf%n", kind, key, sound.name, &sound.core, &used) != 4)
+            continue;
+        int part = PartOfKey(key);
+        bool is_long = strcmp(kind, "long") == 0;
+        if (part < 0 || (!is_long && strcmp(kind, "sound") != 0 && strcmp(kind, "typing") != 0))
+            continue;
+        sound.typing = strcmp(kind, "typing") == 0;
+        const char *at = line + used;
+        float hz, db;
+        int more = 0;
+        while (sound.count < CLEAN_PITCHES && sscanf(at, "%f%n", &hz, &more) == 1) {
+            at += more;
+            db = 0;
+            if (*at == ':' && sscanf(at + 1, "%f%n", &db, &more) == 1)
+                at += 1 + more;
+            sound.hz[sound.count] = hz;
+            sound.db[sound.count++] = db;
+        }
+        CleanSounds *set = &g_sounds[part];
+        CleanSound **list = is_long ? &set->longs : &set->sounds;
+        int *count = is_long ? &set->long_count : &set->count;
+        CleanSound *grown = (CleanSound *)realloc(*list, sizeof(CleanSound) * (size_t)(*count + 1));
+        if (!grown)
+            break;
+        grown[(*count)++] = sound;
+        *list = grown;
+    }
+    fclose(f);
+}
+
+/* "tone = <part>" and a gain in dB for each band: see TONE_BANDS. */
+static void ReadTone(Loop *loop, const char *text) {
+    char key[8];
+    int used = 0;
+    if (sscanf(text, "tone = %3s%n", key, &used) != 1)
+        return;
+    int part = PartOfKey(key);
+    if (part < 0)
+        return;
+    float values[TONE_BANDS];
+    int count = 0, more = 0;
+    for (const char *at = text + used; count < TONE_BANDS && sscanf(at, "%f%n", &values[count], &more) == 1; at += more)
+        count++;
+    if (count != TONE_BANDS)
+        return;
+    memcpy(loop->tone[part], values, sizeof(values));
+    loop->has_tone[part] = true;
 }
 
 /* "pass = <part> <left gain> <right gain>" and then <phase> <offset> pairs. */
@@ -201,13 +283,26 @@ static bool ReadCues(int part, AudioPart *p) {
         } else if (sscanf(line, "map = %lf %lf %lf", &a, &b, &c) == 3 && p->map_count < MAX_MAP_SEGMENTS) {
             p->map[p->map_count++] = (MapSegment){a, b, c};
         } else if (sscanf(line, "loop = %lf %lf %lf", &a, &b, &c) == 3 && p->loop_count < MAX_LOOPS) {
-            p->loops[p->loop_count++] = (Loop){a, b, c, NULL, 0, NULL, 0, NULL};
+            p->loops[p->loop_count++] = (Loop){.start = a, .end = b, .period = c};
         } else if (sscanf(line, "fade = %lf", &a) == 1 && loop) {
             loop->fade = a;
         } else if (strncmp(line, "patch = ", 8) == 0 && loop) {
             ReadPatch(loop, line);
         } else if (strncmp(line, "pass = ", 7) == 0 && loop) {
             ReadPass(loop, line);
+        } else if (strncmp(line, "tone = ", 7) == 0 && loop) {
+            ReadTone(loop, line);
+        } else if (strncmp(line, "clean = filter", 14) == 0 && loop) {
+            loop->clean.filter = loop->clean.long_sounds = true;
+        } else if (strncmp(line, "clean = long", 12) == 0 && loop) {
+            loop->clean.long_sounds = true;
+        } else if (strncmp(line, "copies = ", 9) == 0 && loop) {
+            ReadLags(line, loop->clean.copies, &loop->clean.copy_count);
+        } else if (strncmp(line, "bars = ", 7) == 0 && loop) {
+            ReadLags(line, loop->clean.bars, &loop->clean.bar_count);
+        } else if (sscanf(line, "asis = %lf %lf", &a, &b) == 2 && loop) {
+            loop->as_is = (RenderRange *)realloc(loop->as_is, sizeof(RenderRange) * (size_t)(loop->as_is_count + 1));
+            loop->as_is[loop->as_is_count++] = (RenderRange){a, b};
         } else if (sscanf(line, "take = %lf %lf %lf %3s %f %f", &a, &b, &c, key, &left, &right) >= 3 && loop) {
             int source = PartOfKey(key);
             loop->takes = (Take *)realloc(loop->takes, sizeof(Take) * (size_t)(loop->take_count + 1));
@@ -219,9 +314,44 @@ static bool ReadCues(int part, AudioPart *p) {
         }
     }
     fclose(f);
+    ReadSounds();
+    for (int i = 0; i < p->loop_count; i++)
+        p->loops[i].clean.sounds = &g_sounds[part];
     if (!p->map_count && rate > 0)
         p->map[p->map_count++] = (MapSegment){0, rate, offset};
     return p->map_count > 0;
+}
+
+/* A soundtrack version waits for the dialogue a scene opens with: lines kept as recorded that
+ * run on, with no more than a short pause, from the loop's start. */
+static double OpeningEnds(const AudioPart *p, const Loop *loop) {
+    enum { MOST_PASSES = 64 };
+    static const double kPause = 2.0, kAfter = 0.5;
+    double at = loop->start;
+    for (int pass = 0; pass < MOST_PASSES; pass++) {
+        bool moved = false;
+        for (int i = 0; i < p->kept_count; i++) {
+            if (p->kept[i].from <= at + kPause && p->kept[i].to > at) {
+                at = p->kept[i].to;
+                moved = true;
+            }
+        }
+        if (!moved)
+            break;
+    }
+    return at == loop->start ? at : at + kAfter;
+}
+
+/* A soundtrack version gives way to the next real stretch of dialogue. Short lines go under it. */
+static double ClosingStarts(const AudioPart *p, const Loop *loop) {
+    static const double kLongLine = 4.0;
+    double at = loop->end;
+    for (int i = 0; i < p->kept_count; i++) {
+        const Kept *k = &p->kept[i];
+        if (k->from >= loop->opening_ends && k->from < at && k->to - k->from >= kLongLine)
+            at = k->from;
+    }
+    return at;
 }
 
 static bool LoadPart(int part) {
@@ -234,35 +364,16 @@ static bool LoadPart(int part) {
     FILE *f = fopen(path, "rb");
     if (!f)
         return false;
-    if (!ReadCues(part, p)) {
-        fclose(f);
-        return false;
-    }
-    fseek(f, 0, SEEK_END);
-    long size = ftell(f);
-    fseek(f, 0, SEEK_SET);
-    Recording *r = &p->recording;
-    r->data = (uint8 *)malloc((size_t)size);
-    size_t got = r->data ? fread(r->data, 1, (size_t)size, f) : 0;
     fclose(f);
-    if (got != (size_t)size)
+    if (!ReadCues(part, p) || !RecordingLoad(&p->recording, path))
         return false;
-    /* An index of frame starts, so a seek lands exactly. */
-    int capacity = (int)(size / 96) + 1;
-    r->offsets = (uint32 *)malloc(sizeof(uint32) * (size_t)capacity);
-    r->frame_count = 0;
-    for (long pos = 0; pos + 4 <= size && r->frame_count < capacity;) {
-        int bytes = FrameBytes(r->data + pos, &r->sample_rate);
-        if (!bytes) {
-            pos++;
-            continue;
-        }
-        r->offsets[r->frame_count++] = (uint32)pos;
-        pos += bytes;
+    for (int i = 0; i < p->loop_count; i++) {
+        p->loops[i].opening_ends = OpeningEnds(p, &p->loops[i]);
+        p->loops[i].closing_starts = ClosingStarts(p, &p->loops[i]);
     }
     p->missing = false;
     p->loaded = true;
-    fprintf(stderr, "[audio] %s: %d frames at %d Hz\n", kPartKeys[part], r->frame_count, r->sample_rate);
+    fprintf(stderr, "[audio] %s: %d frames at %d Hz\n", kPartKeys[part], p->recording.frame_count, p->recording.sample_rate);
     return true;
 }
 
@@ -299,6 +410,21 @@ static const Loop *LoopAt(const AudioPart *p, double media) {
     return NULL;
 }
 
+/* A track with only one take, once cleaned, plays its render the first time through as well:
+ * there the render is the recording, cleaned, up to where its end starts to cross back into its
+ * start. Until then, or -1 if not here. */
+static double CleanedUntil(const AudioPart *p, double logical) {
+    const Loop *loop = LoopAt(p, logical);
+    if (!loop || !CleansTheTake(loop) || loop->take_count != 1 || loop->pass_count >= 2 ||
+        !SDL_GetAtomicPointer((void **)&loop->rendered))
+        return -1;
+    const Take *take = &loop->takes[0];
+    const double from = take->source - take->phase, until = from + loop->period - loop->fade;
+    if (take->part >= 0 || fabs(remainder(from - loop->start, loop->period)) > 1e-6 || logical < from || logical >= until)
+        return -1;
+    return until;
+}
+
 /* Where to read for a logical time, and how long that holds before looking again. Takes
  * are cut at particular samples, so this has to land on them exactly. Holding keeps to the
  * music: a voice over one pass of it is only for the first time through. */
@@ -310,7 +436,8 @@ static double PhysicalMedia(const AudioPart *p, double logical, const Loop *hold
     *from = p;
     g_read_gain[0] = g_read_gain[1] = 1.0f;
     g_rendered = NULL;
-    for (int i = 0; i < p->kept_count && !holding; i++) {
+    const double cleaned_until = holding ? -1 : CleanedUntil(p, logical + half_sample);
+    for (int i = 0; i < p->kept_count && !holding && cleaned_until < 0; i++) {
         if (logical + half_sample >= p->kept[i].from && logical + half_sample < p->kept[i].to) {
             *hold_for = p->kept[i].to - logical;
             return logical;
@@ -334,6 +461,8 @@ static double PhysicalMedia(const AudioPart *p, double logical, const Loop *hold
         g_rendered_length = lround(loop->period * rate);
         g_rendered_at = lround(phase * rate);
         *hold_for = loop->period - phase;
+        if (cleaned_until >= 0 && cleaned_until - logical < *hold_for)
+            *hold_for = cleaned_until - logical;
     } else {
         take = &loop->takes[loop->take_count - 1];
         for (int i = 0; i < loop->take_count; i++) {
@@ -482,6 +611,32 @@ static uint32 LoopKey(const AudioPart *p, const Loop *loop) {
         hash = HashBytes(hash, &take->part, sizeof(int));
         hash = HashBytes(hash, take->gain, sizeof(take->gain));
     }
+    for (int part = 0; part < PART_COUNT; part++) {
+        if (loop->has_tone[part]) {
+            hash = HashBytes(hash, &part, sizeof(part));
+            hash = HashBytes(hash, loop->tone[part], sizeof(loop->tone[part]));
+        }
+    }
+    for (int i = 0; i < loop->as_is_count; i++)
+        hash = HashBytes(hash, &loop->as_is[i], sizeof(RenderRange));
+    if (Cleans(loop)) {
+        const CleanPlan *clean = &loop->clean;
+        hash = HashBytes(hash, &clean->filter, sizeof(clean->filter));
+        hash = HashBytes(hash, &clean->long_sounds, sizeof(clean->long_sounds));
+        hash = HashBytes(hash, clean->copies, sizeof(double) * (size_t)clean->copy_count);
+        hash = HashBytes(hash, clean->bars, sizeof(double) * (size_t)clean->bar_count);
+        const CleanSounds *set = clean->sounds;
+        if ((clean->filter || clean->long_sounds) && set) {
+            for (int i = 0; i < set->count + set->long_count; i++) {
+                const CleanSound *sound = i < set->count ? &set->sounds[i] : &set->longs[i - set->count];
+                hash = HashBytes(hash, sound->name, strlen(sound->name));
+                hash = HashBytes(hash, &sound->core, sizeof(sound->core));
+                hash = HashBytes(hash, &sound->typing, sizeof(sound->typing));
+                hash = HashBytes(hash, sound->hz, sizeof(float) * (size_t)sound->count);
+                hash = HashBytes(hash, sound->db, sizeof(float) * (size_t)sound->count);
+            }
+        }
+    }
     for (int i = 0; i < loop->pass_count; i++) {
         const RenderPass *pass = &loop->passes[i];
         hash = HashBytes(hash, &pass->from->frame_count, sizeof(int));
@@ -543,10 +698,11 @@ static int16 *RenderLoop(const AudioPart *p, const Loop *loop, long samples) {
         const Take *take = &loop->takes[i];
         const AudioPart *from = take->part >= 0 ? &g_parts[take->part] : p;
         have_all = have_all && from->loaded;
-        takes[i] = (RenderTake){take->phase, take->length, take->source, &from->recording, {take->gain[0], take->gain[1]}};
+        const float *tone = take->part >= 0 && loop->has_tone[take->part] ? loop->tone[take->part] : NULL;
+        takes[i] = (RenderTake){take->phase, take->length, take->source, &from->recording, {take->gain[0], take->gain[1]}, tone};
     }
     RenderPlan plan = {rate, samples, takes, loop->take_count, loop->passes, loop->pass_count, loop->fade,
-                       loop->patches, loop->patch_count};
+                       loop->patches, loop->patch_count, loop->as_is, loop->as_is_count, Cleans(loop) ? &loop->clean : NULL};
     int16 *pcm = have_all ? LoopRender(&plan, RenderStopping) : NULL;
     free(takes);
     return pcm;
@@ -608,7 +764,7 @@ static void SetGain(float target) {
         g_gain = g_gain + kFadeStep < target ? g_gain + kFadeStep : target;
     else if (g_gain > target)
         g_gain = g_gain - kFadeStep > target ? g_gain - kFadeStep : target;
-    SDL_SetAudioStreamGain(g_stream, g_gain);
+    SDL_SetAudioStreamGain(g_stream, g_gain * (1.0f - g_soundtrack));
 }
 
 static void Silence(void) {
@@ -618,6 +774,8 @@ static void Silence(void) {
 
 void AudioOnFrame(const uint8 *ram, int part, bool clock_held, bool turbo) {
     if (!g_use_recording || !LoadPart(part)) {
+        SoundtrackStop();
+        g_soundtrack = 0;
         if (g_stream)
             SDL_ClearAudioStream(g_stream);
         g_current_part = -1;
@@ -637,6 +795,8 @@ void AudioOnFrame(const uint8 *ram, int part, bool clock_held, bool turbo) {
     double clock = (ram[WRAM_MINUTE] * FRAMES_PER_MINUTE + ram[WRAM_SECOND] * 60 + ram[WRAM_FRAME]) / kFramesPerSecond;
     double media = ClockToMedia(p, clock);
     if (!started || turbo || media < 0) {
+        SoundtrackStop();
+        g_soundtrack = 0;
         Silence();
         return;
     }
@@ -646,6 +806,12 @@ void AudioOnFrame(const uint8 *ram, int part, bool clock_held, bool turbo) {
         return;
     }
     const Loop *hold_loop = clock_held ? LoopAt(p, media) : NULL;
+    /* A soundtrack version, once the scene's opening dialogue is over, until just before the
+     * next long stretch of it or the scene moving on. A hold keeps it going. */
+    static const double kSoundtrackFade = 1.5;
+    const Loop *scene = hold_loop ? hold_loop : LoopAt(p, media);
+    bool replace = scene && (clock_held || (media >= scene->opening_ends && media < scene->closing_starts - kSoundtrackFade));
+    g_soundtrack = SoundtrackOnFrame(part, replace ? (int)(scene - p->loops) : -1);
     if (clock_held && !hold_loop) {
         /* No music to go round at this hold, so fade to quiet and pick up afterwards. */
         SetGain(0.0f);
@@ -671,6 +837,7 @@ void AudioOnFrame(const uint8 *ram, int part, bool clock_held, bool turbo) {
     } else {
         SetGain(1.0f);
     }
+    SDL_SetAudioStreamGain(g_stream, g_gain * (1.0f - g_soundtrack));
     FillQueue(p, hold_loop, media);
     /* Development aid: PVS_TRACE_AUDIO=1 shows how closely playback follows the clock. */
     static int trace = -1, frames;
@@ -705,6 +872,7 @@ bool AudioRecordingCoversEffects(const uint8 *ram) {
 void AudioSetSource(const char *source) { g_use_recording = strcmp(source, "rom") != 0; }
 
 void AudioShutdown(void) {
+    SoundtrackShutdown();
     SDL_SetAtomicInt(&g_render_stop, 1);
     if (g_render_thread)
         SDL_WaitThread(g_render_thread, NULL);

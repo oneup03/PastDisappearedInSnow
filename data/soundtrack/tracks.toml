@@ -1,0 +1,29 @@
+# Soundtrack versions of some investigation music. A few tunes behind the investigations are
+# ones the composer also wrote for the Famicom Detective Club games, and players who have those
+# albums can hear them instead of the broadcast's recording (Sound: Investigation music).
+# The albums go anywhere under the soundtrack folder beside images/. Files are found by name and
+# length; this holds only those and where each loops (tools/analysis/soundtrack_loops.py).
+#
+# track = <tune> <version> <seconds> <rate> <loop start, s> <loop length, samples> <fade, s> <name>
+# A fade of 0 loops exactly; otherwise the loop's end fades into what leads to its start.
+
+# Famicom Detective Club Part II (Super Famicom, 1998): disc 2 of the complete music collection.
+track = utsugi sfc 138.32 44100 16.600 3008245 0.5 Utsugi Detective Agency (SFC Ver)
+track = memories sfc 143.44 44100 1.500 3485001 0.5 Memories (SFC Ver)
+track = tension sfc 80.35 44100 41.300 881974 0.5 Tension
+
+# The Switch remakes (2021): The Girl Who Stands Behind, then The Missing Heir.
+track = utsugi remaster 138.14 48000 5.750 2907693 0 Utsugi Detective Agency
+track = memories remaster 158.98 48000 2.000 3510650 0 Memories
+track = memories remaster 121.92 48000 1.750 2617209 0 Memories
+track = tension remaster 124.20 48000 4.250 2658508 0 Tension
+
+# replace = <part> <loop, by number in the part's cue file> <tune>
+replace = zen 1 utsugi
+replace = zen 6 utsugi
+replace = chu 12 utsugi
+replace = kou 6 utsugi
+replace = zen 3 memories
+replace = kou 1 memories
+replace = chu 1 tension
+replace = chu 11 tension
