@@ -49,6 +49,17 @@ static char g_image_dir[1024] = ".";
 static bool g_image_dir_known;
 static char g_start_from[16] = "continue";
 
+/* The last folder separator, which on Windows may be either kind: _fullpath gives '\\'. */
+static const char *LastSlash(const char *path) {
+    const char *slash = strrchr(path, '/');
+#ifdef _WIN32
+    const char *backslash = strrchr(path, '\\');
+    if (!slash || (backslash && backslash > slash))
+        slash = backslash;
+#endif
+    return slash;
+}
+
 void SessionSetLaunchedRom(const char *path) {
     /* The host may change directory, so hold on to where this really is. */
     char absolute[sizeof(g_image_dir)];
@@ -61,12 +72,7 @@ void SessionSetLaunchedRom(const char *path) {
         return;
     strcpy(absolute, resolved);
 #endif
-    char *slash = strrchr(absolute, '/');
-#ifdef _WIN32
-    char *backslash = strrchr(absolute, '\\');
-    if (!slash || (backslash && backslash > slash))
-        slash = backslash;
-#endif
+    char *slash = (char *)LastSlash(absolute);
     if (slash) {
         *slash = 0;
         strcpy(g_image_dir, absolute);
@@ -198,7 +204,7 @@ void SessionCheckFiles(SessionFiles *files) {
     if (!known)
         return;
     char root[1024], path[1200];
-    const char *slash = strrchr(dir, '/');
+    const char *slash = LastSlash(dir);
     snprintf(root, sizeof(root), "%.*s", slash ? (int)(slash - dir) : 1, slash ? dir : ".");
     for (int part = 0; part < PART_COUNT; part++) {
         snprintf(path, sizeof(path), "%s/%s.sfc", dir, kParts[part].key);
@@ -228,7 +234,7 @@ const char *SessionPartName(int part) {
  * the audio taken from them in <folder>/audio. */
 static void ImportRecordings(void) {
     char root[1024], audio_dir[1100], inputs[1100];
-    const char *slash = strrchr(g_image_dir, '/');
+    const char *slash = LastSlash(g_image_dir);
     snprintf(root, sizeof(root), "%.*s", slash ? (int)(slash - g_image_dir) : 1, slash ? g_image_dir : ".");
     snprintf(audio_dir, sizeof(audio_dir), "%s/audio", root);
     snprintf(inputs, sizeof(inputs), "%s/inputs", root);

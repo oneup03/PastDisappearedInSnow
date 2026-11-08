@@ -21,6 +21,7 @@
 #include "audio_reader.h"
 #include "desktop/sdl_compat.h"
 #include "host_paths.h"
+#include "numbers.h"
 #include "types.h"
 
 enum {
@@ -81,11 +82,20 @@ static void ReadData(void) {
         Track t = {0};
         Replaced r = {0};
         char part[8];
-        int name_at = 0;
-        if (g_track_count < MAX_TRACKS &&
-            sscanf(line, "track = %15s %15s %lf %d %lf %ld %lf %n", t.tune, t.version, &t.seconds, &t.rate, &t.loop_from,
-                   &t.loop_samples, &t.fade, &name_at) == 7 && name_at > 0) {
-            snprintf(t.name, sizeof(t.name), "%s", line + name_at);
+        int used = 0;
+        double n[5];
+        const char *at;
+        /* "track = <tune> <version> <seconds> <rate> <loop from> <loop samples> <fade> <name>" */
+        if (g_track_count < MAX_TRACKS && sscanf(line, "track = %15s %15s%n", t.tune, t.version, &used) == 2 &&
+            ReadNumbers(line + used, n, 5, &at) == 5) {
+            t.seconds = n[0];
+            t.rate = (int)n[1];
+            t.loop_from = n[2];
+            t.loop_samples = (long)n[3];
+            t.fade = n[4];
+            while (isspace((unsigned char)*at))
+                at++;
+            snprintf(t.name, sizeof(t.name), "%s", at);
             t.name[strcspn(t.name, "\r\n")] = 0;
             g_tracks[g_track_count++] = t;
         } else if (g_replaced_count < MAX_REPLACED && sscanf(line, "replace = %7s %d %15s", part, &r.loop, r.tune) == 3) {

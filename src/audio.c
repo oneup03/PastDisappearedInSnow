@@ -28,6 +28,7 @@
 #include "desktop/sdl_compat.h"
 #include "host_paths.h"
 #include "loop_render.h"
+#include "numbers.h"
 #include "pacing.h"
 #include "session.h"
 #include "soundtrack.h"
@@ -145,27 +146,21 @@ static int PartOfKey(const char *key) {
 
 /* "patch = <from> <to>" and then the lines above the low band, in Hz. */
 static void ReadPatch(Loop *loop, const char *text) {
-    double from, to;
-    int used = 0;
-    if (sscanf(text, "patch = %lf %lf%n", &from, &to, &used) != 2)
+    double range[2];
+    const char *at = After(text, "patch = ");
+    if (!at || ReadNumbers(at, range, 2, &at) != 2)
         return;
     float *lines = (float *)malloc(sizeof(float) * MAX_PATCH_LINES);
-    int count = 0, more = 0;
-    float line;
-    for (const char *at = text + used; count < MAX_PATCH_LINES && sscanf(at, "%f%n", &line, &more) == 1; at += more)
-        lines[count++] = line;
+    int count = ReadFloats(at, lines, MAX_PATCH_LINES, NULL);
     if (loop->patch_count % PATCH_GROW == 0)
         loop->patches = (RenderPatch *)realloc(loop->patches, sizeof(RenderPatch) * (size_t)(loop->patch_count + PATCH_GROW));
-    loop->patches[loop->patch_count++] = (RenderPatch){from, to, lines, count};
+    loop->patches[loop->patch_count++] = (RenderPatch){range[0], range[1], lines, count};
 }
 
 /* "copies = <lag> ..." or "bars = <lag> ...": where the music comes round again, in seconds. */
 static void ReadLags(const char *text, double *lags, int *count) {
     const char *at = strchr(text, '=');
-    double lag;
-    int more = 0;
-    for (at = at ? at + 1 : text; *count < CLEAN_MOST_LAGS && sscanf(at, "%lf%n", &lag, &more) == 1; at += more)
-        lags[(*count)++] = lag;
+    *count += ReadNumbers(at ? at + 1 : text, lags + *count, CLEAN_MOST_LAGS - *count, NULL);
 }
 
 /* data/cues/sounds.toml: "<kind> = <part> <name> <seconds heard> <hz>[:<db>] ...", where the
@@ -187,21 +182,20 @@ static void ReadSounds(void) {
         char kind[8], key[8];
         CleanSound sound = {0};
         int used = 0;
-        if (sscanf(line, "%7s = %7s %7s %lf%n", kind, key, sound.name, &sound.core, &used) != 4)
+        const char *at;
+        if (sscanf(line, "%7s = %7s %7s%n", kind, key, sound.name, &used) != 3 ||
+            ReadNumbers(line + used, &sound.core, 1, &at) != 1)
             continue;
         int part = PartOfKey(key);
         bool is_long = strcmp(kind, "long") == 0;
         if (part < 0 || (!is_long && strcmp(kind, "sound") != 0 && strcmp(kind, "typing") != 0))
             continue;
         sound.typing = strcmp(kind, "typing") == 0;
-        const char *at = line + used;
         float hz, db;
-        int more = 0;
-        while (sound.count < CLEAN_PITCHES && sscanf(at, "%f%n", &hz, &more) == 1) {
-            at += more;
+        while (sound.count < CLEAN_PITCHES && ReadFloats(at, &hz, 1, &at) == 1) {
             db = 0;
-            if (*at == ':' && sscanf(at + 1, "%f%n", &db, &more) == 1)
-                at += 1 + more;
+            if (*at == ':')
+                ReadFloats(at + 1, &db, 1, &at);
             sound.hz[sound.count] = hz;
             sound.db[sound.count++] = db;
         }
@@ -227,10 +221,7 @@ static void ReadTone(Loop *loop, const char *text) {
     if (part < 0)
         return;
     float values[TONE_BANDS];
-    int count = 0, more = 0;
-    for (const char *at = text + used; count < TONE_BANDS && sscanf(at, "%f%n", &values[count], &more) == 1; at += more)
-        count++;
-    if (count != TONE_BANDS)
+    if (ReadFloats(text + used, values, TONE_BANDS, NULL) != TONE_BANDS)
         return;
     memcpy(loop->tone[part], values, sizeof(values));
     loop->has_tone[part] = true;
@@ -239,21 +230,21 @@ static void ReadTone(Loop *loop, const char *text) {
 /* "pass = <part> <left gain> <right gain>" and then <phase> <offset> pairs. */
 static void ReadPass(Loop *loop, const char *text) {
     char key[8];
-    float left, right;
+    float gain[2];
     int used = 0;
-    if (sscanf(text, "pass = %3s %f %f%n", key, &left, &right, &used) != 3)
+    const char *at;
+    if (sscanf(text, "pass = %3s%n", key, &used) != 1 || ReadFloats(text + used, gain, 2, &at) != 2)
         return;
     int part = PartOfKey(key);
     if (part < 0)
         return;
     RenderSegment *segments = (RenderSegment *)malloc(sizeof(RenderSegment) * MAX_PASS_SEGMENTS);
     int count = 0;
-    double phase, offset;
-    int more = 0;
-    for (const char *at = text + used; count < MAX_PASS_SEGMENTS && sscanf(at, "%lf %lf%n", &phase, &offset, &more) == 2; at += more)
-        segments[count++] = (RenderSegment){phase, offset};
+    double pair[2];
+    while (count < MAX_PASS_SEGMENTS && ReadNumbers(at, pair, 2, &at) == 2)
+        segments[count++] = (RenderSegment){pair[0], pair[1]};
     loop->passes = (RenderPass *)realloc(loop->passes, sizeof(RenderPass) * (size_t)(loop->pass_count + 1));
-    loop->passes[loop->pass_count++] = (RenderPass){&g_parts[part].recording, {left, right}, segments, count};
+    loop->passes[loop->pass_count++] = (RenderPass){&g_parts[part].recording, {gain[0], gain[1]}, segments, count};
 }
 
 static bool ReadCues(int part, AudioPart *p) {
@@ -267,25 +258,24 @@ static bool ReadCues(int part, AudioPart *p) {
         return false;
     }
     double rate = 0, offset = 0;
-    char key[8] = "";
-    float left = 1.0f, right = 1.0f;
     while (fgets(line, sizeof(line), f)) {
-        double a, b, c;
+        double n[3];
+        const char *at;
         Loop *loop = p->loop_count ? &p->loops[p->loop_count - 1] : NULL;
-        if (sscanf(line, "rate = %lf", &a) == 1) {
-            rate = a;
-        } else if (sscanf(line, "offset = %lf", &a) == 1) {
-            offset = a;
-        } else if (sscanf(line, "stop = %lf", &a) == 1) {
-            p->stop_at = a;
-        } else if (sscanf(line, "live = %lf", &a) == 1) {
-            p->live_from = a;
-        } else if (sscanf(line, "map = %lf %lf %lf", &a, &b, &c) == 3 && p->map_count < MAX_MAP_SEGMENTS) {
-            p->map[p->map_count++] = (MapSegment){a, b, c};
-        } else if (sscanf(line, "loop = %lf %lf %lf", &a, &b, &c) == 3 && p->loop_count < MAX_LOOPS) {
-            p->loops[p->loop_count++] = (Loop){.start = a, .end = b, .period = c};
-        } else if (sscanf(line, "fade = %lf", &a) == 1 && loop) {
-            loop->fade = a;
+        if ((at = After(line, "rate = ")) && ReadNumbers(at, n, 1, NULL) == 1) {
+            rate = n[0];
+        } else if ((at = After(line, "offset = ")) && ReadNumbers(at, n, 1, NULL) == 1) {
+            offset = n[0];
+        } else if ((at = After(line, "stop = ")) && ReadNumbers(at, n, 1, NULL) == 1) {
+            p->stop_at = n[0];
+        } else if ((at = After(line, "live = ")) && ReadNumbers(at, n, 1, NULL) == 1) {
+            p->live_from = n[0];
+        } else if ((at = After(line, "map = ")) && ReadNumbers(at, n, 3, NULL) == 3 && p->map_count < MAX_MAP_SEGMENTS) {
+            p->map[p->map_count++] = (MapSegment){n[0], n[1], n[2]};
+        } else if ((at = After(line, "loop = ")) && ReadNumbers(at, n, 3, NULL) == 3 && p->loop_count < MAX_LOOPS) {
+            p->loops[p->loop_count++] = (Loop){.start = n[0], .end = n[1], .period = n[2]};
+        } else if ((at = After(line, "fade = ")) && ReadNumbers(at, n, 1, NULL) == 1 && loop) {
+            loop->fade = n[0];
         } else if (strncmp(line, "patch = ", 8) == 0 && loop) {
             ReadPatch(loop, line);
         } else if (strncmp(line, "pass = ", 7) == 0 && loop) {
@@ -300,17 +290,20 @@ static bool ReadCues(int part, AudioPart *p) {
             ReadLags(line, loop->clean.copies, &loop->clean.copy_count);
         } else if (strncmp(line, "bars = ", 7) == 0 && loop) {
             ReadLags(line, loop->clean.bars, &loop->clean.bar_count);
-        } else if (sscanf(line, "asis = %lf %lf", &a, &b) == 2 && loop) {
+        } else if ((at = After(line, "asis = ")) && ReadNumbers(at, n, 2, NULL) == 2 && loop) {
             loop->as_is = (RenderRange *)realloc(loop->as_is, sizeof(RenderRange) * (size_t)(loop->as_is_count + 1));
-            loop->as_is[loop->as_is_count++] = (RenderRange){a, b};
-        } else if (sscanf(line, "take = %lf %lf %lf %3s %f %f", &a, &b, &c, key, &left, &right) >= 3 && loop) {
-            int source = PartOfKey(key);
+            loop->as_is[loop->as_is_count++] = (RenderRange){n[0], n[1]};
+        } else if ((at = After(line, "take = ")) && ReadNumbers(at, n, 3, &at) == 3 && loop) {
+            /* Then, optionally, the part it's from ("." for this one) and its gains. */
+            char key[8] = "";
+            float gain[2] = {1.0f, 1.0f};
+            int used = 0;
+            if (sscanf(at, "%3s%n", key, &used) == 1)
+                ReadFloats(at + used, gain, 2, NULL);
             loop->takes = (Take *)realloc(loop->takes, sizeof(Take) * (size_t)(loop->take_count + 1));
-            loop->takes[loop->take_count++] = (Take){a, b, c, source, {left, right}};
-            key[0] = 0;
-            left = right = 1.0f;
-        } else if (sscanf(line, "keep = %lf %lf", &a, &b) == 2 && p->kept_count < MAX_KEPT) {
-            p->kept[p->kept_count++] = (Kept){a, b};
+            loop->takes[loop->take_count++] = (Take){n[0], n[1], n[2], PartOfKey(key), {gain[0], gain[1]}};
+        } else if ((at = After(line, "keep = ")) && ReadNumbers(at, n, 2, NULL) == 2 && p->kept_count < MAX_KEPT) {
+            p->kept[p->kept_count++] = (Kept){n[0], n[1]};
         }
     }
     fclose(f);

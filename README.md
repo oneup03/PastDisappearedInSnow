@@ -4,8 +4,8 @@ A native port of Nintendo's 1997 Satellaview game *BS Detective Club: The Past T
 Disappeared in the Snow*: all three parts in one program, in English, Simplified Chinese or Japanese, with
 the broadcast's radio audio restored. It needs neither the BS-X BIOS nor the BS-X town.
 
-**Work in progress.** You can build it on Linux and play it from start to finish, but few
-people have tried it, and rough edges are likely. Windows comes later.
+**Work in progress.** You can build it on Linux or Windows and play it from start to finish,
+but few people have tried it, and rough edges are likely.
 
 No game data is included. You supply your own copies of the game, and the recordings if
 you want the audio.
@@ -96,6 +96,40 @@ build/BsTanteiClubSNESRecomp --launcher --rom images/zen.sfc
 Setup checks the packs, builds their images and generates the code from them. All of that
 stays on your machine, and none of it may be shared. The launcher's Mods page has the game's
 options: pacing, scaling, where to start, language and sound.
+
+## Building on Windows
+
+You need [Git for Windows](https://git-scm.com/downloads/win),
+[Python](https://www.python.org/downloads/windows/) 3.11 or newer,
+[Rust](https://rust-lang.org/tools/install/) with its default MSVC toolchain, and
+[Visual Studio 2022](https://visualstudio.microsoft.com/vs/older-downloads/) with
+**Desktop development with C++**, which brings CMake and Ninja. In the **Developer
+PowerShell for VS 2022**:
+
+```powershell
+# in a clone of this repository
+mkdir inputs                # then put the three packs here
+python tools/setup.py
+build\BsTanteiClubSNESRecomp.exe --launcher --rom images\zen.sfc
+```
+
+Setup doesn't need Git Bash. The Visual Studio build hasn't been tried yet; the MinGW
+cross-build below has, and plays the same as on Linux.
+
+### Cross-building from Linux
+
+With Fedora's MinGW packages (`mingw64-gcc mingw64-gcc-c++ mingw64-winpthreads-static
+mingw64-SDL3`), after `tools/setup.py --no-build` has generated the code:
+
+```sh
+cmake -S . -B build-win -G Ninja -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_TOOLCHAIN_FILE=/usr/share/mingw/toolchain-mingw64.cmake
+cmake --build build-win
+```
+
+`build-win/` then holds `BsTanteiClubSNESRecomp.exe` and `SDL3.dll`, with the files it
+needs beside them. It runs under Wine too. Wine drops `SDL_VIDEODRIVER` from the
+environment, so for a headless run, set it inside `wine cmd /c`.
 
 ## Translating
 
