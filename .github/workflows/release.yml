@@ -1,0 +1,138 @@
+# Builds the Linux and Windows setup packs on every push to main and publishes them as the
+# "rolling" prerelease, replacing the last one.
+#
+# These are not the game. The game's code is recompiled from ROMs, which are never here: a
+# pack holds a setup program, the recompiler and this source, and builds the game on the
+# player's machine from their own packs. The packager refuses to zip anything ROM-derived.
+
+name: Rolling release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: rolling-release
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  EXE_NAME: BsTanteiClubSNESRecomp
+  ZIP_PREFIX: BSTanteiClub
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install --quiet numpy pillow
+      - run: python3 -m unittest discover tests
+
+  build:
+    name: ${{ matrix.artifact }}
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            artifact: linux-x64
+          - os: windows-2022
+            artifact: windows-x64
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Name this build
+        run: echo "RELEASE_VERSION=$(tr -d '[:space:]' < VERSION)-rolling.${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+
+      - name: Refuse generated code in the tree
+        run: |
+          if compgen -G 'src/gen/*/*.c' > /dev/null || compgen -G 'recomp/*/funcs.h' > /dev/null; then
+            echo "::error::ROM-derived code is in the checkout."
+            exit 1
+          fi
+
+      - uses: actions/cache@v4
+        with:
+          path: .cache/toolchain-pack
+          key: cmake-clang-v1-${{ matrix.artifact }}-latest
+
+      # The build tools the player's own rebuild uses, so a pack that can't build fails here.
+      - name: Fetch the toolchain
+        run: bash snesrecomp/tools/ci/fetch_toolchain.sh --artifact "${{ matrix.artifact }}"
+
+      - name: Build the setup program
+        run: |
+          set -euo pipefail
+          source "${TOOLCHAIN_DIR}/env.sh"
+          cmake -S . -B build-ci -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DSNESRECOMP_SETUP_HOST=ON \
+            -DSNESRECOMP_ENABLE_TRACE=OFF \
+            -DSNESRECOMP_BUILD_VERSION="${RELEASE_VERSION}"
+          cmake --build build-ci -j"$(nproc)" --target "${EXE_NAME}"
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          source "${TOOLCHAIN_DIR}/env.sh"
+          bash scripts/package_release.sh build-ci "${{ matrix.artifact }}"
+          mv dist/"${ZIP_PREFIX}"-*-"${{ matrix.artifact }}".zip dist/"${ZIP_PREFIX}-rolling-${{ matrix.artifact }}".zip
+          ls -la dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: dist/${{ env.ZIP_PREFIX }}-rolling-${{ matrix.artifact }}.zip
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Check both packs are here
+        run: |
+          set -euo pipefail
+          test "$(ls dist/"${ZIP_PREFIX}"-rolling-*.zip | wc -l)" -eq 2
+          ( cd dist && sha256sum "${ZIP_PREFIX}"-rolling-*.zip > SHA256SUMS )
+
+      - name: Replace the rolling release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          cat > notes.md <<NOTES
+          The latest build of \`main\` (${GITHUB_SHA::7}), replaced on every push. Expect rough edges.
+
+          **These packs don't contain the game.** Each holds a setup program, the recompiler and the
+          source. On first run it builds the game on your computer from your own copies of the three
+          episode packs; see the [README](https://github.com/${GITHUB_REPOSITORY}#playing) for what you need.
+          No ROM data is included or downloaded. The build tools are downloaded on first run.
+          NOTES
+          sed -i 's/^ *//' notes.md
+          gh release delete rolling --cleanup-tag --yes || true
+          gh release create rolling dist/* \
+            --target "${GITHUB_SHA}" --prerelease --title "Rolling build" --notes-file notes.md

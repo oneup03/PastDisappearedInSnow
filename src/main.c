@@ -43,6 +43,8 @@
 
 #include <string.h>
 
+#include "setup_wizard.h"
+
 #ifndef SNES_GAME_VERSION
 #define SNES_GAME_VERSION "dev"
 #endif
@@ -79,6 +81,7 @@ static const SnesDesktopHostGame kGameHost = {
     .after_config        = &OptionsAfterConfig,
     .on_shutdown         = &SessionOnShutdown,
     .publish_native_field = &TitlePublishField,
+    .configure_launcher  = &SetupWizardConfigure,
 };
 
 #ifndef __ANDROID__

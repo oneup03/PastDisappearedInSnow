@@ -41,6 +41,7 @@ __pycache__/
 /config.ini
 /input.ini
 .DS_Store
+/.vscode/
 
 # Agent and AI working files stay local
 /CLAUDE.md

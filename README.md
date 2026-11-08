@@ -82,6 +82,19 @@ soundtracks anywhere under `soundtrack/`, and choose a version under Sound, Inve
 music. Files are found by name and length; [data/soundtrack/tracks.toml](data/soundtrack/tracks.toml)
 lists them.
 
+## Playing
+
+Download the pack for your system from the [rolling release](https://github.com/oneup03/PastDisappearedInSnow/releases/tag/rolling).
+It doesn't contain the game: it builds the game on your computer, from your own files.
+
+1. Unzip it somewhere with about 2 GB free.
+2. Make an `inputs` folder inside it, and put in the three packs, extracted to `.bs` files,
+   and the recordings if you have them.
+3. Run `BsTanteiClubSNESRecomp`. Let it download the build tools the first time, then choose
+   any one of the `.bs` files and start the build. It takes a few minutes, then the game starts.
+
+From then on, run the copy in `build/`. A Linux pack needs glibc 2.35 or newer.
+
 ## Building on Linux
 
 You need Python 3, Rust, CMake, Ninja and a C compiler.

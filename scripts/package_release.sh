@@ -47,13 +47,7 @@ if [ ! -f "$IMPL" ]; then
   exit 1
 fi
 
-# The ROM hint and digests come from rom_identity.txt -- the same file the
-# build compiles in and tools/regen.sh verifies against -- so a revision bump
-# is one edit. stage_setup_host.sh already needs python3, so this does too.
-IDENTITY_TOOL="snesrecomp/tools/rom_identity.py"
-ROM_FILE="$(python3 "$IDENTITY_TOOL" rom_identity.txt --get rom_file)"
-ROM_SHA256="$(python3 "$IDENTITY_TOOL" rom_identity.txt --get expected_sha256)"
-ROM_CRC32="$(python3 "$IDENTITY_TOOL" rom_identity.txt --get expected_crc32)"
+# No digests here: the players have packs, which tools/setup_wizard.py verifies.
 
 # mods/ is the catalog the build stages beside the executable, and the package
 # a netplay host transfers to a guest. Add --runtime-dir <name> for any other
@@ -65,7 +59,5 @@ exec bash "$IMPL" \
   --exe-name BsTanteiClubSNESRecomp \
   --zip-prefix BSTanteiClub \
   --display-name "BS Tantei Club" \
-  --rom-hint "$ROM_FILE" \
-  --rom-sha256 "$ROM_SHA256" \
-  --rom-crc32 "$ROM_CRC32" \
+  --rom-hint "any one of your three episode packs (.bs), extracted, with the other two beside it" \
   "${EXTRA[@]+"${EXTRA[@]}"}"

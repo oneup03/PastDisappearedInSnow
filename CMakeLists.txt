@@ -55,6 +55,7 @@ add_executable(BsTanteiClubSNESRecomp
     src/pacing.c
     src/script.c
     src/session.c
+    src/setup_wizard.c
     src/soundtrack.c
     src/endings.c
     src/text.c
@@ -77,8 +78,11 @@ snesrecomp_rom_identity(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/rom_identity.
 # still a hard error (the framework owns the message).
 snesrecomp_target_generated_code(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/zen)
 # The later parts: tools/regen_parts.sh generates them, each with its own prefix.
-snesrecomp_target_program_module(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/chu)
-snesrecomp_target_program_module(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/kou)
+if(SNESRECOMP_SETUP_HOST)
+    set(_pvs_module_rule OPTIONAL)   # A setup host has no generated code; a real build must have it all.
+endif()
+snesrecomp_target_program_module(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/chu ${_pvs_module_rule})
+snesrecomp_target_program_module(BsTanteiClubSNESRecomp ${CMAKE_SOURCE_DIR}/src/gen/kou ${_pvs_module_rule})
 
 # The mod catalog. This names WHERE the packages are; the framework owns the
 # layout they are staged into beside the executable, and stages them on every
